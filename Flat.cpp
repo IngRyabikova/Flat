@@ -9,19 +9,16 @@ txCreateWindow(1200, 800);
 //txSetFillColor(TX_BLUE);
 
 
- HDC  ??? = txLoadImage("Картинки/???.bmp");  //кактус
- int x_??? = 300;
- int y_??? = 407;
+ HDC  Picture  = txLoadImage("Картинки\\123.bmp");  //кактус
+ int x_Picture = 0;
+ int y_Picture = 0;
+  bool Menu = false;
 
-while (!GetAsyncKeyState(VK_ESCAPE))
-{
-txBegin();
-txClear();
 
 
 if (Menu)
     {
-            txPlaySound("???.wav", SND_ASYNC);
+            //txPlaySound("?.wav", SND_ASYNC);
 
 
 
@@ -31,7 +28,7 @@ if (Menu)
     else
     {
 
-txTransparentBlt (txDC(), x_???, y_???, 1248, 608, ???, 0, 0, RGB(255, 127, 39));
+txTransparentBlt (txDC(), x_Picture, y_Picture, 1200, 800,  Picture, 0, 0, RGB(255, 127, 39));
 
 
 
@@ -42,10 +39,6 @@ txSleep(30);
 }
 
 
-txSleep(30);
-txEnd();
-
-}
 
     return 0;
 }
