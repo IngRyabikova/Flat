@@ -7,6 +7,7 @@ struct Picture
     int width;
     int height;
     HDC picture;
+    bool visible;
 };
 
 

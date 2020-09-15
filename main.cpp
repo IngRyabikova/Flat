@@ -58,11 +58,22 @@ int main()
     bool Menu = true;
 
 
-    Picture Bed[4];
+    Picture Bed[8];
     Bed[0] = {0, 0, 131, 135, txLoadImage("Картинки/кровать_1.bmp")};
     Bed[1] = {0, 200, 189, 131, txLoadImage("Картинки/кровать_2.bmp")};
     Bed[2] = {0, 400, 192, 212, txLoadImage("Картинки/кровать_3.bmp")};
-    Bed[3] = {0, 800, 164, 199, txLoadImage("Картинки/кровать_4.bmp")};
+    Bed[3] = {0, 600, 164, 199, txLoadImage("Картинки/кровать_4.bmp")};
+    Bed[4] = {200, 0, 191, 90, txLoadImage("Картинки/Диван_1.bmp")};
+    Bed[5] = {200, 150, 192, 133, txLoadImage("Картинки/Диван_2.bmp")};
+    Bed[6] = {200, 300, 202, 92, txLoadImage("Картинки/Диван_3.bmp")};
+    Bed[7] = {200, 450, 268, 142, txLoadImage("Картинки/Диван_4.bmp")};
+
+    Picture Table[4];
+    Table[0] = {450, 0, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
+    Table[1] = {450, 200, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
+    Table[2] = {450, 350, 169, 86, txLoadImage("Картинки/стол_3.bmp"), false};
+    Table[3] = {500, 500, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
+
 
 
 
@@ -109,6 +120,8 @@ int main()
         txTransparentBlt (txDC(), x_Settings , y_Settings , 457, 122, Settings, 0,  0, RGB(255, 127, 39));
         }
 
+
+
         if (txMouseX() >=418   &&
         txMouseY() >=490 &&
         txMouseX() <=816 &&
@@ -150,12 +163,7 @@ int main()
 
 Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
 
-        txDrawText (400, 150, 800, 200, "кнопка");
-        if (txMouseX() >= 400 && txMouseX() <= 800 &&
-            txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
-        {
-            txTextOut(100, 100, "Это работает!");
-        }
+
 
 
             if(GetAsyncKeyState('P') && Menu == false)  {
@@ -192,14 +200,41 @@ Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
             txTransparentBlt (txDC(), Bed_4.x, Bed_4.y + 600, 164, 199,  Bed_4.picture, 0, 0, RGB(255, 127, 39));
             */
 
-            for (int nomer = 0; nomer < 4; nomer = nomer + 1)
+            for (int nomer = 0; nomer < 8; nomer = nomer + 1)
                 txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
 
 
+                 for (int nomer2 = 0; nomer2 < 4; nomer2 = nomer2 + 1)
+                 {
+                 if(Table[nomer2].visible)
+                            txTransparentBlt (txDC(), Table[nomer2].x,   Table[nomer2].y, Table[nomer2].width, Table[nomer2].height, Table[nomer2].picture);
+
+                  txDrawText (400, 150, 800, 200, "кнопка");
+                    if (txMouseX() >= 400 && txMouseX() <= 800 &&
+                        txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
+                    {
+                        Table[nomer2].visible = true;
+                        txTextOut(100, 100, "Это работает!");
+                    }
+        if(GetAsyncKeyState(VK_SPACE))
+        Table[nomer2].visible = false;
+        } //скобка от for
 
 
+
+
+       if (    txMouseX()  >= Bed[1].x  - 10    &&
+            txMouseX()  <= Bed[1].x  + 200  &&
+            txMouseY()  >= Bed[1].y  - 10  &&
+            txMouseY()  <= Bed[1].y  + 200 &&
+            txMouseButtons () ==1    )
+            {
+             Bed[1].x  =  txMouseX()-100;
+             Bed[1].y =  txMouseY()-100;
+             }
 
             txTransparentBlt (txDC(), x_Pause , y_Pause , 74, 67, Pause, 73 * x_kadr_Pause,  0, RGB(255, 127, 39));
+
         }
 
 
