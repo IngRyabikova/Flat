@@ -27,61 +27,58 @@ int main()
     txCreateWindow (1300, 750);
 
 
-    HDC Fon = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ®Ã®Ã°Ã¤Ã¨Ã­Ã Ã²Ã­Ã Ã¿ Ã±Ã¥Ã²ÃªÃ .bmp");
+    HDC Fon = txLoadImage("Êàðòèíêè/Êîîðäèíàòíàÿ ñåòêà.bmp");
     int x_Fon = 0;
     int y_Fon = 0;
 
     int count_button = 5;
     button Button[count_button];
 
-    Button[0] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 0, 0, "ÃŠÃ°Ã®Ã¢Ã Ã²Ã¨"};
-    Button[1] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 250,0, "Ã„Ã¨Ã¢Ã Ã­Ã»"};
-    Button[2] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 500,0, "Ã‘Ã²Ã®Ã«Ã»"};
-    Button[3] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 750,0, ""};
-    Button[4] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 1000,0, ""};
-        int x_Menu_ = 0;
+    Button[0] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 0, 0, "Êðîâàòè"};
+    Button[1] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 250,0, "Äèâàíû"};
+    Button[2] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 500,0, "Ñòîëû"};
+    Button[3] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 750,0, ""};
+    Button[4] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 1000,0, ""};
+
+    //Ýòó äè÷ü òîæå ìîæíî ñäåëàòü êíîïêàìè (íîâûé ìàññèâ èëè íîâûå ïåðåìåííûå)
+    int x_Menu_ = 0;
     int y_Menu_ = 0;
     int x_kadr_Menu = 0;
-    HDC  Menu_ = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/ÃŒÃ¥Ã­Ã¾.bmp");
+    HDC  Menu_ = txLoadImage("Êàðòèíêè/Ìåíþ/Ìåíþ.bmp");
 
     int x_kadr_Pause = 0;
     int x_Pause = 1220;
     int y_Pause = 10;
-    HDC  Pause = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/ÃÃ Ã³Ã§Ã .bmp");
+    HDC  Pause = txLoadImage("Êàðòèíêè/Ìåíþ/Ïàóçà.bmp");
 
-    int x_Settings = 390;
-    int y_Settings = 340;
-    HDC  Settings = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/Ã˜Ã¥Ã±Ã²Ã¥Ã°Â¸Ã­ÃªÃ .bmp");
+    int x_Settings = 390, y_Settings = 340;
+    HDC  Settings = txLoadImage("Êàðòèíêè/Ìåíþ/Øåñòåð¸íêà.bmp");
 
-    int x_Play = 387;
-    int y_Play = 187;
-    HDC  Play = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/ÃÃ«Ã¥Ã©.bmp");
+    int x_Play = 387, y_Play = 187;
+    HDC  Play = txLoadImage("Êàðòèíêè/Ìåíþ/Ïëåé.bmp");
 
-    int x_Leave = 355;
-    int y_Leave = 480;
-    HDC  Leave = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/Ã„Ã¢Ã¥Ã°Ã¼.bmp");
+    int x_Leave = 355, y_Leave = 480;
+    HDC  Leave = txLoadImage("Êàðòèíêè/Ìåíþ/Äâåðü.bmp");
 
     bool Menu = true;
 
 
     Picture Bed[8];
-    Bed[0] = {0, 0, 131, 135, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_1.bmp")};
-    Bed[1] = {0, 200, 189, 131, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_2.bmp")};
-    Bed[0] = {0, 100, 131, 135, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_1.bmp")};
-    Bed[1] = {0, 250, 189, 131, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_2.bmp")};
-    Bed[2] = {0, 400, 192, 212, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_3.bmp")};
-    Bed[3] = {0, 600, 164, 199, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_4.bmp")};
-    Bed[4] = {200, 0, 191, 90, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_1.bmp")};
-    Bed[5] = {200, 150, 192, 133, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_2.bmp")};
-    Bed[6] = {200, 300, 202, 92, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_3.bmp")};
-    Bed[7] = {200, 450, 268, 142, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_4.bmp")};
+    //Êàêèå-òî êàðòèíêè íå ñîõðàíèëèñü, ïîýòîìó ÿ èçìåíèë àäðåñà
+    Bed[0] = {0, 0, 131, 135, txLoadImage("Êàðòèíêè/êðîâàòü_1.bmp")};
+    Bed[1] = {0, 200, 189, 131, txLoadImage("Êàðòèíêè/êðîâàòü_2.bmp")};
+    Bed[2] = {0, 400, 192, 212, txLoadImage("Êàðòèíêè/êðîâàòü_3.bmp")};
+    Bed[3] = {0, 600, 164, 199, txLoadImage("Êàðòèíêè/êðîâàòü_4.bmp")};
+    Bed[4] = {200, 0, 191, 90, txLoadImage("Êàðòèíêè/Äèâàí_1.bmp")};
+    Bed[5] = {200, 150, 192, 133, txLoadImage("Êàðòèíêè/Äèâàí_1.bmp")};
+    Bed[6] = {200, 300, 202, 92, txLoadImage("Êàðòèíêè/Äèâàí_1.bmp")};
+    Bed[7] = {200, 450, 268, 142, txLoadImage("Êàðòèíêè/Äèâàí_1.bmp")};
 
     Picture Table[4];
-    Table[0] = {450, 0, 164, 148, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_1.bmp"), false};
-    Table[1] = {450, 200, 131, 130, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_2.bmp"), false};
-    Table[2] = {450, 350, 169, 86, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_3.bmp"), false};
-    Table[3] = {500, 500, 227, 137, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_4.bmp"), false};
-
+    Table[0] = {450, 0, 164, 148, txLoadImage("Êàðòèíêè/ñòîë_1.bmp"), false};
+    Table[1] = {450, 200, 131, 130, txLoadImage("Êàðòèíêè/ñòîë_2.bmp"), false};
+    Table[2] = {450, 350, 169, 86, txLoadImage("Êàðòèíêè/ñòîë_3.bmp"), false};
+    Table[3] = {500, 500, 227, 137, txLoadImage("Êàðòèíêè/ñòîë_4.bmp"), false};
 
 
 
@@ -91,48 +88,40 @@ int main()
         txBegin();
         txClear();
 
-        //Ã‘Ã²Ã Ã°Ã²Ã®Ã¢Ã Ã¿ Ã±Ã²Ã°Ã Ã­Ã¨Ã¶Ã 
+        //Ñòàðòîâàÿ ñòðàíèöà
         if (Menu)
         {
-
-
-            //txPlaySound("?.wav", SND_ASYNC);
-
             txTransparentBlt (txDC(), x_Menu_, y_Menu_, 1200, 824, Menu_, 1200 * x_kadr_Menu,  0, RGB(255, 127, 39));
 
 
-            //ÃÃ Ã¤Ã¯Ã¨Ã±Ã¼ Ã¢ Ã¬Ã¥Ã­Ã¾ / Ã­Ã Ã§Ã¢Ã Ã­Ã¨Ã¥
+            //Íàäïèñü â ìåíþ / íàçâàíèå
             txSelectFont ("Comic Sans MS", 80);
             txSetColor(TX_RED);
-            txDrawText(0, 0, txGetExtentX(), txGetExtentY() / 3, "Ã‘Ã®Ã§Ã¤Ã Ã© Ã±Ã¢Ã®Ã© Ã¤Ã¨Ã§Ã Ã©Ã­ ÃªÃ¢Ã Ã°Ã²Ã¨Ã°Ã»" );
+            txDrawText(0, 0, txGetExtentX(), txGetExtentY() / 3, "Ñîçäàé ñâîé äèçàéí êâàðòèðû" );
 
 
+            //Êíîïêè â ìåíþ
+            //À ìîã áû áûòü öèêë
 
-
-            //ÃŠÃ­Ã®Ã¯ÃªÃ¨ Ã¢ Ã¬Ã¥Ã­Ã¾
-
-
-            //ÃŠÃ­Ã®Ã¯ÃªÃ  Ã¨Ã£Ã°Ã Ã²Ã¼
+            //Êíîïêà èãðàòü
             if (txMouseX() >=430   && txMouseY() >=200  &&  txMouseX() <=816 &&   txMouseY() <=304)
             {
                 txTransparentBlt (txDC(), x_Play , y_Play , 448, 132, Play, 0,  0, RGB(255, 127, 39));
             }
 
-
-            //ÃŠÃ­Ã®Ã¯ÃªÃ  Ã­Ã Ã±Ã²Ã°Ã®Ã©ÃªÃ¨
+            //Êíîïêà íàñòðîéêè
             if (txMouseX() >=430 && txMouseY() >=350  && txMouseX() <=816 && txMouseY() <=450 && Menu == true)
-
             {
                 txTransparentBlt (txDC(), x_Settings , y_Settings , 457, 122, Settings, 0,  0, RGB(255, 127, 39));
             }
 
-
-            //ÃŠÃ­Ã®Ã¯ÃªÃ  Ã¢Ã»ÃµÃ®Ã¤
+            //Êíîïêà âûõîä
             if (txMouseX() >=418 && txMouseY() >=490 && txMouseX() <=816 && txMouseY() <=590 && Menu == true)
             {
                 txTransparentBlt (txDC(), x_Leave , y_Leave , 468, 140, Leave, 0,  0, RGB(255, 127, 39));
             }
-            //ÃŠÃ«Ã¨Ãª Ã­Ã  Ã¢Ã»ÃµÃ®Ã¤
+
+            //Êëèê íà âûõîä
             if (txMouseX() >=418 && txMouseY() >=490 && txMouseX() <=816 && txMouseY() <=590 && txMouseButtons () ==1 )
             {
                 txDisableAutoPause();
@@ -140,64 +129,63 @@ int main()
             }
 
 
-
             if (txMouseX() >=430 && txMouseY() >=200 && txMouseX() <=816 && txMouseY() <=304 &&
-                txMouseButtons () ==1 && Menu == true)
-
+                txMouseButtons () ==1)
             {
                 txPlaySound("2.wav", SND_ASYNC);
                 Menu=false;
                 //txSleep(350);
             }
 
-
-
             if (txMouseX() >=430   && txMouseY() >=350  && txMouseX() <=816 &&  txMouseY() <=450&&
-                txMouseButtons () ==1&& Menu == true)
+                txMouseButtons () ==1)
             {
                 txPlaySound("2.wav", SND_ASYNC);
                 //txSleep(350);
             }
         }
 
-        //ÃÃ¥Ã¤Ã ÃªÃ²Ã®Ã°
+
+        //Ðåäàêòîð
         else
         {
-            //ÃŒÃ¥Ã­Ã¾
+            //Ìåíþ
             txSetFillColour(TX_WHITE);
 
-            //ÃŠÃ®Ã®Ã°Ã¤Ã¨Ã­Ã Ã²Ã­Ã Ã¿ Ã±Ã¥Ã²ÃªÃ  /Ã´Ã®Ã­
+
+            //Êîîðäèíàòíàÿ ñåòêà /ôîí
             txTransparentBlt(txDC(), x_Fon, y_Fon, 1300, 750, Fon, 0, 0, TX_YELLOW);
 
 
-            //Ã†Â¸Ã«Ã²Ã»Ã¥ ÃªÃ­Ã®Ã¯ÃªÃ¨ Ã­Ã Ã¢Ã¥Ã°ÃµÃ³ Ã½ÃªÃ°Ã Ã­Ã 
+            //Æ¸ëòûå êíîïêè íàâåðõó ýêðàíà
             for(int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
                     drawButton(Button[nomer]);
             }
 
-          //Ã’Ã¥Ã±Ã²Ã®Ã¢Ã Ã¿ ÃªÃ­Ã®Ã¯ÃªÃ 
-       // Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
-        /*
-        txDrawText (400, 150, 800, 200, "ÃªÃ­Ã®Ã¯ÃªÃ ");
-        if (txMouseX() >= 400 && txMouseX() <= 800 &&
-            txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
-        {
-            txTextOut(100, 100, "ÃÃ²Ã® Ã°Ã Ã¡Ã®Ã²Ã Ã¥Ã²!");
-        }     */
+           //Òåñòîâàÿ êíîïêà
+           // Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
+            /*
+            txDrawText (400, 150, 800, 200, "êíîïêà");
+            if (txMouseX() >= 400 && txMouseX() <= 800 &&
+                txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
+            {
+                txTextOut(100, 100, "Ýòî ðàáîòàåò!");
+            }     */
 
 
+            //Ìåíþ == ëîæü ìîæíî íå ïðîâåðÿòü
             if(GetAsyncKeyState('P') && Menu == false)
             {
                 Menu = true;
             }
 
+            //À ïî÷åìó íå ñäåëàòü ïàóçó 2 êàðòèíêàìè êàê ñ íàñòðîéêàìè è ïëååì?
             if (txMouseX() >=1220   && txMouseY() >=10  && txMouseX() <=1300 && txMouseY() <=77&&
                 Menu == false)
             {
                 x_kadr_Pause = 1;
             }
-
             else
             {
                 x_kadr_Pause = 0;
@@ -220,16 +208,16 @@ int main()
                  if(Table[nomer2].visible)
                             txTransparentBlt (txDC(), Table[nomer2].x,   Table[nomer2].y, Table[nomer2].width, Table[nomer2].height, Table[nomer2].picture);
 
-                  txDrawText (400, 150, 800, 200, "ÃªÃ­Ã®Ã¯ÃªÃ ");
+                  txDrawText (400, 150, 800, 200, "êíîïêà");
                     if (txMouseX() >= 400 && txMouseX() <= 800 &&
                         txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
                     {
                         Table[nomer2].visible = true;
-                        txTextOut(100, 100, "ÃÃ²Ã® Ã°Ã Ã¡Ã®Ã²Ã Ã¥Ã²!");
+                        txTextOut(100, 100, "Ýòî ðàáîòàåò!");
                     }
         if(GetAsyncKeyState(VK_SPACE))
         Table[nomer2].visible = false;
-        } //Ã±ÃªÃ®Ã¡ÃªÃ  Ã®Ã² for
+        } //ñêîáêà îò for
 
 
 
@@ -261,7 +249,8 @@ int main()
         txEnd();
     }
 
-     txDeleteDC(Fon);
+    txDeleteDC(Fon);
+    //Åùå âàãîí êàðòèíîê ìîæíî áû óäàëèòü
 
 
     return 0;
