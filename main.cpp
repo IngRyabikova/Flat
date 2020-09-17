@@ -3,6 +3,7 @@
 
 struct button
 {
+   // HDC Click;
     HDC picture;
     int x;
     int y;
@@ -21,6 +22,28 @@ void drawButton(button Button1)
     }
 
 };
+
+bool clickButton(button Button)
+{
+    if (txMouseX() >= Button.x && txMouseX() <= Button.x + 214 &&
+        txMouseY() >= Button.y && txMouseY() <= Button.y + 66 && txMouseButtons() == 1)
+    {
+            return true;
+    }
+
+
+}
+
+void drawObl()
+{
+    txSetColor(TX_ORANGE);
+    txSetFillColor(TX_WHITE);
+    txRectangle(1100, 60, 1300, 750);
+    txSetFillColor(TX_RED);
+    txRectangle(1100, 60, 1140, 100);
+
+
+}
 
 int main()
 {
@@ -62,23 +85,29 @@ int main()
 
     bool Menu = true;
 
+    bool drawOBL = false;
+
+
 
     Picture Bed[8];
     //Какие-то картинки не сохранились, поэтому я изменил адреса
-    Bed[0] = {0, 0, 131, 135, txLoadImage("Картинки/кровать_1.bmp")};
-    Bed[1] = {0, 200, 189, 131, txLoadImage("Картинки/кровать_2.bmp")};
-    Bed[2] = {0, 400, 192, 212, txLoadImage("Картинки/кровать_3.bmp")};
-    Bed[3] = {0, 600, 164, 199, txLoadImage("Картинки/кровать_4.bmp")};
-    Bed[4] = {200, 0, 191, 90, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[5] = {200, 150, 192, 133, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[6] = {200, 300, 202, 92, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[7] = {200, 450, 268, 142, txLoadImage("Картинки/Диван_1.bmp")};
+    Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/кровать_1.bmp")};
+    Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/кровать_2.bmp")};
+    Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/кровать_3.bmp")};
+    Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/кровать_4.bmp")};
+    bool drawBed = false;
+
+    Bed[4] = {1100, 150, 191, 90, txLoadImage("Картинки/Диван_1.bmp")};
+    Bed[5] = {1100, 150, 192, 133, txLoadImage("Картинки/Диван_1.bmp")};
+    Bed[6] = {1100, 300, 202, 92, txLoadImage("Картинки/Диван_1.bmp")};
+    Bed[7] = {1100, 450, 268, 142, txLoadImage("Картинки/Диван_1.bmp")};
+    bool drawSofa = false;
 
     Picture Table[4];
-    Table[0] = {450, 0, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
-    Table[1] = {450, 200, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
-    Table[2] = {450, 350, 169, 86, txLoadImage("Картинки/стол_3.bmp"), false};
-    Table[3] = {500, 500, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
+    Table[0] = {1250, 0, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
+    Table[1] = {1250, 200, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
+    Table[2] = {1250, 350, 169, 86, txLoadImage("Картинки/стол_3.bmp"), false};
+    Table[3] = {1200, 500, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
 
 
 
@@ -98,6 +127,7 @@ int main()
             txSelectFont ("Comic Sans MS", 80);
             txSetColor(TX_RED);
             txDrawText(0, 0, txGetExtentX(), txGetExtentY() / 3, "Создай свой дизайн квартиры" );
+
 
 
             //Кнопки в меню
@@ -157,11 +187,58 @@ int main()
             txTransparentBlt(txDC(), x_Fon, y_Fon, 1300, 750, Fon, 0, 0, TX_YELLOW);
 
 
+
+
             //Жёлтые кнопки наверху экрана
             for(int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
                     drawButton(Button[nomer]);
             }
+
+            if (clickButton(Button[0]))
+            {
+                drawBed = true;
+                drawSofa = false;
+
+            }
+            if (clickButton(Button[1]))
+            {
+                drawSofa = true;
+                drawBed = false;
+
+            }
+
+            if(drawOBL)
+            {
+                drawObl();
+            }
+
+
+            if(txMouseX() >= 1100   && txMouseY() >= 60  && txMouseX() <= 1140 && txMouseY() <= 100 &&
+                txMouseButtons () ==1)
+            {
+                drawOBL = false;
+                drawSofa = false;
+                drawBed = false;
+            }
+
+            if(drawSofa)
+                 for (int nomer = 4; nomer < 7; nomer = nomer + 1)
+                 {
+                    txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
+                    drawOBL = true;
+                 }
+
+
+            else if(drawBed)
+                 for (int nomer =0; nomer < 3; nomer = nomer + 1)
+                 {
+                    txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
+                    drawOBL = true;
+                 }
+
+
+
 
            //Тестовая кнопка
            // Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
@@ -199,15 +276,8 @@ int main()
             }
 
 
-            for (int nomer = 0; nomer < 8; nomer = nomer + 1)
-                txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
-
-
-                 for (int nomer2 = 0; nomer2 < 4; nomer2 = nomer2 + 1)
+                 /*for (int nomer2 = 0; nomer2 < 4; nomer2 = nomer2 + 1)
                  {
-                 if(Table[nomer2].visible)
-                            txTransparentBlt (txDC(), Table[nomer2].x,   Table[nomer2].y, Table[nomer2].width, Table[nomer2].height, Table[nomer2].picture);
-
                   txDrawText (400, 150, 800, 200, "кнопка");
                     if (txMouseX() >= 400 && txMouseX() <= 800 &&
                         txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
@@ -219,7 +289,7 @@ int main()
         Table[nomer2].visible = false;
         } //скобка от for
 
-
+         */
 
 
        if (    txMouseX()  >= Bed[1].x  - 10    &&
