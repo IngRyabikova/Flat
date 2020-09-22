@@ -3,6 +3,7 @@
 
 struct button
 {
+   // HDC Click;
     HDC picture;
     int x;
     int y;
@@ -23,33 +24,56 @@ void drawButton(button Button1)
 
 };
 
+bool clickButton(button Button)
+{
+    if (txMouseX() >= Button.x && txMouseX() <= Button.x + 214 &&
+        txMouseY() >= Button.y && txMouseY() <= Button.y + 66 && txMouseButtons() == 1)
+    {
+            return true;
+    }
+
+
+}
+
+void drawObl()
+{
+    txSetColor(TX_ORANGE);
+    txSetFillColor(TX_WHITE);
+    txRectangle(1100, 60, 1300, 750);
+    txSetFillColor(TX_RED);
+    txRectangle(1100, 60, 1140, 100);
+
+
+}
+
 int main()
 {
     txCreateWindow (1300, 750);
 
 
-    HDC Fon = txLoadImage("Êàðòèíêè/Êîîðäèíàòíàÿ ñåòêà.bmp");
+    HDC Fon = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ®Ã®Ã°Ã¤Ã¨Ã­Ã Ã²Ã­Ã Ã¿ Ã±Ã¥Ã²ÃªÃ .bmp");
     int x_Fon = 0;
     int y_Fon = 0;
 
     int count_button = 5;
     button Button[count_button];
 
-    Button[0] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 0, 0, "Êðîâàòè"};
-    Button[1] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 250,0, "Äèâàíû"};
-    Button[2] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 500,0, "Ñòîëû"};
-    Button[3] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 750,0, ""};
-    Button[4] = {txLoadImage("Êàðòèíêè/Êíîïêà.bmp"), 1000,0, ""};
-    button settings = {txLoadImage("Êàðòèíêè/Ìåíþ/Øåñòåð¸íêà.bmp"), 390, 340, ""};
-    button Play = {txLoadImage("Êàðòèíêè/Ìåíþ/Ïëåé.bmp"), 387, 187, ""};
-    button Leave = {txLoadImage("Êàðòèíêè/Ìåíþ/Äâåðü.bmp"), 355, 480, ""};
-    button Menu_ = {txLoadImage("Êàðòèíêè/Ìåíþ/Ìåíþ.bmp"), 0, 0, ""};
-    button Pause = {txLoadImage("Êàðòèíêè/Ìåíþ/Ïàóçà.bmp"), 0, 0,  "", 0};
-    //Ýòó äè÷ü òîæå ìîæíî ñäåëàòü êíîïêàìè (íîâûé ìàññèâ èëè íîâûå ïåðåìåííûå)
+    Button[0] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 0, 0, "ÃŠÃ°Ã®Ã¢Ã Ã²Ã¨"};
+    Button[1] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 250,0, "Ã„Ã¨Ã¢Ã Ã­Ã»"};
+    Button[2] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 500,0, "Ã‘Ã²Ã®Ã«Ã»"};
+    Button[3] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 750,0, ""};
+    Button[4] = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŠÃ­Ã®Ã¯ÃªÃ .bmp"), 1000,0, ""};
+
+    button settings = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/Ã˜Ã¥Ã±Ã²Ã¥Ã°Â¸Ã­ÃªÃ .bmp"), 390, 340, ""};
+    button Play = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/ÃÃ«Ã¥Ã©.bmp"), 387, 187, ""};
+    button Leave = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/Ã„Ã¢Ã¥Ã°Ã¼.bmp"), 355, 480, ""};
+    button Menu_ = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/ÃŒÃ¥Ã­Ã¾.bmp"), 0, 0, ""};
+    button Pause = {txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃŒÃ¥Ã­Ã¾/ÃÃ Ã³Ã§Ã .bmp"), 0, 0,  "", 0};
+    //ÃÃ²Ã³ Ã¤Ã¨Ã·Ã¼ Ã²Ã®Ã¦Ã¥ Ã¬Ã®Ã¦Ã­Ã® Ã±Ã¤Ã¥Ã«Ã Ã²Ã¼ ÃªÃ­Ã®Ã¯ÃªÃ Ã¬Ã¨ (Ã­Ã®Ã¢Ã»Ã© Ã¬Ã Ã±Ã±Ã¨Ã¢ Ã¨Ã«Ã¨ Ã­Ã®Ã¢Ã»Ã¥ Ã¯Ã¥Ã°Ã¥Ã¬Ã¥Ã­Ã­Ã»Ã¥)
 
   int x_Plan = 0;
    int y_Plan = 0;
-  HDC Plan = txLoadImage("Êàðòèíêè/Ïëàí_êâàðòèðû.bmp");
+  HDC Plan = txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃÃ«Ã Ã­_ÃªÃ¢Ã Ã°Ã²Ã¨Ã°Ã».bmp");
 
 
 
@@ -57,23 +81,32 @@ int main()
     bool Menu = true;
 
     Picture Bed[8];
-    //Êàêèå-òî êàðòèíêè íå ñîõðàíèëèñü, ïîýòîìó ÿ èçìåíèë àäðåñà
-    Bed[0] = {0, 0, 131, 135, txLoadImage("Êàðòèíêè/êðîâàòü_1.bmp"), false};
-    Bed[1] = {0, 200, 189, 131, txLoadImage("Êàðòèíêè/êðîâàòü_2.bmp"), false};
-    Bed[2] = {0, 400, 192, 212, txLoadImage("Êàðòèíêè/êðîâàòü_3.bmp"), false};
-    Bed[3] = {0, 600, 164, 199, txLoadImage("Êàðòèíêè/êðîâàòü_4.bmp"), false};
-    Bed[4] = {200, 0, 191, 90, txLoadImage("Êàðòèíêè/Äèâàí_1.bmp"), false};
-    Bed[5] = {200, 150, 192, 133, txLoadImage("Êàðòèíêè/Äèâàí_2.bmp"), false};
-    Bed[6] = {200, 300, 202, 92, txLoadImage("Êàðòèíêè/Äèâàí_3.bmp"), false};
-    Bed[7] = {200, 450, 268, 142, txLoadImage("Êàðòèíêè/Äèâàí_4.bmp"), false};
+    
+    bool Menu = true;
+
+    bool drawOBL = false;
+
+
+
+    Picture Bed[8];
+    //ÃŠÃ ÃªÃ¨Ã¥-Ã²Ã® ÃªÃ Ã°Ã²Ã¨Ã­ÃªÃ¨ Ã­Ã¥ Ã±Ã®ÃµÃ°Ã Ã­Ã¨Ã«Ã¨Ã±Ã¼, Ã¯Ã®Ã½Ã²Ã®Ã¬Ã³ Ã¿ Ã¨Ã§Ã¬Ã¥Ã­Ã¨Ã« Ã Ã¤Ã°Ã¥Ã±Ã 
+    Bed[0] = {1100, 150, 131, 135, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_1.bmp")};
+    Bed[1] = {1100, 350, 189, 131, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_2.bmp")};
+    Bed[2] = {1100, 550, 192, 212, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_3.bmp")};
+    Bed[3] = {1100, 750, 164, 199, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/ÃªÃ°Ã®Ã¢Ã Ã²Ã¼_4.bmp")};
+    bool drawBed = false;
+
+    Bed[4] = {1100, 150, 191, 90, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_1.bmp")};
+    Bed[5] = {1100, 150, 192, 133, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_1.bmp")};
+    Bed[6] = {1100, 300, 202, 92, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_1.bmp")};
+    Bed[7] = {1100, 450, 268, 142, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã„Ã¨Ã¢Ã Ã­_1.bmp")};
+    bool drawSofa = false;
 
     Picture Table[4];
-    Table[0] = {450, 0, 164, 148, txLoadImage("Êàðòèíêè/ñòîë_1.bmp"), false};
-    Table[1] = {450, 200, 131, 130, txLoadImage("Êàðòèíêè/ñòîë_2.bmp"), false};
-    Table[2] = {450, 350, 169, 86, txLoadImage("Êàðòèíêè/ñòîë_3.bmp"), false};
-    Table[3] = {500, 500, 227, 137, txLoadImage("Êàðòèíêè/ñòîë_4.bmp"), false};
-
-
+    Table[0] = {1250, 0, 164, 148, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_1.bmp"), false};
+    Table[1] = {1250, 200, 131, 130, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_2.bmp"), false};
+    Table[2] = {1250, 350, 169, 86, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_3.bmp"), false};
+    Table[3] = {1200, 500, 227, 137, txLoadImage("ÃŠÃ Ã°Ã²Ã¨Ã­ÃªÃ¨/Ã±Ã²Ã®Ã«_4.bmp"), false};
 
 
     while(!GetAsyncKeyState(VK_ESCAPE))
@@ -81,40 +114,40 @@ int main()
         txBegin();
         txClear();
 
-        //Ñòàðòîâàÿ ñòðàíèöà
+        //Ã‘Ã²Ã Ã°Ã²Ã®Ã¢Ã Ã¿ Ã±Ã²Ã°Ã Ã­Ã¨Ã¶Ã 
         if (Menu)
         {
             txTransparentBlt (txDC(), Menu_.x, Menu_.y, 1300, 750, Menu_.picture, 0,  0, RGB(255, 127, 39));
 
 
-            //Íàäïèñü â ìåíþ / íàçâàíèå
+            //ÃÃ Ã¤Ã¯Ã¨Ã±Ã¼ Ã¢ Ã¬Ã¥Ã­Ã¾ / Ã­Ã Ã§Ã¢Ã Ã­Ã¨Ã¥
             txSelectFont ("Comic Sans MS", 80);
             txSetColor(TX_RED);
-            txDrawText(0, 0, txGetExtentX(), txGetExtentY() / 3, "Ñîçäàé ñâîé äèçàéí êâàðòèðû" );
+            txDrawText(0, 0, txGetExtentX(), txGetExtentY() / 3, "Ã‘Ã®Ã§Ã¤Ã Ã© Ã±Ã¢Ã®Ã© Ã¤Ã¨Ã§Ã Ã©Ã­ ÃªÃ¢Ã Ã°Ã²Ã¨Ã°Ã»" );
 
 
-            //Êíîïêè â ìåíþ
-            //À ìîã áû áûòü öèêë
+            //ÃŠÃ­Ã®Ã¯ÃªÃ¨ Ã¢ Ã¬Ã¥Ã­Ã¾
+            //Ã€ Ã¬Ã®Ã£ Ã¡Ã» Ã¡Ã»Ã²Ã¼ Ã¶Ã¨ÃªÃ«
 
-            //Êíîïêà èãðàòü
+            //ÃŠÃ­Ã®Ã¯ÃªÃ  Ã¨Ã£Ã°Ã Ã²Ã¼
             if (txMouseX() >=430   && txMouseY() >=200  &&  txMouseX() <=816 &&   txMouseY() <=304)
             {
                 txTransparentBlt (txDC(), Play.x , Play.y , 448, 132, Play.picture, 0,  0, RGB(255, 127, 39));
             }
 
-            //Êíîïêà íàñòðîéêè
+            //ÃŠÃ­Ã®Ã¯ÃªÃ  Ã­Ã Ã±Ã²Ã°Ã®Ã©ÃªÃ¨
             if (txMouseX() >=430 && txMouseY() >=350  && txMouseX() <=816 && txMouseY() <=450 && Menu == true)
             {
                 txTransparentBlt (txDC(), settings.x , settings.y , 457, 122, settings.picture, 0,  0, RGB(255, 127, 39));
             }
 
-            //Êíîïêà âûõîä
+            //ÃŠÃ­Ã®Ã¯ÃªÃ  Ã¢Ã»ÃµÃ®Ã¤
             if (txMouseX() >=418 && txMouseY() >=490 && txMouseX() <=816 && txMouseY() <=590 && Menu == true)
             {
                 txTransparentBlt (txDC(), Leave.x , Leave.y , 468, 140, Leave.picture, 0,  0, RGB(255, 127, 39));
             }
 
-            //Êëèê íà âûõîä
+            //ÃŠÃ«Ã¨Ãª Ã­Ã  Ã¢Ã»ÃµÃ®Ã¤
             if (txMouseX() >=418 && txMouseY() >=490 && txMouseX() <=816 && txMouseY() <=590 && txMouseButtons () ==1 )
             {
                 txDisableAutoPause();
@@ -139,39 +172,77 @@ int main()
         }
 
 
-        //Ðåäàêòîð
+        //ÃÃ¥Ã¤Ã ÃªÃ²Ã®Ã°
         else
         {
-            //Ìåíþ
+            //ÃŒÃ¥Ã­Ã¾
             txSetFillColour(TX_WHITE);
 
              txTransparentBlt (txDC(), x_Plan, y_Plan , 1300, 750, Plan, 0,  0, RGB(255, 127, 39));
 
 
-            //Êîîðäèíàòíàÿ ñåòêà /ôîí
-           // txTransparentBlt(txDC(), x_Fon, y_Fon, 1300, 750, Fon, 0, 0, TX_YELLOW);
+            //ÃŠÃ®Ã®Ã°Ã¤Ã¨Ã­Ã Ã²Ã­Ã Ã¿ Ã±Ã¥Ã²ÃªÃ  /Ã´Ã®Ã­
+            txTransparentBlt(txDC(), x_Fon, y_Fon, 1300, 750, Fon, 0, 0, TX_YELLOW);
 
 
 
 
-           //Òåñòîâàÿ êíîïêà
-           // Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
-            /*
-            txDrawText (400, 150, 800, 200, "êíîïêà");
-            if (txMouseX() >= 400 && txMouseX() <= 800 &&
-                txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
+            //Ã†Â¸Ã«Ã²Ã»Ã¥ ÃªÃ­Ã®Ã¯ÃªÃ¨ Ã­Ã Ã¢Ã¥Ã°ÃµÃ³ Ã½ÃªÃ°Ã Ã­Ã 
+            for(int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
-                txTextOut(100, 100, "Ýòî ðàáîòàåò!");
-            }     */
+                    drawButton(Button[nomer]);
+            }
+
+            if (clickButton(Button[0]))
+            {
+                drawBed = true;
+                drawSofa = false;
+
+            }
+            if (clickButton(Button[1]))
+            {
+                drawSofa = true;
+                drawBed = false;
+
+            }
+
+            if(drawOBL)
+            {
+                drawObl();
+            }
 
 
-            //Ìåíþ == ëîæü ìîæíî íå ïðîâåðÿòü
+            if(txMouseX() >= 1100   && txMouseY() >= 60  && txMouseX() <= 1140 && txMouseY() <= 100 &&
+                txMouseButtons () ==1)
+            {
+                drawOBL = false;
+                drawSofa = false;
+                drawBed = false;
+            }
+
+            if(drawSofa)
+                 for (int nomer = 4; nomer < 7; nomer = nomer + 1)
+                 {
+                    txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
+                    drawOBL = true;
+                 }
+
+
+            else if(drawBed)
+                 for (int nomer =0; nomer < 3; nomer = nomer + 1)
+                 {
+                    txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
+                    drawOBL = true;
+                 }
+
+
+            //ÃŒÃ¥Ã­Ã¾ == Ã«Ã®Ã¦Ã¼ Ã¬Ã®Ã¦Ã­Ã® Ã­Ã¥ Ã¯Ã°Ã®Ã¢Ã¥Ã°Ã¿Ã²Ã¼
             if(GetAsyncKeyState('P') && Menu == false)
             {
                 Menu = true;
             }
 
-            //À ïî÷åìó íå ñäåëàòü ïàóçó 2 êàðòèíêàìè êàê ñ íàñòðîéêàìè è ïëååì?
+            //Ã€ Ã¯Ã®Ã·Ã¥Ã¬Ã³ Ã­Ã¥ Ã±Ã¤Ã¥Ã«Ã Ã²Ã¼ Ã¯Ã Ã³Ã§Ã³ 2 ÃªÃ Ã°Ã²Ã¨Ã­ÃªÃ Ã¬Ã¨ ÃªÃ Ãª Ã± Ã­Ã Ã±Ã²Ã°Ã®Ã©ÃªÃ Ã¬Ã¨ Ã¨ Ã¯Ã«Ã¥Ã¥Ã¬?
             if (txMouseX() >=1220   && txMouseY() >=10  && txMouseX() <=1300 && txMouseY() <=77&&
                 Menu == false)
             {
@@ -189,11 +260,6 @@ int main()
 
             }
 
-//int nomer = 0;
-//int nomer2 = 0;
-
-
-
 
        if (    txMouseX()  >= Bed[1].x  - 10    &&
             txMouseX()  <= Bed[1].x  + 200  &&
@@ -204,21 +270,10 @@ int main()
              Bed[1].x  =  txMouseX()-100;
              Bed[1].y =  txMouseY()-100;
              }
-              //íà ðàáîòàåò õç ïî÷åìó
+              //Ã­Ã  Ã°Ã Ã¡Ã®Ã²Ã Ã¥Ã² ÃµÃ§ Ã¯Ã®Ã·Ã¥Ã¬Ã³
             txTransparentBlt (txDC(), Pause.x, Pause.y , 74, 67, Pause.picture, 74 * Pause.x_kadr,  0, RGB(255, 127, 39));
 
-  //Æ¸ëòûå êíîïêè íàâåðõó ýêðàíà
-            for(int nomer = 0; nomer < count_button; nomer = nomer +1)
-            {
-                    drawButton(Button[nomer]);
-            }
-
-
-
         }
-
-
-
 
 
 
@@ -234,7 +289,7 @@ int main()
     }
 
     txDeleteDC(Fon);
-    //Åùå âàãîí êàðòèíîê ìîæíî áû óäàëèòü
+    //Ã…Ã¹Ã¥ Ã¢Ã Ã£Ã®Ã­ ÃªÃ Ã°Ã²Ã¨Ã­Ã®Ãª Ã¬Ã®Ã¦Ã­Ã® Ã¡Ã» Ã³Ã¤Ã Ã«Ã¨Ã²Ã¼
 
 
     return 0;
