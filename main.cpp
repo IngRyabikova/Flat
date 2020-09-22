@@ -8,6 +8,7 @@ struct button
     int x;
     int y;
     const char* text;
+    int x_kadr;
 };
 
 void drawButton(button Button1)
@@ -50,39 +51,37 @@ int main()
     txCreateWindow (1300, 750);
 
 
-    HDC Fon = txLoadImage("Картинки/Координатная сетка.bmp");
+    HDC Fon = txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ­Г Гї Г±ГҐГІГЄГ .bmp");
     int x_Fon = 0;
     int y_Fon = 0;
 
     int count_button = 5;
     button Button[count_button];
 
-    Button[0] = {txLoadImage("Картинки/Кнопка.bmp"), 0, 0, "Кровати"};
-    Button[1] = {txLoadImage("Картинки/Кнопка.bmp"), 250,0, "Диваны"};
-    Button[2] = {txLoadImage("Картинки/Кнопка.bmp"), 500,0, "Столы"};
-    Button[3] = {txLoadImage("Картинки/Кнопка.bmp"), 750,0, ""};
-    Button[4] = {txLoadImage("Картинки/Кнопка.bmp"), 1000,0, ""};
+    Button[0] = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЉГ­Г®ГЇГЄГ .bmp"), 0, 0, "ГЉГ°Г®ГўГ ГІГЁ"};
+    Button[1] = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЉГ­Г®ГЇГЄГ .bmp"), 250,0, "Г„ГЁГўГ Г­Г»"};
+    Button[2] = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЉГ­Г®ГЇГЄГ .bmp"), 500,0, "Г‘ГІГ®Г«Г»"};
+    Button[3] = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЉГ­Г®ГЇГЄГ .bmp"), 750,0, ""};
+    Button[4] = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЉГ­Г®ГЇГЄГ .bmp"), 1000,0, ""};
 
-    //Эту дичь тоже можно сделать кнопками (новый массив или новые переменные)
-    int x_Menu_ = 0;
-    int y_Menu_ = 0;
-    int x_kadr_Menu = 0;
-    HDC  Menu_ = txLoadImage("Картинки/Меню/Меню.bmp");
+    button settings = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЊГҐГ­Гѕ/ГГҐГ±ГІГҐГ°ВёГ­ГЄГ .bmp"), 390, 340, ""};
+    button Play = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЊГҐГ­Гѕ/ГЏГ«ГҐГ©.bmp"), 387, 187, ""};
+    button Leave = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЊГҐГ­Гѕ/Г„ГўГҐГ°Гј.bmp"), 355, 480, ""};
+    button Menu_ = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЊГҐГ­Гѕ/ГЊГҐГ­Гѕ.bmp"), 0, 0, ""};
+    button Pause = {txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЊГҐГ­Гѕ/ГЏГ ГіГ§Г .bmp"), 0, 0,  "", 0};
+    //ГќГІГі Г¤ГЁГ·Гј ГІГ®Г¦ГҐ Г¬Г®Г¦Г­Г® Г±Г¤ГҐГ«Г ГІГј ГЄГ­Г®ГЇГЄГ Г¬ГЁ (Г­Г®ГўГ»Г© Г¬Г Г±Г±ГЁГў ГЁГ«ГЁ Г­Г®ГўГ»ГҐ ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г»ГҐ)
 
-    int x_kadr_Pause = 0;
-    int x_Pause = 1220;
-    int y_Pause = 10;
-    HDC  Pause = txLoadImage("Картинки/Меню/Пауза.bmp");
+  int x_Plan = 0;
+   int y_Plan = 0;
+  HDC Plan = txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЏГ«Г Г­_ГЄГўГ Г°ГІГЁГ°Г».bmp");
 
-    int x_Settings = 390, y_Settings = 340;
-    HDC  Settings = txLoadImage("Картинки/Меню/Шестерёнка.bmp");
 
-    int x_Play = 387, y_Play = 187;
-    HDC  Play = txLoadImage("Картинки/Меню/Плей.bmp");
 
-    int x_Leave = 355, y_Leave = 480;
-    HDC  Leave = txLoadImage("Картинки/Меню/Дверь.bmp");
 
+    bool Menu = true;
+
+    Picture Bed[8];
+    
     bool Menu = true;
 
     bool drawOBL = false;
@@ -90,26 +89,24 @@ int main()
 
 
     Picture Bed[8];
-    //Какие-то картинки не сохранились, поэтому я изменил адреса
-    Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/кровать_1.bmp")};
-    Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/кровать_2.bmp")};
-    Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/кровать_3.bmp")};
-    Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/кровать_4.bmp")};
+    //ГЉГ ГЄГЁГҐ-ГІГ® ГЄГ Г°ГІГЁГ­ГЄГЁ Г­ГҐ Г±Г®ГµГ°Г Г­ГЁГ«ГЁГ±Гј, ГЇГ®ГЅГІГ®Г¬Гі Гї ГЁГ§Г¬ГҐГ­ГЁГ« Г Г¤Г°ГҐГ±Г 
+    Bed[0] = {1100, 150, 131, 135, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЄГ°Г®ГўГ ГІГј_1.bmp")};
+    Bed[1] = {1100, 350, 189, 131, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЄГ°Г®ГўГ ГІГј_2.bmp")};
+    Bed[2] = {1100, 550, 192, 212, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЄГ°Г®ГўГ ГІГј_3.bmp")};
+    Bed[3] = {1100, 750, 164, 199, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/ГЄГ°Г®ГўГ ГІГј_4.bmp")};
     bool drawBed = false;
 
-    Bed[4] = {1100, 150, 191, 90, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[5] = {1100, 150, 192, 133, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[6] = {1100, 300, 202, 92, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[7] = {1100, 450, 268, 142, txLoadImage("Картинки/Диван_1.bmp")};
+    Bed[4] = {1100, 150, 191, 90, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г„ГЁГўГ Г­_1.bmp")};
+    Bed[5] = {1100, 150, 192, 133, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г„ГЁГўГ Г­_1.bmp")};
+    Bed[6] = {1100, 300, 202, 92, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г„ГЁГўГ Г­_1.bmp")};
+    Bed[7] = {1100, 450, 268, 142, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г„ГЁГўГ Г­_1.bmp")};
     bool drawSofa = false;
 
     Picture Table[4];
-    Table[0] = {1250, 0, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
-    Table[1] = {1250, 200, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
-    Table[2] = {1250, 350, 169, 86, txLoadImage("Картинки/стол_3.bmp"), false};
-    Table[3] = {1200, 500, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
-
-
+    Table[0] = {1250, 0, 164, 148, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г±ГІГ®Г«_1.bmp"), false};
+    Table[1] = {1250, 200, 131, 130, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г±ГІГ®Г«_2.bmp"), false};
+    Table[2] = {1250, 350, 169, 86, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г±ГІГ®Г«_3.bmp"), false};
+    Table[3] = {1200, 500, 227, 137, txLoadImage("ГЉГ Г°ГІГЁГ­ГЄГЁ/Г±ГІГ®Г«_4.bmp"), false};
 
 
     while(!GetAsyncKeyState(VK_ESCAPE))
@@ -117,41 +114,40 @@ int main()
         txBegin();
         txClear();
 
-        //Стартовая страница
+        //Г‘ГІГ Г°ГІГ®ГўГ Гї Г±ГІГ°Г Г­ГЁГ¶Г 
         if (Menu)
         {
-            txTransparentBlt (txDC(), x_Menu_, y_Menu_, 1200, 824, Menu_, 1200 * x_kadr_Menu,  0, RGB(255, 127, 39));
+            txTransparentBlt (txDC(), Menu_.x, Menu_.y, 1300, 750, Menu_.picture, 0,  0, RGB(255, 127, 39));
 
 
-            //Надпись в меню / название
+            //ГЌГ Г¤ГЇГЁГ±Гј Гў Г¬ГҐГ­Гѕ / Г­Г Г§ГўГ Г­ГЁГҐ
             txSelectFont ("Comic Sans MS", 80);
             txSetColor(TX_RED);
-            txDrawText(0, 0, txGetExtentX(), txGetExtentY() / 3, "Создай свой дизайн квартиры" );
+            txDrawText(0, 0, txGetExtentX(), txGetExtentY() / 3, "Г‘Г®Г§Г¤Г Г© Г±ГўГ®Г© Г¤ГЁГ§Г Г©Г­ ГЄГўГ Г°ГІГЁГ°Г»" );
 
 
+            //ГЉГ­Г®ГЇГЄГЁ Гў Г¬ГҐГ­Гѕ
+            //ГЂ Г¬Г®ГЈ ГЎГ» ГЎГ»ГІГј Г¶ГЁГЄГ«
 
-            //Кнопки в меню
-            //А мог бы быть цикл
-
-            //Кнопка играть
+            //ГЉГ­Г®ГЇГЄГ  ГЁГЈГ°Г ГІГј
             if (txMouseX() >=430   && txMouseY() >=200  &&  txMouseX() <=816 &&   txMouseY() <=304)
             {
-                txTransparentBlt (txDC(), x_Play , y_Play , 448, 132, Play, 0,  0, RGB(255, 127, 39));
+                txTransparentBlt (txDC(), Play.x , Play.y , 448, 132, Play.picture, 0,  0, RGB(255, 127, 39));
             }
 
-            //Кнопка настройки
+            //ГЉГ­Г®ГЇГЄГ  Г­Г Г±ГІГ°Г®Г©ГЄГЁ
             if (txMouseX() >=430 && txMouseY() >=350  && txMouseX() <=816 && txMouseY() <=450 && Menu == true)
             {
-                txTransparentBlt (txDC(), x_Settings , y_Settings , 457, 122, Settings, 0,  0, RGB(255, 127, 39));
+                txTransparentBlt (txDC(), settings.x , settings.y , 457, 122, settings.picture, 0,  0, RGB(255, 127, 39));
             }
 
-            //Кнопка выход
+            //ГЉГ­Г®ГЇГЄГ  ГўГ»ГµГ®Г¤
             if (txMouseX() >=418 && txMouseY() >=490 && txMouseX() <=816 && txMouseY() <=590 && Menu == true)
             {
-                txTransparentBlt (txDC(), x_Leave , y_Leave , 468, 140, Leave, 0,  0, RGB(255, 127, 39));
+                txTransparentBlt (txDC(), Leave.x , Leave.y , 468, 140, Leave.picture, 0,  0, RGB(255, 127, 39));
             }
 
-            //Клик на выход
+            //ГЉГ«ГЁГЄ Г­Г  ГўГ»ГµГ®Г¤
             if (txMouseX() >=418 && txMouseY() >=490 && txMouseX() <=816 && txMouseY() <=590 && txMouseButtons () ==1 )
             {
                 txDisableAutoPause();
@@ -176,20 +172,22 @@ int main()
         }
 
 
-        //Редактор
+        //ГђГҐГ¤Г ГЄГІГ®Г°
         else
         {
-            //Меню
+            //ГЊГҐГ­Гѕ
             txSetFillColour(TX_WHITE);
 
+             txTransparentBlt (txDC(), x_Plan, y_Plan , 1300, 750, Plan, 0,  0, RGB(255, 127, 39));
 
-            //Координатная сетка /фон
+
+            //ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ­Г Гї Г±ГҐГІГЄГ  /ГґГ®Г­
             txTransparentBlt(txDC(), x_Fon, y_Fon, 1300, 750, Fon, 0, 0, TX_YELLOW);
 
 
 
 
-            //Жёлтые кнопки наверху экрана
+            //Г†ВёГ«ГІГ»ГҐ ГЄГ­Г®ГЇГЄГЁ Г­Г ГўГҐГ°ГµГі ГЅГЄГ°Г Г­Г 
             for(int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
                     drawButton(Button[nomer]);
@@ -238,34 +236,21 @@ int main()
                  }
 
 
-
-
-           //Тестовая кнопка
-           // Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
-            /*
-            txDrawText (400, 150, 800, 200, "кнопка");
-            if (txMouseX() >= 400 && txMouseX() <= 800 &&
-                txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
-            {
-                txTextOut(100, 100, "Это работает!");
-            }     */
-
-
-            //Меню == ложь можно не проверять
+            //ГЊГҐГ­Гѕ == Г«Г®Г¦Гј Г¬Г®Г¦Г­Г® Г­ГҐ ГЇГ°Г®ГўГҐГ°ГїГІГј
             if(GetAsyncKeyState('P') && Menu == false)
             {
                 Menu = true;
             }
 
-            //А почему не сделать паузу 2 картинками как с настройками и плеем?
+            //ГЂ ГЇГ®Г·ГҐГ¬Гі Г­ГҐ Г±Г¤ГҐГ«Г ГІГј ГЇГ ГіГ§Гі 2 ГЄГ Г°ГІГЁГ­ГЄГ Г¬ГЁ ГЄГ ГЄ Г± Г­Г Г±ГІГ°Г®Г©ГЄГ Г¬ГЁ ГЁ ГЇГ«ГҐГҐГ¬?
             if (txMouseX() >=1220   && txMouseY() >=10  && txMouseX() <=1300 && txMouseY() <=77&&
                 Menu == false)
             {
-                x_kadr_Pause = 1;
+                Pause.x_kadr = 1;
             }
             else
             {
-                x_kadr_Pause = 0;
+                Pause.x_kadr = 0;
             }
 
             if (txMouseX() >=1220   && txMouseY() >=10  && txMouseX() <=1300 && txMouseY() <=77&&
@@ -274,22 +259,6 @@ int main()
                 txPlaySound("2.wav", SND_ASYNC);Menu = true ;
 
             }
-
-
-                 /*for (int nomer2 = 0; nomer2 < 4; nomer2 = nomer2 + 1)
-                 {
-                  txDrawText (400, 150, 800, 200, "кнопка");
-                    if (txMouseX() >= 400 && txMouseX() <= 800 &&
-                        txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
-                    {
-                        Table[nomer2].visible = true;
-                        txTextOut(100, 100, "Это работает!");
-                    }
-        if(GetAsyncKeyState(VK_SPACE))
-        Table[nomer2].visible = false;
-        } //скобка от for
-
-         */
 
 
        if (    txMouseX()  >= Bed[1].x  - 10    &&
@@ -301,8 +270,8 @@ int main()
              Bed[1].x  =  txMouseX()-100;
              Bed[1].y =  txMouseY()-100;
              }
-
-            txTransparentBlt (txDC(), x_Pause , y_Pause , 74, 67, Pause, 73 * x_kadr_Pause,  0, RGB(255, 127, 39));
+              //Г­Г  Г°Г ГЎГ®ГІГ ГҐГІ ГµГ§ ГЇГ®Г·ГҐГ¬Гі
+            txTransparentBlt (txDC(), Pause.x, Pause.y , 74, 67, Pause.picture, 74 * Pause.x_kadr,  0, RGB(255, 127, 39));
 
         }
 
@@ -320,7 +289,7 @@ int main()
     }
 
     txDeleteDC(Fon);
-    //Еще вагон картинок можно бы удалить
+    //Г…Г№ГҐ ГўГ ГЈГ®Г­ ГЄГ Г°ГІГЁГ­Г®ГЄ Г¬Г®Г¦Г­Г® ГЎГ» ГіГ¤Г Г«ГЁГІГј
 
 
     return 0;
