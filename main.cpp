@@ -3,12 +3,14 @@
 
 struct button
 {
-   // HDC Click;
+
     HDC picture;
     int x;
     int y;
     const char* text;
     int x_kadr;
+    int width;
+    int height;
 };
 
 void drawButton(button Button1)
@@ -37,12 +39,16 @@ bool clickButton(button Button)
 
 void drawObl()
 {
+    HDC Krestik = txLoadImage("Картинки/Knopochka.bmp");
+    int x_Krestik = 1100;
+    int y_Krestik = 60;
+
     txSetColor(TX_ORANGE);
     txSetFillColor(TX_WHITE);
     txRectangle(1100, 60, 1300, 750);
     txSetFillColor(TX_RED);
-    txRectangle(1100, 60, 1140, 100);
 
+   txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 
 }
 
@@ -55,6 +61,10 @@ int main()
     int x_Fon = 0;
     int y_Fon = 0;
 
+    HDC Krestik = txLoadImage("Картинки/Knopochka.bmp");
+    int x_Krestik = 1100;
+    int y_Krestik = 60;
+
     int count_button = 5;
     button Button[count_button];
 
@@ -65,11 +75,22 @@ int main()
     Button[4] = {txLoadImage("Картинки/Кнопка.bmp"), 1000,0, ""};
 
     //Эту дичь тоже можно сделать кнопками (новый массив или новые переменные)
+    //
+    //Button[5]
     button settings = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, ""};
     button Play = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, ""};
     button Leave = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, ""};
     button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
     button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 0, 0,  "", 0};
+
+    /*
+settings
+Play
+Leave
+Menu
+     */
+
+
 
     int x_Plan = 0;
     int y_Plan = 0;
@@ -89,18 +110,18 @@ int main()
     Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/кровать_4.bmp")};
     bool drawBed = false;
 
-    Bed[4] = {1100, 150, 191,  90, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[5] = {1100, 150, 192, 133, txLoadImage("Картинки/Диван_2.bmp")};
-    Bed[6] = {1100, 300, 202,  92, txLoadImage("Картинки/Диван_3.bmp")};
+    Bed[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диван_1.bmp")};
+    Bed[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диван_2.bmp")};
+    Bed[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диван_3.bmp")};
     Bed[7] = {1100, 450, 268, 142, txLoadImage("Картинки/Диван_4.bmp")};
     bool drawSofa = false;
 
     Picture Table[4];
-    Table[0] = {1250,   0, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
-    Table[1] = {1250, 200, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
-    Table[2] = {1250, 350, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false};
-    Table[3] = {1200, 500, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
-
+    Table[0] = {1105,   150, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
+    Table[1] = {1105, 350, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
+    Table[2] = {1105, 550, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false};
+    Table[3] = {1105, 650, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
+    bool drawTables = false;
 
 
 
@@ -153,14 +174,14 @@ int main()
             {
                 txPlaySound("2.wav", SND_ASYNC);
                 Menu=false;
-                //txSleep(350);
+
             }
 
             if (txMouseX() >=430   && txMouseY() >=350  && txMouseX() <=816 &&  txMouseY() <=450&&
                 txMouseButtons () ==1)
             {
                 txPlaySound("2.wav", SND_ASYNC);
-                //txSleep(350);
+
             }
         }
 
@@ -178,7 +199,7 @@ int main()
 
 
             //Жёлтые кнопки наверху экрана
-            for(int nomer = 0; nomer < count_button; nomer = nomer +1)
+            for(int nomer = 0; nomer < 4; nomer = nomer +1)
             {
                     drawButton(Button[nomer]);
             }
@@ -187,14 +208,22 @@ int main()
             {
                 drawBed = true;
                 drawSofa = false;
-
+                drawTables = false;
             }
             if (clickButton(Button[1]))
             {
                 drawSofa = true;
                 drawBed = false;
-
+                drawTables = false;
             }
+
+            if (clickButton(Button[2]))
+            {
+                drawBed = false;
+                drawSofa = false;
+                drawTables = true;
+            }
+
 
             if(drawOBL)
             {
@@ -208,6 +237,7 @@ int main()
                 drawOBL = false;
                 drawSofa = false;
                 drawBed = false;
+                drawTables = false;
             }
 
             if(drawSofa)
@@ -225,22 +255,21 @@ int main()
                     drawOBL = true;
                  }
 
+            if(drawTables)
+                 for (int nomer = 0; nomer < 3; nomer = nomer + 1)
+                 {
+                    txTransparentBlt (txDC(), Table[nomer].x,   Table[nomer].y, Table[nomer].width, Table[nomer].height, Table[nomer].picture);
+                    drawOBL = true;
+                 }
 
 
 
-           //Тестовая кнопка
-           // Win32::RoundRect (txDC(), 400, 100, 800, 250, 30, 30);
-            /*
-            txDrawText (400, 150, 800, 200, "кнопка");
-            if (txMouseX() >= 400 && txMouseX() <= 800 &&
-                txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
-            {
-                txTextOut(100, 100, "Это работает!");
-            }     */
 
 
-            //Меню == ложь можно не проверять
-            if(GetAsyncKeyState('P') && Menu == false)
+
+
+
+            if(GetAsyncKeyState('P'))
             {
                 Menu = true;
             }
@@ -259,36 +288,53 @@ int main()
             if (txMouseX() >=1220   && txMouseY() >=10  && txMouseX() <=1300 && txMouseY() <=77&&
                 txMouseButtons () ==1 && Menu == false)
             {
-                txPlaySound("2.wav", SND_ASYNC);Menu = true ;
+                txPlaySound("2.wav", SND_ASYNC);
+                Menu = true ;
 
             }
 
 
-                 /*for (int nomer2 = 0; nomer2 < 4; nomer2 = nomer2 + 1)
-                 {
-                  txDrawText (400, 150, 800, 200, "кнопка");
-                    if (txMouseX() >= 400 && txMouseX() <= 800 &&
-                        txMouseY() >= 150 && txMouseY() <= 200 && txMouseButtons() == 1)
-                    {
-                        Table[nomer2].visible = true;
-                        txTextOut(100, 100, "Это работает!");
-                    }
-        if(GetAsyncKeyState(VK_SPACE))
-        Table[nomer2].visible = false;
-        } //скобка от for
+/*
+           for(int nomer = 0; nomer < 4; nomer = nomer + 1)
+           {
+                if (txMouseX()  >= Bed[nomer].x  - 10    && txMouseX()  <= Bed[nomer].x  + 200  &&
+                    txMouseY()  >= Bed[nomer].y  - 10  && txMouseY()  <= Bed[nomer].y  + 200 &&
+                    txMouseButtons () ==1    )
+                {
+                    Bed[nomer].x  =  txMouseX()-100;
+                    Bed[nomer].y =  txMouseY()-100;
+                }
 
-         */
+            }
 
-
-            if (    txMouseX()  >= Bed[1].x  - 10    &&
-                txMouseX()  <= Bed[1].x  + 200  &&
-                txMouseY()  >= Bed[1].y  - 10  &&
-                txMouseY()  <= Bed[1].y  + 200 &&
-                txMouseButtons () ==1    )
+            /*for(int nomer = 4; nomer < 7; nomer = nomer + 1)
             {
-             Bed[1].x  =  txMouseX()-100;
-             Bed[1].y =  txMouseY()-100;
-             }
+                if (txMouseX()  >= Bed[nomer].x  - 10    && txMouseX()  <= Bed[nomer].x  + 200  &&
+                    txMouseY()  >= Bed[nomer].y  - 10  && txMouseY()  <= Bed[nomer].y  + 200 &&
+                    txMouseButtons () ==1    )
+                {
+                    Bed[nomer].x  =  txMouseX()-100;
+                    Bed[nomer].y =  txMouseY()-100;
+                }
+
+            }
+            for(int nomer = 0; nomer < 4; nomer = nomer + 1)
+            {
+                if (txMouseX()  >= Table[nomer].x  - 10    && txMouseX()  <= Table[nomer].x  + 200  &&
+                    txMouseY()  >= Table[nomer].y  - 10  && txMouseY()  <= Table[nomer].y  + 200 &&
+                    txMouseButtons () ==1    )
+                {
+                    Table[nomer].x  =  txMouseX()-100;
+                    Table[nomer].y =  txMouseY()-100;
+                }
+
+            }     */
+
+
+
+
+
+
 
             txTransparentBlt (txDC(), Pause.x, Pause.y , 74, 67, Pause.picture, 74 * Pause.x_kadr,  0, RGB(255, 127, 39));
         }
@@ -296,6 +342,9 @@ int main()
         txSleep(20);
         txEnd();
     }
+
+
+
 
     txDeleteDC(Fon);
     //Еще вагон картинок можно бы удалить
@@ -307,6 +356,8 @@ int main()
 
     for(int i = 0; i < 5; i = i +1)
         txDeleteDC(Button[i].picture);
+
+
 
 
     return 0;
