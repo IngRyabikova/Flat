@@ -8,6 +8,7 @@ struct Picture
     int height;
     HDC picture;
     bool visible;
+    string category;
 };
 
 

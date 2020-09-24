@@ -37,24 +37,25 @@ bool clickButton(button Button)
 
 }
 
-void drawObl()
+void drawObl(HDC Krestik)
 {
-    HDC Krestik = txLoadImage("Картинки/Knopochka.bmp");
     int x_Krestik = 1100;
     int y_Krestik = 60;
 
     txSetColor(TX_ORANGE);
     txSetFillColor(TX_WHITE);
     txRectangle(1100, 60, 1300, 750);
-    txSetFillColor(TX_RED);
 
-   //txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
+
+    txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 
 }
 
 int main()
 {
     txCreateWindow (1300, 750);
+
+    string category = "";
 
 
     HDC Fon = txLoadImage("Картинки/Координатная сетка.bmp");
@@ -81,7 +82,7 @@ int main()
     button Play = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, ""};
     button Leave = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, ""};
     button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
-    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 0, 0,  "", 0};
+    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", 0};
 
     /*
 settings
@@ -106,28 +107,26 @@ Menu
 
     bool drawOBL = false;
 
+    bool str_1 = false;
 
 
-    Picture Bed[8];
+
+
+    Picture Bed[25];
     //Какие-то картинки не сохранились, поэтому я изменил адреса
-    Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/кровать_1.bmp")};
-    Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/кровать_2.bmp")};
-    Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/кровать_3.bmp")};
-    Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/кровать_4.bmp")};
-    bool drawBed = false;
-
-    Bed[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диван_1.bmp")};
-    Bed[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диван_2.bmp")};
-    Bed[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диван_3.bmp")};
-    Bed[7] = {1100, 450, 268, 142, txLoadImage("Картинки/Диван_4.bmp")};
-    bool drawSofa = false;
-
-    Picture Table[4];
-    Table[0] = {1105, 150, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
-    Table[1] = {1105, 350, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
-    Table[2] = {1105, 550, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false};
-    Table[3] = {1105, 650, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
-    bool drawTables = false;
+    Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/кровать_1.bmp"), false, "Bed"};
+    Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/кровать_2.bmp"), false, "Bed"};
+    Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/кровать_3.bmp"), false, "Bed"};
+    Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/кровать_4.bmp"), false, "Bed"};
+    Bed[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диван_1.bmp"), false, "Sofa"};
+    Bed[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диван_2.bmp"), false, "Sofa"};
+    Bed[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диван_3.bmp"), false, "Sofa"};
+    Bed[7] = {1100, 450, 268, 142, txLoadImage("Картинки/Диваны/divan4.bmp"), false, "Sofa"};
+    Bed[8] = {1105, 150, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false, "Table"};
+    Bed[9] = {1105, 350, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false, "Table"};
+    Bed[10] = {1105, 550, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false, "Table"};
+    Bed[11] = {1105, 650, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false, "Table"};
+    //bool drawTables = false;
 
 
 
@@ -160,6 +159,21 @@ Menu
             if (txMouseX() >=430 && txMouseY() >=350  && txMouseX() <=816 && txMouseY() <=450 && Menu == true)
             {
                 txTransparentBlt (txDC(), settings.x , settings.y , 457, 122, settings.picture, 0,  0, RGB(255, 127, 39));
+            }
+            if (txMouseX() >=430 && txMouseY() >=350  && txMouseX() <=816 && txMouseY() <=450 && Menu == true && txMouseButtons () ==1)
+            {
+                txTransparentBlt (txDC(), settings.x , settings.y , 457, 122, settings.picture, 0,  0, RGB(255, 127, 39));
+                str_1 = true;
+            }
+            if(str_1)
+            {
+                txClear();
+
+
+                txTextOut(100, 100, "Привет :)");
+
+
+
             }
 
             //Кнопка выход
@@ -211,65 +225,51 @@ Menu
                     drawButton(Button[nomer]);
             }
 
+            if(drawOBL)
+            {
+                drawObl(Krestik);
+            }
+
+
+
             if (clickButton(Button[0]))
             {
-                drawBed = true;
-                drawSofa = false;
-                drawTables = false;
+                category="Bed";
+                drawOBL = true;
             }
+
             if (clickButton(Button[1]))
             {
-                drawSofa = true;
-                drawBed = false;
-                drawTables = false;
+                category="Sofa";
+                drawOBL = true;
             }
 
             if (clickButton(Button[2]))
             {
-                drawBed = false;
-                drawSofa = false;
-                drawTables = true;
+                category="Table";
+                drawOBL = true;
             }
 
 
-            if(drawOBL)
-            {
-                drawObl();
-            }
+
 
 
             if(txMouseX() >= 1100   && txMouseY() >= 60  && txMouseX() <= 1140 && txMouseY() <= 100 &&
                 txMouseButtons () ==1)
             {
                 drawOBL = false;
-                drawSofa = false;
-                drawBed = false;
-                drawTables = false;
+                category="";
+
             }
 
-            if(drawSofa)
-                 for (int nomer = 4; nomer < 7; nomer = nomer + 1)
+
+            for (int nomer = 0; nomer < 12; nomer = nomer + 1)
+            {
+                 if (category == Bed[nomer].category)
                  {
                     txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
-                    drawOBL = true;
                  }
-
-
-            else if(drawBed)
-                 for (int nomer =0; nomer < 3; nomer = nomer + 1)
-                 {
-                    txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
-                    drawOBL = true;
-                 }
-
-            if(drawTables)
-                 for (int nomer = 0; nomer < 3; nomer = nomer + 1)
-                 {
-                    txTransparentBlt (txDC(), Table[nomer].x,   Table[nomer].y, Table[nomer].width, Table[nomer].height, Table[nomer].picture);
-                    drawOBL = true;
-                 }
-
-
+            }
 
 
 
@@ -355,13 +355,10 @@ Menu
 
     txDeleteDC(Fon);
     //Еще вагон картинок можно бы удалить
-    for(int i = 0; i < 4; i = i +1)
-        txDeleteDC(Table[i].picture);
-
-    for(int i = 0; i < 8; i = i +1)
+    for(int i = 0; i < 11; i = i +1)
         txDeleteDC(Bed[i].picture);
 
-    for(int i = 0; i < 5; i = i +1)
+    for(int i = 0; i < 10; i = i +1)
         txDeleteDC(Button[i].picture);
 
     Win32::TransparentBlt (txDC(),196,140,200,100,Plan,0,0,800,1100, TX_WHITE);
