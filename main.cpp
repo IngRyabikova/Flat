@@ -48,7 +48,7 @@ void drawObl()
     txRectangle(1100, 60, 1300, 750);
     txSetFillColor(TX_RED);
 
-   txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
+   //txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 
 }
 
@@ -94,7 +94,13 @@ Menu
 
     int x_Plan = 0;
     int y_Plan = 0;
+
     HDC Plan = txLoadImage("Картинки/План_квартиры.bmp");
+
+    int x_Plan2 = 0;
+    int y_Plan2 = 0;
+
+    HDC Plan2 = txLoadImage("Картинки/План_квартиры2.bmp");
 
     bool Menu = true;
 
@@ -122,6 +128,7 @@ Menu
     Table[2] = {1105, 550, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false};
     Table[3] = {1105, 650, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
     bool drawTables = false;
+
 
 
 
@@ -357,8 +364,9 @@ Menu
     for(int i = 0; i < 5; i = i +1)
         txDeleteDC(Button[i].picture);
 
+    Win32::TransparentBlt (txDC(),196,140,200,100,Plan,0,0,800,1100, TX_WHITE);
 
-
+    Win32::TransparentBlt (txDC(),196,140,200,100,Plan2,0,0,1300,730, TX_WHITE);
 
     return 0;
 }
