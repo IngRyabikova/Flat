@@ -123,7 +123,7 @@ Menu
     bool drawSofa = false;
 
     Picture Table[4];
-    Table[0] = {1105,   150, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
+    Table[0] = {1105, 150, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false};
     Table[1] = {1105, 350, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false};
     Table[2] = {1105, 550, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false};
     Table[3] = {1105, 650, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false};
