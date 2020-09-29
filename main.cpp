@@ -1,5 +1,8 @@
+  //полезный комментарий:
+    //проект начался
 #include "TXLib.h"
 #include "Bed.cpp"
+#include "Bed2.cpp"
 
 struct button
 {
@@ -70,10 +73,10 @@ int main()
     button Button[count_button];
 
     Button[0] = {txLoadImage("Картинки/Кнопка.bmp"), 0, 0, "Кровати"};
-    Button[1] = {txLoadImage("Картинки/Кнопка.bmp"), 250,0, "Диваны"};
-    Button[2] = {txLoadImage("Картинки/Кнопка.bmp"), 500,0, "Столы"};
-    Button[3] = {txLoadImage("Картинки/Кнопка.bmp"), 750,0, ""};
-    Button[4] = {txLoadImage("Картинки/Кнопка.bmp"), 1000,0, ""};
+    Button[1] = {Button[0].picture, 250,0, "Диваны"};
+    Button[2] = {Button[0].picture, 500,0, "Столы"};
+    Button[3] = {Button[0].picture, 750,0, ""};
+    Button[4] = {Button[0].picture, 1000,0, ""};
 
     //Эту дичь тоже можно сделать кнопками (новый массив или новые переменные)
     //
@@ -84,12 +87,6 @@ int main()
     button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
     button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", 0};
 
-    /*
-settings
-Play
-Leave
-Menu
-     */
 
 
 
@@ -113,7 +110,6 @@ Menu
 
 
     Picture Bed[25];
-    //Какие-то картинки не сохранились, поэтому я изменил адреса
     Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/кровать_1.bmp"), false, "Bed"};
     Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/кровать_2.bmp"), false, "Bed"};
     Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/кровать_3.bmp"), false, "Bed"};
@@ -126,6 +122,20 @@ Menu
     Bed[9] = {1105, 350, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false, "Table"};
     Bed[10] = {1105, 550, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false, "Table"};
     Bed[11] = {1105, 650, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false, "Table"};
+
+    Picture2 Bed2[25];
+    Bed2[0] = {500, 200, 131, 135, Bed[0].picture, false, "Bed"};
+    Bed2[1] = {500, 200, 189, 131, Bed[1].picture, false, "Bed"};
+    Bed2[2] = {500, 200, 192, 212, Bed[2].picture, false, "Bed"};
+    Bed2[3] = {500, 200, 164, 199, Bed[3].picture, false, "Bed"};
+    Bed2[4] = {500, 200, 150,  70, Bed[4].picture, false, "Sofa"};
+    Bed2[5] = {500, 200, 150, 70, Bed[5].picture, false, "Sofa"};
+    Bed2[6] = {500, 200, 150, 70, Bed[6].picture, false, "Sofa"};
+    Bed2[7] = {500, 200, 268, 142, Bed[7].picture, false, "Sofa"};
+    Bed2[8] = {505, 200, 164, 148, Bed[8].picture, false, "Table"};
+    Bed2[9] = {505, 200, 131, 130, Bed[9].picture, false, "Table"};
+    Bed2[10] = {505, 200, 169,  86, Bed[10].picture, false, "Table"};
+    Bed2[11] = {505, 200, 227, 137, Bed[11].picture, false, "Table"};
     //bool drawTables = false;
 
 
@@ -263,13 +273,37 @@ Menu
             }
 
 
+for (int nomer = 0; nomer < 12; nomer = nomer + 1)
+{
+    if(Bed2[nomer].visible == true)
+        txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
+}
+
             for (int nomer = 0; nomer < 12; nomer = nomer + 1)
             {
-                 if (category == Bed[nomer].category)
-                 {
-                    txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
-                 }
+                     if (category == Bed[nomer].category)
+                     {
+                        txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
+                     }
+
+
+                    if(txMouseX() >= Bed[nomer].x  - 100    && txMouseY() >= Bed[nomer].y- 100  && txMouseX() <= Bed[nomer].x+ 100 && txMouseY() <= Bed[nomer].x + 100 &&
+                    txMouseButtons () ==1 && category == Bed[nomer].category)
+                    {
+                     Bed2[nomer].visible = true;
+
+                    }
+                    if(Bed2[nomer].visible == true)
+                    {
+                       Bed2[nomer].visible = false;
+                       Bed2[nomer].visible = true;
+                       //я пытался)
+                    }
             }
+
+
+
+
 
 
 
@@ -300,49 +334,6 @@ Menu
 
             }
 
-
-/*
-           for(int nomer = 0; nomer < 4; nomer = nomer + 1)
-           {
-                if (txMouseX()  >= Bed[nomer].x  - 10    && txMouseX()  <= Bed[nomer].x  + 200  &&
-                    txMouseY()  >= Bed[nomer].y  - 10  && txMouseY()  <= Bed[nomer].y  + 200 &&
-                    txMouseButtons () ==1    )
-                {
-                    Bed[nomer].x  =  txMouseX()-100;
-                    Bed[nomer].y =  txMouseY()-100;
-                }
-
-            }
-
-            /*for(int nomer = 4; nomer < 7; nomer = nomer + 1)
-            {
-                if (txMouseX()  >= Bed[nomer].x  - 10    && txMouseX()  <= Bed[nomer].x  + 200  &&
-                    txMouseY()  >= Bed[nomer].y  - 10  && txMouseY()  <= Bed[nomer].y  + 200 &&
-                    txMouseButtons () ==1    )
-                {
-                    Bed[nomer].x  =  txMouseX()-100;
-                    Bed[nomer].y =  txMouseY()-100;
-                }
-
-            }
-            for(int nomer = 0; nomer < 4; nomer = nomer + 1)
-            {
-                if (txMouseX()  >= Table[nomer].x  - 10    && txMouseX()  <= Table[nomer].x  + 200  &&
-                    txMouseY()  >= Table[nomer].y  - 10  && txMouseY()  <= Table[nomer].y  + 200 &&
-                    txMouseButtons () ==1    )
-                {
-                    Table[nomer].x  =  txMouseX()-100;
-                    Table[nomer].y =  txMouseY()-100;
-                }
-
-            }     */
-
-
-
-
-
-
-
             txTransparentBlt (txDC(), Pause.x, Pause.y , 74, 67, Pause.picture, 74 * Pause.x_kadr,  0, RGB(255, 127, 39));
         }
 
@@ -358,6 +349,9 @@ Menu
     for(int i = 0; i < 11; i = i +1)
         txDeleteDC(Bed[i].picture);
 
+    for(int i = 0; i < 11; i = i +1)
+        txDeleteDC(Bed2[i].picture);
+
     for(int i = 0; i < 10; i = i +1)
         txDeleteDC(Button[i].picture);
 
@@ -367,3 +361,6 @@ Menu
 
     return 0;
 }
+
+  //полезный комментарий:
+    //проект закончился
