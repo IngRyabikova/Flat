@@ -8,9 +8,11 @@ struct button
     int x;
     int y;
     const char* text;
-    int x_kadr;
+    string category;
     int width;
     int height;
+    int x_kadr;
+
 };
 
 void drawButton(button Button1)
@@ -62,18 +64,24 @@ int main()
     int x_Fon = 0;
     int y_Fon = 0;
 
-    HDC Krestik = txLoadImage("Картинки/Knopochka.bmp");
+    HDC Krestik = txLoadImage("Картинки/Кнопки/Knopochka.bmp");
     int x_Krestik = 1100;
     int y_Krestik = 60;
 
     int count_button = 5;
     button Button[count_button];
 
-    Button[0] = {txLoadImage("Картинки/Кнопка.bmp"), 0, 0, "Кровати"};
-    Button[1] = {txLoadImage("Картинки/Кнопка.bmp"), 250,0, "Диваны"};
-    Button[2] = {txLoadImage("Картинки/Кнопка.bmp"), 500,0, "Столы"};
-    Button[3] = {txLoadImage("Картинки/Кнопка.bmp"), 750,0, ""};
-    Button[4] = {txLoadImage("Картинки/Кнопка.bmp"), 1000,0, ""};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed"};
+    Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa"};
+    Button[2] = {Button[0].picture, 500,0, "Столы", "Table"};
+    Button[3] = {Button[0].picture, 750,0, "", "" };
+    Button[4] = {Button[0].picture, 1000,0, "", ""};
+
+
+    HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
+    int x_Strelka= 0;
+    int y_Strelka = 0;
+
 
     //Эту дичь тоже можно сделать кнопками (новый массив или новые переменные)
     //
@@ -82,7 +90,7 @@ int main()
     button Play = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, ""};
     button Leave = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, ""};
     button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
-    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", 0};
+    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
 
     /*
 settings
@@ -114,18 +122,18 @@ Menu
 
     Picture Bed[25];
     //Какие-то картинки не сохранились, поэтому я изменил адреса
-    Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/кровать_1.bmp"), false, "Bed"};
-    Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/кровать_2.bmp"), false, "Bed"};
-    Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/кровать_3.bmp"), false, "Bed"};
-    Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/кровать_4.bmp"), false, "Bed"};
-    Bed[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диван_1.bmp"), false, "Sofa"};
-    Bed[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диван_2.bmp"), false, "Sofa"};
-    Bed[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диван_3.bmp"), false, "Sofa"};
-    Bed[7] = {1100, 450, 268, 142, txLoadImage("Картинки/Диваны/divan4.bmp"), false, "Sofa"};
-    Bed[8] = {1105, 150, 164, 148, txLoadImage("Картинки/стол_1.bmp"), false, "Table"};
-    Bed[9] = {1105, 350, 131, 130, txLoadImage("Картинки/стол_2.bmp"), false, "Table"};
-    Bed[10] = {1105, 550, 169,  86, txLoadImage("Картинки/стол_3.bmp"), false, "Table"};
-    Bed[11] = {1105, 650, 227, 137, txLoadImage("Картинки/стол_4.bmp"), false, "Table"};
+    Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/Кровати/кровать_1.bmp"), false, "Bed"};
+    Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/Кровати/Кровать_2.bmp"), false, "Bed"};
+    Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/Кровать_3.bmp"), false, "Bed"};
+    Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/Кровати/Кровать_4.bmp"), false, "Bed"};
+    Bed[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
+    Bed[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диваны/Диван_2.bmp"), false, "Sofa"};
+    Bed[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диваны/Диван_3.bmp"), false, "Sofa"};
+    Bed[7] = {1100, 450, 200, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
+    Bed[8] = {1105, 150, 164, 148, txLoadImage("Картинки/Столы/Стол_1.bmp"), false, "Table"};
+    Bed[9] = {1105, 350, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
+    Bed[10] = {1105, 550, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
+    Bed[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};
     //bool drawTables = false;
 
 
@@ -165,12 +173,38 @@ Menu
                 txTransparentBlt (txDC(), settings.x , settings.y , 457, 122, settings.picture, 0,  0, RGB(255, 127, 39));
                 str_1 = true;
             }
+
+            //Настройки
             if(str_1)
             {
-                txClear();
+
+                txSetFillColor(TX_WHITE);
+                txRectangle(0, 0, 1300, 750);
+
+                //txSetColor(TX_BLUE, 5);
+                // txSetFillColor(TX_WHITE);
+                //txRectangle(0, 0, 150, 100);
 
 
-                txTextOut(100, 100, "Привет :)");
+                txSetColor(TX_BLACK);
+                txSelectFont("Arial", 30);
+                txDrawText (300, 0, 400, 100, "Назад");
+
+                 Win32::TransparentBlt(txDC(), x_Strelka, y_Strelka, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
+
+               if(txMouseX() >= 0 && txMouseX() <= 150 &&
+                  txMouseY() >= 0 && txMouseY() <= 100 &&
+                  txMouseButtons() & 1)
+               {
+                    str_1 = false;
+               }
+
+
+
+
+
+
+                txTextOut(100, 300, "Привет :)");
 
 
 
@@ -220,7 +254,7 @@ Menu
 
 
             //Жёлтые кнопки наверху экрана
-            for(int nomer = 0; nomer < 4; nomer = nomer +1)
+            for(int nomer = 0; nomer < 3; nomer = nomer +1)
             {
                     drawButton(Button[nomer]);
             }
@@ -232,27 +266,14 @@ Menu
 
 
 
-            if (clickButton(Button[0]))
-            {
-                category="Bed";
-                drawOBL = true;
-            }
-
-            if (clickButton(Button[1]))
-            {
-                category="Sofa";
-                drawOBL = true;
-            }
-
-            if (clickButton(Button[2]))
-            {
-                category="Table";
-                drawOBL = true;
-            }
-
-
-
-
+          for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
+          {
+                if (clickButton(Button[nomer]))
+                {
+                    category = Button[nomer].category;
+                    drawOBL = true;
+                }
+          }
 
             if(txMouseX() >= 1100   && txMouseY() >= 60  && txMouseX() <= 1140 && txMouseY() <= 100 &&
                 txMouseButtons () ==1)
