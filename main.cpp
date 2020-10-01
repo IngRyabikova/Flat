@@ -37,6 +37,36 @@ bool clickButton(button Button)
     }
 }
 
+
+bool clickButton2(button Button_MENU)
+{
+    if (txMouseX() >= Button_MENU.x && txMouseX() <= Button_MENU.x + Button_MENU.width &&
+        txMouseY() >= Button_MENU.y && txMouseY() <= Button_MENU.y + Button_MENU.height && txMouseButtons() == 1)
+    {
+            return true;
+
+    }
+}
+
+
+
+
+void drawButton2(button Button_MENU)
+{
+    txTransparentBlt(txDC(), Button_MENU.x, Button_MENU.y, Button_MENU.width, Button_MENU.height, Button_MENU.picture, 0, 0, RGB(255, 127, 39));
+
+    if (Button_MENU.text != "")
+    {
+        txSelectFont ("Comic Sans MS", 30);
+        txSetColor(TX_BLACK);
+        txTextOut(Button_MENU.x + 15, Button_MENU.y + 10, Button_MENU.text);
+    }
+
+};
+
+
+
+
 void drawObl(HDC Krestik)
 {
     int x_Krestik = 1100;
@@ -56,6 +86,8 @@ int main()
 
     string category = "";
 
+  //  string PageCategory = "";
+
 
     HDC Fon = txLoadImage("Картинки/Координатная сетка.bmp");
     int x_Fon = 0;
@@ -71,8 +103,8 @@ int main()
     Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed"};
     Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa"};
     Button[2] = {Button[0].picture, 500,0, "Столы", "Table"};
-    Button[3] = {Button[0].picture, 750,0, "", "" };
-    Button[4] = {Button[0].picture, 1000,0, "", ""};
+   // Button[3] = {Button[0].picture, 750,0, "", "" };
+   // Button[4] = {Button[0].picture, 1000,0, "", ""};
 
 
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
@@ -82,11 +114,29 @@ int main()
     //Эту дичь тоже можно сделать кнопками (новый массив или новые переменные)
     //
     //Button[5]
-    button settings = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, ""};
-    button Play = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, ""};
-    button Leave = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, ""};
-    button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
-    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
+
+
+    button Button_MENU[3];
+
+    Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, "", "settings", 457, 122};
+    Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, "", "start", 448, 132};
+    Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, "", "exit", 468, 140};
+    const char* PAGE = "start";
+
+
+
+    button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, "", "menu"};
+    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "pause", 0};
+
+
+    /*
+    button settings = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, "", "settings"};
+    button Play = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, "", "start"};
+    button Leave = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, "", "exit"};
+    button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, "", "menu"};
+    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "pause", 0};
+
+   */
 
     int x_Plan = 0;
     int y_Plan = 0;
@@ -142,7 +192,7 @@ int main()
         txClear();
 
         //Стартовая страница
-        if (Menu)
+        if (PAGE == "start")
         {
             txTransparentBlt (txDC(), Menu_.x, Menu_.y, 1300, 750, Menu_.picture, 0,  0, RGB(255, 127, 39));
 
@@ -153,6 +203,61 @@ int main()
 
             //Кнопки в меню
             //А мог бы быть цикл
+
+            /*for(int nomer = 0; nomer < 3; nomer = nomer +1)
+            {
+
+               if (clickButton2(Button_MENU[nomer]))
+                {
+                    category = Button_MENU[nomer].category;
+
+                }
+            }  */
+
+            for(int nomer = 0; nomer < 3; nomer = nomer +1)
+            {
+                if (txMouseX() >=Button_MENU[nomer].x   && txMouseY() >=Button_MENU[nomer].y     &&  txMouseX() <=Button_MENU[nomer].x + 500    &&   txMouseY() <=Button_MENU[nomer].y + 100 )
+                {
+
+                   drawButton2(Button_MENU[nomer]);
+
+                }
+
+                if (clickButton2(Button_MENU[nomer]))
+                {
+                    category = Button_MENU[nomer].category;
+
+                    txTextOut(100, 100, "asfwfwfe");
+
+                }
+
+            }
+
+            if(category == Button_MENU[2].category)
+            {
+                txDisableAutoPause();
+                return 0;
+            }
+
+            if(category == Button_MENU[1].category)
+            {
+                PAGE = "redactor";
+            }
+            if(category == Button_MENU[0].category)
+            {
+                PAGE = "settings";
+            }
+
+
+
+
+
+
+
+
+
+
+    /*
 
             //Кнопка играть
             if (txMouseX() >=430   && txMouseY() >=200  &&  txMouseX() <=816 &&   txMouseY() <=304)
@@ -168,18 +273,19 @@ int main()
             if (txMouseX() >=430 && txMouseY() >=350  && txMouseX() <=816 && txMouseY() <=450 && Menu == true && txMouseButtons () ==1)
             {
                 txTransparentBlt (txDC(), settings.x , settings.y , 457, 122, settings.picture, 0,  0, RGB(255, 127, 39));
-                str_1 = true;
+                PAGE = "settings";
             }
+             */
 
             //Настройки
-            if(str_1)
+            if(PAGE == "settings")
             {
 
                 txSetFillColor(TX_WHITE);
                 txRectangle(0, 0, 1300, 750);
 
                 //txSetColor(TX_BLUE, 5);
-                // txSetFillColor(TX_WHITE);
+                //txSetFillColor(TX_WHITE);
                 //txRectangle(0, 0, 150, 100);
 
 
@@ -187,13 +293,13 @@ int main()
                 txSelectFont("Arial", 30);
                 txDrawText (300, 0, 400, 100, "Назад");
 
-                 Win32::TransparentBlt(txDC(), x_Strelka, y_Strelka, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
+                Win32::TransparentBlt(txDC(), x_Strelka, y_Strelka, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
 
                if(txMouseX() >= 0 && txMouseX() <= 150 &&
                   txMouseY() >= 0 && txMouseY() <= 100 &&
                   txMouseButtons() & 1)
                {
-                    str_1 = false;
+                    PAGE = "redactor";
                }
 
 
@@ -207,7 +313,7 @@ int main()
 
             }
 
-            //Кнопка выход
+       /*     //Кнопка выход
             if (txMouseX() >=418 && txMouseY() >=490 && txMouseX() <=816 && txMouseY() <=590 && Menu == true)
             {
                 txTransparentBlt (txDC(), Leave.x , Leave.y , 468, 140, Leave.picture, 0,  0, RGB(255, 127, 39));
@@ -235,10 +341,12 @@ int main()
                 txPlaySound("2.wav", SND_ASYNC);
 
             }
+
+            */
         }
 
         //Редактор
-        else
+        else if (PAGE == "redactor")
         {
             //Меню
             txSetFillColour(TX_WHITE);
@@ -299,14 +407,14 @@ int main()
                     if(txMouseX() >= Bed[nomer].x  - 100    && txMouseY() >= Bed[nomer].y- 100  && txMouseX() <= Bed[nomer].x+ 100 && txMouseY() <= Bed[nomer].x + 100 &&
                     txMouseButtons () ==1 && category == Bed[nomer].category)
                     {
-                     Bed2[nomer].visible = true;
+                        Bed2[nomer].visible = true;
 
                     }
                     //И что делает конструкция ниже?
                     if(Bed2[nomer].visible == true)
                     {
-                       Bed2[nomer].visible = false;
-                       Bed2[nomer].visible = true;
+                        Bed2[nomer].visible = false;
+                        Bed2[nomer].visible = true;
                     }
             }
 
