@@ -1,6 +1,5 @@
 #include "TXLib.h"
 #include "Bed.cpp"
-#include "Bed2.cpp"
 
 struct button
 {
@@ -101,27 +100,27 @@ int main()
     bool drawOBL = false;
 
     bool str_1 = false;
+    bool klik = true;
 
 
 
+    Picture variants[25];
+    variants[0] = {1100, 150, 131, 135, txLoadImage("Картинки/Кровати/кровать_1.bmp"), false, "Bed"};
+    variants[1] = {1100, 350, 189, 131, txLoadImage("Картинки/Кровати/Кровать_2.bmp"), false, "Bed"};
+    variants[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/Кровать_3.bmp"), false, "Bed"};
+    variants[3] = {1100, 750, 164, 199, txLoadImage("Картинки/Кровати/Кровать_4.bmp"), false, "Bed"};
+    variants[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
+    variants[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диваны/Диван_2.bmp"), false, "Sofa"};
+    variants[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диваны/Диван_3.bmp"), false, "Sofa"};
+    variants[7] = {1100, 450, 200, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
+    variants[8] = {1105, 150, 164, 148, txLoadImage("Картинки/Столы/Стол_1.bmp"), false, "Table"};
+    variants[9] = {1105, 350, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
+    variants[10] = {1105, 550, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
+    variants[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};
 
-    Picture Bed[25];
-    Bed[0] = {1100, 150, 131, 135, txLoadImage("Картинки/Кровати/кровать_1.bmp"), false, "Bed"};
-    Bed[1] = {1100, 350, 189, 131, txLoadImage("Картинки/Кровати/Кровать_2.bmp"), false, "Bed"};
-    Bed[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/Кровать_3.bmp"), false, "Bed"};
-    Bed[3] = {1100, 750, 164, 199, txLoadImage("Картинки/Кровати/Кровать_4.bmp"), false, "Bed"};
-    Bed[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
-    Bed[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диваны/Диван_2.bmp"), false, "Sofa"};
-    Bed[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диваны/Диван_3.bmp"), false, "Sofa"};
-    Bed[7] = {1100, 450, 200, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
-    Bed[8] = {1105, 150, 164, 148, txLoadImage("Картинки/Столы/Стол_1.bmp"), false, "Table"};
-    Bed[9] = {1105, 350, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
-    Bed[10] = {1105, 550, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
-    Bed[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};
 
-
-    Picture2 Bed2[25];
-    Bed2[0] = {500, 200, 131, 135, Bed[0].picture, false, "Bed"};
+    Picture Bed2[2500];
+    /*Bed2[0] = {500, 200, 131, 135, Bed[0].picture, false, "Bed"};
     Bed2[1] = {500, 200, 189, 131, Bed[1].picture, false, "Bed"};
     Bed2[2] = {500, 200, 192, 212, Bed[2].picture, false, "Bed"};
     Bed2[3] = {500, 200, 164, 199, Bed[3].picture, false, "Bed"};
@@ -133,6 +132,8 @@ int main()
     Bed2[9] = {505, 200, 131, 130, Bed[9].picture, false, "Table"};
     Bed2[10] = {505, 200, 169,  86, Bed[10].picture, false, "Table"};
     Bed2[11] = {505, 200, 227, 137, Bed[11].picture, false, "Table"};
+                                                                        */
+    int n_pics = 0;
 
 
 
@@ -282,32 +283,35 @@ int main()
             }
 
 
-            for (int nomer = 0; nomer < 12; nomer = nomer + 1)
+
+            for (int nomer = 0; nomer <  12; nomer = nomer + 1)
             {
-                if(Bed2[nomer].visible == true)
-                    txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
+                 if (category == variants[nomer].category)
+                 {
+                    txTransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, variants[nomer].width, variants[nomer].height, variants[nomer].picture);
+                 }
+            }
+            for (int nomer = 0; nomer <  12; nomer = nomer + 1)
+            {
+                if (txMouseX() >= variants[nomer].x    &&
+                    txMouseY() >= variants[nomer].y  &&
+                    txMouseX() <= variants[nomer].x +  variants[nomer].width &&
+                    txMouseY() <= variants[nomer].y +  variants[nomer].height &&
+                    txMouseButtons () ==1 && category == variants[nomer].category &&  klik == true)
+                {
+                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture};
+                     n_pics++;
+                     klik = false;
+
+                }
             }
 
-            for (int nomer = 0; nomer < 12; nomer = nomer + 1)
+            if(txMouseButtons () == 0)
+             klik = true;
+
+            for (int nomer = 0; nomer <  n_pics; nomer = nomer + 1)
             {
-                     if (category == Bed[nomer].category)
-                     {
-                        txTransparentBlt (txDC(), Bed[nomer].x,   Bed[nomer].y, Bed[nomer].width, Bed[nomer].height, Bed[nomer].picture);
-                     }
-
-
-                    if(txMouseX() >= Bed[nomer].x  - 100    && txMouseY() >= Bed[nomer].y- 100  && txMouseX() <= Bed[nomer].x+ 100 && txMouseY() <= Bed[nomer].x + 100 &&
-                    txMouseButtons () ==1 && category == Bed[nomer].category)
-                    {
-                     Bed2[nomer].visible = true;
-
-                    }
-                    //И что делает конструкция ниже?
-                    if(Bed2[nomer].visible == true)
-                    {
-                       Bed2[nomer].visible = false;
-                       Bed2[nomer].visible = true;
-                    }
+                txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
             }
 
 
@@ -394,7 +398,7 @@ int main()
     txDeleteDC(Fon);
     //Еще вагон картинок можно бы удалить
     for(int i = 0; i < 11; i = i +1)
-        txDeleteDC(Bed[i].picture);
+        txDeleteDC(variants[i].picture);
 
     for(int i = 0; i < 10; i = i +1)
         txDeleteDC(Button[i].picture);
