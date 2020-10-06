@@ -166,6 +166,7 @@ int main()
     int n_pics = 0;
 
 
+    int Active_Pic = 0;
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -176,6 +177,7 @@ int main()
         if (PAGE == "start")
         {
             txTransparentBlt (txDC(), Menu_.x, Menu_.y, 1300, 750, Menu_.picture, 0,  0, RGB(255, 127, 39));
+
 
             //Надпись в меню / название
             txSelectFont ("Comic Sans MS", 80);
@@ -240,7 +242,7 @@ int main()
                 PAGE = "redactor";
             }
 
-            txTextOut(100, 300, "Привет :)");
+            txTextOut(100, 300, "Это справка, Да Да... Построй свою квартиру :)");
         }
 
         //Редактор
@@ -296,6 +298,9 @@ int main()
                         txTransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, variants[nomer].width, variants[nomer].height, variants[nomer].picture);
                  }
             }
+
+
+            //Клик на вариант
             for (int nomer = 0; nomer <  12; nomer = nomer + 1)
             {
                 if (txMouseX() >= variants[nomer].x    &&
@@ -307,8 +312,38 @@ int main()
                      Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture};
                      n_pics++;
                      klik = false;
+                     //Active_Pic = Active_Pic + 1;
                 }
             }
+
+
+            //Клик на центр картинку
+
+            for (int n = 0; n <  n_pics; n = n + 1)
+            {
+                if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
+               txMouseY() >= Bed2[n].y &&
+               txMouseX() <= Bed2[n].x +  Bed2[n].width &&
+               txMouseY() <= Bed2[n].y +  Bed2[n].height  &&
+               txMouseButtons() == 1 )
+                {
+                //Bed2[n].x = txMouseX();
+                //Bed2[n].y = txMouseY();
+                Active_Pic = n;
+
+                }
+
+            }
+
+            if(Active_Pic >= 0 && txMouseButtons() == 1 )
+            {
+                Bed2[Active_Pic].x = txMouseX();
+                Bed2[Active_Pic].y = txMouseY();
+
+            }
+            if(txMouseButtons() == 0)
+            Active_Pic = -1;
+
 
             if(txMouseButtons () == 0)
                 klik = true;
@@ -317,6 +352,8 @@ int main()
             {
                 txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
             }
+
+
 
 
 
