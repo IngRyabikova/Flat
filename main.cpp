@@ -1,7 +1,7 @@
 #include "TXLib.h"
 #include "Bed.cpp"
-
-struct button
+#include "Button.cpp"
+/*struct button
 {
     HDC picture;
     int x;
@@ -57,7 +57,7 @@ void drawButton2(button Button_MENU)
         txTextOut(Button_MENU.x + 15, Button_MENU.y + 10, Button_MENU.text);
     }
 };
-
+*/
 
 void drawObl(HDC Krestik)
 {
@@ -71,6 +71,15 @@ void drawObl(HDC Krestik)
 
     txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
+
+
+
+
+
+
+
+
+
 
 int main()
 {
@@ -114,7 +123,7 @@ int main()
 //    button settings = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, ""};
 //    button Play = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, ""};
 //    button Leave = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, ""};
-    button Menu_ = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
+    button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
     button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
 
     int x_Plan = 0;
@@ -125,7 +134,7 @@ int main()
     int y_Plan2 = 0;
     HDC Plan2 = txLoadImage("Картинки/План_квартиры2.bmp");
 
-    bool Menu = true;
+    bool Menu1 = true;
 
     bool drawOBL = false;
 
@@ -175,7 +184,7 @@ int main()
         //Стартовая страница
         if (PAGE == "start")
         {
-            txTransparentBlt (txDC(), Menu_.x, Menu_.y, 1300, 750, Menu_.picture, 0,  0, RGB(255, 127, 39));
+            txTransparentBlt (txDC(), Menu.x, Menu.y, 1300, 750, Menu.picture, 0,  0, RGB(255, 127, 39));
 
             //Надпись в меню / название
             txSelectFont ("Comic Sans MS", 80);
@@ -196,7 +205,7 @@ int main()
                 if (clickButton2(Button_MENU[nomer]))
                 {
                     category = Button_MENU[nomer].category;
-                    txTextOut(100, 100, "asfwfwfe");
+
                 }
             }
 
@@ -237,7 +246,8 @@ int main()
                 txMouseY() >= 0 && txMouseY() <= 100 &&
                 txMouseButtons() & 1)
             {
-                PAGE = "redactor";
+                PAGE = "start";
+                category = "";
             }
 
             txTextOut(100, 300, "Привет :)");
@@ -286,14 +296,16 @@ int main()
             for (int nomer = 0; nomer < 12; nomer = nomer + 1)
             {
                 if(Bed2[nomer].visible == true)
-                    txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
+
+                drawBED2(Bed2[nomer]);
+                //txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
             }
 
             for (int nomer = 0; nomer < 12; nomer = nomer + 1)
             {
                  if (category == variants[nomer].category)
                  {
-                        txTransparentBlt (txDC(), variants[nomer].x,   variants[nomer].y, variants[nomer].width, variants[nomer].height, variants[nomer].picture);
+                        drawVariant(variants[nomer]);
                  }
             }
             for (int nomer = 0; nomer <  12; nomer = nomer + 1)
@@ -359,8 +371,12 @@ int main()
     for(int i = 0; i < 11; i = i +1)
         txDeleteDC(variants[i].picture);
 
-    for(int i = 0; i < 10; i = i +1)
-        txDeleteDC(Button[i].picture);
+
+    deletePic(Button, Button_MENU, Menu, Pause);
+
+
+ //   for(int i = 0; i < 10; i = i +1)
+ //       txDeleteDC(Button[i].picture);
 
     //Зачем это
     Win32::TransparentBlt (txDC(),196,140,200,100,Plan,0,0,800,1100, TX_WHITE);
