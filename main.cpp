@@ -71,6 +71,7 @@ int main()
     bool str_1 = false;
 
     int Active_Pic = 0;
+    int Active_Pic2 = 0;
 
 
     bool klik = true;
@@ -146,11 +147,12 @@ int main()
             txSetFillColor(TX_WHITE);
             txRectangle(0, 0, 1300, 750);
 
-            txSetColor(TX_BLACK);
-            txSelectFont("Arial", 30);
-            txDrawText (300, 0, 400, 100, "Назад");
 
-            Win32::TransparentBlt(txDC(), x_Strelka, y_Strelka, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
+
+            Win32::TransparentBlt(txDC(), x_Strelka + 5, y_Strelka + 5, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
+            //2 кровати по бокам в справке
+            txTransparentBlt(txDC(), 100,  550, 131, 135, variants[0].picture, 0, 0, TX_YELLOW);
+            txTransparentBlt(txDC(), 1000, 550, 189, 131, variants[1].picture, 0, 0, TX_YELLOW);
 
             if (txMouseX() >= 0 && txMouseX() <= 150 &&
                 txMouseY() >= 0 && txMouseY() <= 100 &&
@@ -160,7 +162,16 @@ int main()
                 category = "";
             }
 
-            txTextOut(100, 300, "Привет :)");
+            txSetColor(TX_BLACK);
+            txSelectFont("Arial", 50);
+            txDrawText(200, 100, 1100, 200,
+                        "Привет, это симулятор создания квартиры!");
+            txSelectFont("Arial", 40);
+            txDrawText(270, 200, 1000, 900, "Цель этой игры - весело провести время!\n"
+                        "Ты можешь выбирать любой из данных предметов\n"
+                        " мебели, перетаскивать их в нужное место,\n"
+                        " и построить свою квартиру! Если нужно \n"
+                        " удалить предмет, зажми его и нажми delete!\n");
         }
 
         //Редактор
@@ -217,6 +228,7 @@ int main()
                  {
                         drawVariant(variants[nomer]);
                  }
+
             }
             for (int nomer = 0; nomer <  12; nomer = nomer + 1)
             {
@@ -241,22 +253,34 @@ int main()
                txMouseY() <= Bed2[n].y +  Bed2[n].height  &&
                txMouseButtons() == 1 )
                 {
-                //Bed2[n].x = txMouseX();
-                //Bed2[n].y = txMouseY();
                 Active_Pic = n;
-
+                Active_Pic2 = n;
                 }
 
             }
-
+            //Движение картинки мышкой
             if(Active_Pic >= 0 && txMouseButtons() == 1 )
             {
                 Bed2[Active_Pic].x = txMouseX();
                 Bed2[Active_Pic].y = txMouseY();
 
             }
+
             if(txMouseButtons() == 0)
-            Active_Pic = -1;
+            Active_Pic = -999;
+            //Удаление картинки путём смены местами Active_Pic и n_pics
+           if(Active_Pic >= 0 && txMouseButtons() == 1 && GetAsyncKeyState(VK_DELETE) && klik == true)
+            {
+                Bed2[Active_Pic].x = Bed2[n_pics-1].x;
+                Bed2[Active_Pic].y = Bed2[n_pics-1].y;
+                Bed2[Active_Pic].picture = Bed2[n_pics-1].picture;
+
+               n_pics = n_pics - 1;
+                Active_Pic = -999;
+               //txSleep(120);
+            }
+
+
 
 
 
@@ -315,8 +339,6 @@ int main()
     deletePic(Button, Button_MENU, Menu, Pause);
 
 
- //   for(int i = 0; i < 10; i = i +1)
- //       txDeleteDC(Button[i].picture);
 
     //Зачем это
     Win32::TransparentBlt (txDC(),196,140,200,100,Plan,0,0,800,1100, TX_WHITE);
