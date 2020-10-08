@@ -34,11 +34,11 @@ int main()
     int count_button = 5;
     button Button[count_button];
 
-    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed"};
-    Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa"};
-    Button[2] = {Button[0].picture, 500,0, "Столы", "Table"};
-    Button[3] = {Button[0].picture, 750,0, "", "" };
-    Button[4] = {Button[0].picture, 1000,0, "", ""};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed", 200, 60};
+    Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa", 200, 60};
+    Button[2] = {Button[0].picture, 500,0, "Столы", "Table", 200, 60};
+    Button[3] = {Button[0].picture, 750,0, "", "", 200, 60 };
+    Button[4] = {Button[0].picture, 1000,0, "", "", 200, 60};
 
 
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
@@ -183,6 +183,7 @@ int main()
                 drawObl(Krestik);
             }
 
+
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
@@ -202,73 +203,29 @@ int main()
             }
 
 
-            //А их 12?
-            for (int nomer = 0; nomer < 12; nomer = nomer + 1)
-            {
-                if(Bed2[nomer].visible == true)
+            drawAllBED2(Bed2, n_pics);
+            drawAllVariants(category, variants);
 
-                drawBED2(Bed2[nomer]);
-                //txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
-            }
-
-            for (int nomer = 0; nomer < 12; nomer = nomer + 1)
-            {
-                 if (category == variants[nomer].category)
-                 {
-                        drawVariant(variants[nomer]);
-                 }
-            }
             for (int nomer = 0; nomer <  12; nomer = nomer + 1)
             {
                 if (txMouseX() >= variants[nomer].x    &&
                     txMouseY() >= variants[nomer].y  &&
                     txMouseX() <= variants[nomer].x +  variants[nomer].width &&
                     txMouseY() <= variants[nomer].y +  variants[nomer].height &&
-                    txMouseButtons () ==1 && category == variants[nomer].category &&  klik == true)
+                    txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
-                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture};
+                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture, true};
                      n_pics++;
                      klik = false;
                 }
             }
 
-            //Движение мышкой
-            for (int n = 0; n <  n_pics; n = n + 1)
-            {
-                if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
-               txMouseY() >= Bed2[n].y &&
-               txMouseX() <= Bed2[n].x +  Bed2[n].width &&
-               txMouseY() <= Bed2[n].y +  Bed2[n].height  &&
-               txMouseButtons() == 1 )
-                {
-                //Bed2[n].x = txMouseX();
-                //Bed2[n].y = txMouseY();
-                Active_Pic = n;
-
-                }
-
-            }
-
-            if(Active_Pic >= 0 && txMouseButtons() == 1 )
-            {
-                Bed2[Active_Pic].x = txMouseX();
-                Bed2[Active_Pic].y = txMouseY();
-
-            }
-            if(txMouseButtons() == 0)
-            Active_Pic = -1;
-
-
-
+            Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
 
             if(txMouseButtons () == 0)
                 klik = true;
 
-            for (int nomer = 0; nomer <  n_pics; nomer = nomer + 1)
-            {
-                txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
-            }
 
 
 
