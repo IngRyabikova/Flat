@@ -1,63 +1,6 @@
 #include "TXLib.h"
 #include "Bed.cpp"
 #include "Button.cpp"
-/*struct button
-{
-    HDC picture;
-    int x;
-    int y;
-    const char* text;
-    string category;
-    int width;
-    int height;
-    int x_kadr;
-};
-
-//Можно сделать это одной функцией
-void drawButton(button Button1)
-{
-    txTransparentBlt(txDC(), Button1.x, Button1.y, 200, 60, Button1.picture, 0, 0, TX_WHITE);
-
-    if (Button1.text != "")
-    {
-        txSelectFont ("Comic Sans MS", 30);
-        txSetColor(TX_BLACK);
-        txTextOut(Button1.x + 15, Button1.y + 10, Button1.text);
-    }
-
-};
-
-bool clickButton(button Button)
-{
-    //214 * 66???
-    if (txMouseX() >= Button.x && txMouseX() <= Button.x + 214 &&
-        txMouseY() >= Button.y && txMouseY() <= Button.y + 66 && txMouseButtons() == 1)
-    {
-            return true;
-    }
-}
-
-bool clickButton2(button Button_MENU)
-{
-    if (txMouseX() >= Button_MENU.x && txMouseX() <= Button_MENU.x + Button_MENU.width &&
-        txMouseY() >= Button_MENU.y && txMouseY() <= Button_MENU.y + Button_MENU.height && txMouseButtons() == 1)
-    {
-            return true;
-    }
-}
-
-void drawButton2(button Button_MENU)
-{
-    txTransparentBlt(txDC(), Button_MENU.x, Button_MENU.y, Button_MENU.width, Button_MENU.height, Button_MENU.picture, 0, 0, RGB(255, 127, 39));
-
-    if (Button_MENU.text != "")
-    {
-        txSelectFont ("Comic Sans MS", 30);
-        txSetColor(TX_BLACK);
-        txTextOut(Button_MENU.x + 15, Button_MENU.y + 10, Button_MENU.text);
-    }
-};
-*/
 
 void drawObl(HDC Krestik)
 {
@@ -67,19 +10,8 @@ void drawObl(HDC Krestik)
     txSetColor(TX_ORANGE);
     txSetFillColor(TX_WHITE);
     txRectangle(1100, 60, 1300, 750);
-
-
     txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
-
-
-
-
-
-
-
-
-
 
 int main()
 {
@@ -113,16 +45,13 @@ int main()
     int x_Strelka= 0;
     int y_Strelka = 0;
 
-    //Эту дичь тоже можно сделать кнопками (новый массив или новые переменные)
+    //Меню стартовой страницы
     button Button_MENU[3];
     Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, "", "settings", 457, 122};
     Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, "", "start", 448, 132};
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, "", "exit", 468, 140};
     const char* PAGE = "start";
 
-//    button settings = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, ""};
-//    button Play = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, ""};
-//    button Leave = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, ""};
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
     button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
 
@@ -134,12 +63,14 @@ int main()
     int y_Plan2 = 0;
     HDC Plan2 = txLoadImage("Картинки/План_квартиры2.bmp");
 
+    //А они прям все нужны?
     bool Menu1 = true;
 
     bool drawOBL = false;
 
     bool str_1 = false;
 
+    int Active_Pic = 0;
 
 
     bool klik = true;
@@ -159,22 +90,7 @@ int main()
 
 
     Picture Bed2[2500];
-    /*Bed2[0] = {500, 200, 131, 135, Bed[0].picture, false, "Bed"};
-    Bed2[1] = {500, 200, 189, 131, Bed[1].picture, false, "Bed"};
-    Bed2[2] = {500, 200, 192, 212, Bed[2].picture, false, "Bed"};
-    Bed2[3] = {500, 200, 164, 199, Bed[3].picture, false, "Bed"};
-    Bed2[4] = {500, 200, 150,  70, Bed[4].picture, false, "Sofa"};
-    Bed2[5] = {500, 200, 150, 70, Bed[5].picture, false, "Sofa"};
-    Bed2[6] = {500, 200, 150, 70, Bed[6].picture, false, "Sofa"};
-    Bed2[7] = {500, 200, 268, 142, Bed[7].picture, false, "Sofa"};
-    Bed2[8] = {505, 200, 164, 148, Bed[8].picture, false, "Table"};
-    Bed2[9] = {505, 200, 131, 130, Bed[9].picture, false, "Table"};
-    Bed2[10] = {505, 200, 169,  86, Bed[10].picture, false, "Table"};
-    Bed2[11] = {505, 200, 227, 137, Bed[11].picture, false, "Table"};
-                                                                        */
     int n_pics = 0;
-
-
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -202,10 +118,10 @@ int main()
                    drawButton2(Button_MENU[nomer]);
                 }
 
+                //Может это не категорией назвать? Оставить 3 кликами
                 if (clickButton2(Button_MENU[nomer]))
                 {
                     category = Button_MENU[nomer].category;
-
                 }
             }
 
@@ -214,7 +130,6 @@ int main()
                 txDisableAutoPause();
                 return 0;
             }
-
             if (category == Button_MENU[1].category)
             {
                 PAGE = "redactor";
@@ -230,11 +145,6 @@ int main()
         {
             txSetFillColor(TX_WHITE);
             txRectangle(0, 0, 1300, 750);
-
-            //txSetColor(TX_BLUE, 5);
-            //txSetFillColor(TX_WHITE);
-            //txRectangle(0, 0, 150, 100);
-
 
             txSetColor(TX_BLACK);
             txSelectFont("Arial", 30);
@@ -292,7 +202,7 @@ int main()
             }
 
 
-
+            //А их 12?
             for (int nomer = 0; nomer < 12; nomer = nomer + 1)
             {
                 if(Bed2[nomer].visible == true)
@@ -321,6 +231,36 @@ int main()
                      klik = false;
                 }
             }
+
+            //Движение мышкой
+            for (int n = 0; n <  n_pics; n = n + 1)
+            {
+                if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
+               txMouseY() >= Bed2[n].y &&
+               txMouseX() <= Bed2[n].x +  Bed2[n].width &&
+               txMouseY() <= Bed2[n].y +  Bed2[n].height  &&
+               txMouseButtons() == 1 )
+                {
+                //Bed2[n].x = txMouseX();
+                //Bed2[n].y = txMouseY();
+                Active_Pic = n;
+
+                }
+
+            }
+
+            if(Active_Pic >= 0 && txMouseButtons() == 1 )
+            {
+                Bed2[Active_Pic].x = txMouseX();
+                Bed2[Active_Pic].y = txMouseY();
+
+            }
+            if(txMouseButtons() == 0)
+            Active_Pic = -1;
+
+
+
+
 
             if(txMouseButtons () == 0)
                 klik = true;
