@@ -34,11 +34,11 @@ int main()
     int count_button = 5;
     button Button[count_button];
 
-    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed"};
-    Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa"};
-    Button[2] = {Button[0].picture, 500,0, "Столы", "Table"};
-    Button[3] = {Button[0].picture, 750,0, "", "" };
-    Button[4] = {Button[0].picture, 1000,0, "", ""};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed", 200, 60};
+    Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa", 200, 60};
+    Button[2] = {Button[0].picture, 500,0, "Столы", "Table", 200, 60};
+    Button[3] = {Button[0].picture, 750,0, "", "", 200, 60 };
+    Button[4] = {Button[0].picture, 1000,0, "", "", 200, 60};
 
 
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
@@ -71,7 +71,6 @@ int main()
     bool str_1 = false;
 
     int Active_Pic = 0;
-    int Active_Pic2 = 0;
 
 
     bool klik = true;
@@ -116,11 +115,11 @@ int main()
                     txMouseX() <= Button_MENU[nomer].x + 500 &&
                     txMouseY() <= Button_MENU[nomer].y + 100)
                 {
-                   drawButton2(Button_MENU[nomer]);
+                   drawButton(Button_MENU[nomer]);
                 }
 
                 //Может это не категорией назвать? Оставить 3 кликами
-                if (clickButton2(Button_MENU[nomer]))
+                if (clickButton(Button_MENU[nomer]))
                 {
                     category = Button_MENU[nomer].category;
                 }
@@ -146,8 +145,6 @@ int main()
         {
             txSetFillColor(TX_WHITE);
             txRectangle(0, 0, 1300, 750);
-
-
 
             Win32::TransparentBlt(txDC(), x_Strelka + 5, y_Strelka + 5, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
             //2 кровати по бокам в справке
@@ -194,6 +191,7 @@ int main()
                 drawObl(Krestik);
             }
 
+
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
@@ -213,86 +211,40 @@ int main()
             }
 
 
-            //А их 12?
-            for (int nomer = 0; nomer < 12; nomer = nomer + 1)
-            {
-                if(Bed2[nomer].visible == true)
+            drawAllBED2(Bed2, n_pics);
+            drawAllVariants(category, variants);
 
-                drawBED2(Bed2[nomer]);
-                //txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
-            }
-
-            for (int nomer = 0; nomer < 12; nomer = nomer + 1)
-            {
-                 if (category == variants[nomer].category)
-                 {
-                        drawVariant(variants[nomer]);
-                 }
-
-            }
             for (int nomer = 0; nomer <  12; nomer = nomer + 1)
             {
                 if (txMouseX() >= variants[nomer].x    &&
                     txMouseY() >= variants[nomer].y  &&
                     txMouseX() <= variants[nomer].x +  variants[nomer].width &&
                     txMouseY() <= variants[nomer].y +  variants[nomer].height &&
-                    txMouseButtons () ==1 && category == variants[nomer].category &&  klik == true)
+                    txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
-                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture};
+                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture, true};
                      n_pics++;
                      klik = false;
                 }
             }
 
-            //Движение мышкой
-            for (int n = 0; n <  n_pics; n = n + 1)
-            {
-                if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
-               txMouseY() >= Bed2[n].y &&
-               txMouseX() <= Bed2[n].x +  Bed2[n].width &&
-               txMouseY() <= Bed2[n].y +  Bed2[n].height  &&
-               txMouseButtons() == 1 )
-                {
-                Active_Pic = n;
-                Active_Pic2 = n;
-                }
+            Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
-            }
-            //Движение картинки мышкой
-            if(Active_Pic >= 0 && txMouseButtons() == 1 )
-            {
-                Bed2[Active_Pic].x = txMouseX();
-                Bed2[Active_Pic].y = txMouseY();
-
-            }
-
-            if(txMouseButtons() == 0)
-            Active_Pic = -999;
             //Удаление картинки путём смены местами Active_Pic и n_pics
-           if(Active_Pic >= 0 && txMouseButtons() == 1 && GetAsyncKeyState(VK_DELETE) && klik == true)
+            if(Active_Pic >= 0 && txMouseButtons() == 1 && GetAsyncKeyState(VK_DELETE) && klik == true)
             {
                 Bed2[Active_Pic].x = Bed2[n_pics-1].x;
                 Bed2[Active_Pic].y = Bed2[n_pics-1].y;
                 Bed2[Active_Pic].picture = Bed2[n_pics-1].picture;
 
-               n_pics = n_pics - 1;
+                n_pics = n_pics - 1;
                 Active_Pic = -999;
-               //txSleep(120);
             }
-
-
-
-
-
 
 
             if(txMouseButtons () == 0)
                 klik = true;
 
-            for (int nomer = 0; nomer <  n_pics; nomer = nomer + 1)
-            {
-                txTransparentBlt (txDC(), Bed2[nomer].x,   Bed2[nomer].y, Bed2[nomer].width, Bed2[nomer].height, Bed2[nomer].picture);
-            }
 
 
 
@@ -339,6 +291,8 @@ int main()
     deletePic(Button, Button_MENU, Menu, Pause);
 
 
+ //   for(int i = 0; i < 10; i = i +1)
+ //       txDeleteDC(Button[i].picture);
 
     //Зачем это
     Win32::TransparentBlt (txDC(),196,140,200,100,Plan,0,0,800,1100, TX_WHITE);
