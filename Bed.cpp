@@ -20,7 +20,7 @@ void drawPicture(Picture variants)
 
 void drawAllVariants(string category, Picture* variants)
 {
-    for (int nomer = 0; nomer < 25; nomer = nomer + 1)
+    for (int nomer = 0; nomer < 12; nomer = nomer + 1)
     {
          if (category == variants[nomer].category)
          {

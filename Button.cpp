@@ -17,10 +17,10 @@ struct button
 
 void drawButton(button Button1)
 {
-    txTransparentBlt(txDC(), Button1.x, Button1.y, Button1.width, Button1.height, Button1.picture, 0, 0, TX_WHITE);
-
     if (Button1.text != "")
     {
+        txTransparentBlt(txDC(), Button1.x, Button1.y, Button1.width, Button1.height, Button1.picture, 0, 0, RGB(255, 127, 39));
+
         txSelectFont ("Comic Sans MS", 30);
         txSetColor(TX_BLACK);
         txTextOut(Button1.x + 15, Button1.y + 10, Button1.text);
