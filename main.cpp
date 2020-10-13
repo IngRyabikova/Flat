@@ -55,13 +55,11 @@ int main()
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
     button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
 
-    int x_Plan = 0;
-    int y_Plan = 0;
-    HDC Plan = txLoadImage("Картинки/План_квартиры.bmp");
 
-    int x_Plan2 = 0;
-    int y_Plan2 = 0;
-    HDC Plan2 = txLoadImage("Картинки/План_квартиры2.bmp");
+    HDC reklama = txLoadImage("Картинки/Меню/Реклама 1.bmp");
+    int x_reklama = 0;
+    int y_reklama = 0;
+
 
     //А они прям все нужны?
     bool Menu1 = true;
@@ -74,7 +72,9 @@ int main()
 
 
     bool klik = true;
-    Picture variants[25];
+
+    int count_variants = 12;
+    Picture variants[count_variants];
     variants[0] = {1100, 150, 131, 135, txLoadImage("Картинки/Кровати/кровать_1.bmp"), false, "Bed"};
     variants[1] = {1100, 350, 189, 131, txLoadImage("Картинки/Кровати/Кровать_2.bmp"), false, "Bed"};
     variants[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/Кровать_3.bmp"), false, "Bed"};
@@ -82,7 +82,7 @@ int main()
     variants[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
     variants[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диваны/Диван_2.bmp"), false, "Sofa"};
     variants[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диваны/Диван_3.bmp"), false, "Sofa"};
-    variants[7] = {1100, 450, 200, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
+    variants[7] = {1100, 450, 150, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
     variants[8] = {1105, 150, 164, 148, txLoadImage("Картинки/Столы/Стол_1.bmp"), false, "Table"};
     variants[9] = {1105, 350, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
     variants[10] = {1105, 550, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
@@ -147,9 +147,14 @@ int main()
             txRectangle(0, 0, 1300, 750);
 
             Win32::TransparentBlt(txDC(), x_Strelka + 5, y_Strelka + 5, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
+            txSetColor(TX_BLACK);
+            txSelectFont("Comic Sans MS", 50);
+            txTextOut(40, 7, "Назад");
             //2 кровати по бокам в справке
             txTransparentBlt(txDC(), 100,  550, 131, 135, variants[0].picture, 0, 0, TX_YELLOW);
             txTransparentBlt(txDC(), 1000, 550, 189, 131, variants[1].picture, 0, 0, TX_YELLOW);
+
+            txTransparentBlt(txDC(), 500, 450, 300, 200, reklama, 0, 0, TX_YELLOW);
 
             if (txMouseX() >= 0 && txMouseX() <= 150 &&
                 txMouseY() >= 0 && txMouseY() <= 100 &&
@@ -168,7 +173,7 @@ int main()
                         "Ты можешь выбирать любой из данных предметов\n"
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
-                        " удалить предмет, зажми его и нажми delete!\n");
+                        " удалить предмет, зажми его и нажми Delete!\n");
         }
 
         //Редактор
@@ -212,9 +217,9 @@ int main()
 
 
             drawAllBED2(Bed2, n_pics);
-            drawAllVariants(category, variants);
+            drawAllVariants(category, variants, count_variants);
 
-            for (int nomer = 0; nomer <  12; nomer = nomer + 1)
+            for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
             {
                 if (txMouseX() >= variants[nomer].x    &&
                     txMouseY() >= variants[nomer].y  &&
@@ -284,20 +289,11 @@ int main()
 
     //Удаление картинок
     txDeleteDC(Fon);
-    for(int i = 0; i < 11; i = i +1)
-        txDeleteDC(variants[i].picture);
-
-
+    txDeleteDC(Strelka);
+    txDeleteDC(Krestik);
+    txDeleteDC(reklama);
+    deletePicBed(variants, count_variants);
     deletePic(Button, Button_MENU, Menu, Pause);
-
-
- //   for(int i = 0; i < 10; i = i +1)
- //       txDeleteDC(Button[i].picture);
-
-    //Зачем это
-    Win32::TransparentBlt (txDC(),196,140,200,100,Plan,0,0,800,1100, TX_WHITE);
-
-    Win32::TransparentBlt (txDC(),196,140,200,100,Plan2,0,0,1300,730, TX_WHITE);
 
     return 0;
 }

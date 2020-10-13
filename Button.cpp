@@ -13,11 +13,11 @@ struct button
     int x_kadr;
 };
 
-//Можно сделать это одной функцией
+
 
 void drawButton(button Button1)
 {
-    txTransparentBlt(txDC(), Button1.x, Button1.y, Button1.width, Button1.height, Button1.picture, 0, 0, TX_WHITE);
+    txTransparentBlt(txDC(), Button1.x, Button1.y, Button1.width, Button1.height, Button1.picture, 0, 0, TX_BLACK);
 
     if (Button1.text != "")
     {
