@@ -18,9 +18,9 @@ void drawPicture(Picture variants)
     txTransparentBlt (txDC(), variants.x,   variants.y, variants.width, variants.height, variants.picture);
 }
 
-void drawAllVariants(string category, Picture* variants)
+void drawAllVariants(string category, Picture* variants, int count_variants)
 {
-    for (int nomer = 0; nomer < 25; nomer = nomer + 1)
+    for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
          if (category == variants[nomer].category)
          {
@@ -90,6 +90,20 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
     return Active_Pic;
 
 }
+
+
+
+
+
+
+void deletePicBed(Picture* variants, int count_variants)
+{
+    for(int i = 0; i < count_variants; i = i +1)
+        txDeleteDC(variants[i].picture);
+
+
+}
+
 
 
 
