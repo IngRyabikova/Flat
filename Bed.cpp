@@ -38,7 +38,7 @@ void drawAllBED2(Picture* Bed2, int n_pics)
 
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {
-    //Г„ГўГЁГ¦ГҐГ­ГЁГҐ Г¬Г»ГёГЄГ®Г©
+    //Движение мышкой
     for (int n = 0; n < n_pics; n = n + 1)
     {
         if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
@@ -50,7 +50,6 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
             //Bed2[n].x = txMouseX();
             //Bed2[n].y = txMouseY();
             Active_Pic = n;
-
         }
     }
 
