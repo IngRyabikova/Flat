@@ -11,16 +11,14 @@ struct Picture
     string category;
 };
 
-
-
 void drawPicture(Picture variants)
 {
     txTransparentBlt (txDC(), variants.x,   variants.y, variants.width, variants.height, variants.picture);
 }
 
-void drawAllVariants(string category, Picture* variants)
+void drawAllVariants(string category, Picture* variants, int count_variants)
 {
-    for (int nomer = 0; nomer < 12; nomer = nomer + 1)
+    for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
          if (category == variants[nomer].category)
          {
@@ -29,38 +27,18 @@ void drawAllVariants(string category, Picture* variants)
     }
 }
 
-
-
-
-
-
-
-
 void drawAllBED2(Picture* Bed2, int n_pics)
 {
     for (int nomer = 0; nomer <  n_pics; nomer = nomer + 1)
-            {
-                if(Bed2[nomer].visible == true)
-                    drawPicture(Bed2[nomer]);
-
-
-
-            }
-
-
+    {
+        if(Bed2[nomer].visible == true)
+            drawPicture(Bed2[nomer]);
+    }
 }
-
-
-
-
-
-
-
-
 
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {
-    //Äâèæåíèå ìûøêîé
+    //Ã„Ã¢Ã¨Ã¦Ã¥Ã­Ã¨Ã¥ Ã¬Ã»Ã¸ÃªÃ®Ã©
     for (int n = 0; n < n_pics; n = n + 1)
     {
         if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
@@ -76,8 +54,6 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
         }
     }
 
-
-
     if(Active_Pic >= 0 && txMouseButtons() == 1)
     {
         Bed2[Active_Pic].x = txMouseX();
@@ -88,45 +64,12 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
         Active_Pic = -1;
 
     return Active_Pic;
-
 }
 
 
 
-
-
-
-
-
-
-
-/*
-
-bool()
-
+void deletePicBed(Picture* variants, int count_variants)
 {
-
-                    for (int nomer = 0; nomer <  25; nomer = nomer + 1)
-                    {
-                        if (txMouseX() >= variants[nomer].x    &&
-                        txMouseY() >= variants[nomer].y  &&
-                        txMouseX() <= variants[nomer].x +  variants[nomer].width &&
-                        txMouseY() <= variants[nomer].y +  variants[nomer].height &&
-                        txMouseButtons () ==1 && category == variants[nomer].category &&  klik == true)
-                        {
-                            Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture};
-                            n_pics++;
-                            klik = false;
-                        }
-                    }
-
-
-
-
-
-
-
+    for(int i = 0; i < count_variants; i = i +1)
+        txDeleteDC(variants[i].picture);
 }
-
-
-*/

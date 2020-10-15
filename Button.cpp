@@ -13,7 +13,7 @@ struct button
     int x_kadr;
 };
 
-//Можно сделать это одной функцией
+
 
 void drawButton(button Button1)
 {
@@ -27,9 +27,6 @@ void drawButton(button Button1)
     }
 
 };
-
-
-
 
 
 bool clickButton(button Button_MENU)
@@ -49,19 +46,7 @@ void deletePic(button* Button,  button* Button_MENU, button Menu, button Pause)
     {
         txDeleteDC(Button[i].picture);
         txDeleteDC(Button_MENU[i].picture);
-
     }
-        txDeleteDC(Menu.picture);
-        txDeleteDC(Pause.picture);
-
-
+    txDeleteDC(Menu.picture);
+    txDeleteDC(Pause.picture);
 }
-
-
-
-
-
-
-
-
-
