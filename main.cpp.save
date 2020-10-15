@@ -133,7 +133,7 @@ int main()
             }
 
             if (clickButton(Button_MENU[0]))
-            {
+            {)
                 PAGE = "settings";
             }
         }
