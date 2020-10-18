@@ -11,9 +11,13 @@ struct Picture
     string category;
 };
 
-void drawPicture(Picture variants)
+void drawPicture(Picture pic)
 {
-    txTransparentBlt (txDC(), variants.x,   variants.y, variants.width, variants.height, variants.picture);
+    txTransparentBlt (txDC(), pic.x,   pic.y, pic.width, pic.height, pic.picture, 0, 0, TX_WHITE);
+}
+void drawPicture2(Picture pic)
+{
+    Win32::TransparentBlt (txDC(), pic.x,   pic.y, 150, 120, pic.picture, 0, 0, pic.width, pic.height, TX_YELLOW);
 }
 
 void drawAllVariants(string category, Picture* variants, int count_variants)
