@@ -9,37 +9,44 @@ struct Picture
     HDC picture;
     bool visible;
     string category;
+
+    //Рисование
+    void draw()
+    {
+        txTransparentBlt (txDC(), x, y, width, height, picture);
+    }
+
+    //Рисование иконки плана
+    void draw2()
+    {
+        Win32::TransparentBlt (txDC(), x, y, 150, 120, picture, 0, 0, width, height, TX_YELLOW);
+    }
 };
 
-void drawPicture(Picture pic)
-{
-    txTransparentBlt (txDC(), pic.x,   pic.y, pic.width, pic.height, pic.picture, 0, 0, TX_WHITE);
-}
-void drawPicture2(Picture pic)
-{
-    Win32::TransparentBlt (txDC(), pic.x,   pic.y, 150, 120, pic.picture, 0, 0, pic.width, pic.height, TX_YELLOW);
-}
 
+//Рисование всех вариантов в цикле
 void drawAllVariants(string category, Picture* variants, int count_variants)
 {
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
-         if (category == variants[nomer].category)
-         {
-                drawPicture(variants[nomer]);
-         }
+        if (category == variants[nomer].category)
+        {
+            variants[nomer].draw();
+        }
     }
 }
 
+//Рисование Bed2
 void drawAllBED2(Picture* Bed2, int n_pics)
 {
     for (int nomer = 0; nomer <  n_pics; nomer = nomer + 1)
     {
         if(Bed2[nomer].visible == true)
-            drawPicture(Bed2[nomer]);
+            Bed2[nomer].draw();
     }
 }
 
+//Движение картинок
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {
     //Движение мышкой
@@ -70,9 +77,12 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 }
 
 
-
-void deletePicBed(Picture* variants, int count_variants)
+//Удаление всех картинок
+void deletePicBed(Picture* variants, int count_variants, Picture* Plans)
 {
     for(int i = 0; i < count_variants; i = i +1)
+    {
         txDeleteDC(variants[i].picture);
+        txDeleteDC(Plans[i].picture);
+    }
 }

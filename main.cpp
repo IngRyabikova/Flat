@@ -18,8 +18,7 @@ int main()
     txCreateWindow (1300, 750);
 
     string category = "";
-    //txMessageBox("1");
-  //  string PageCategory = "";
+    //string PageCategory = "";
 
     HDC Fon = txLoadImage("Картинки/Координатная сетка.bmp");
     int x_Fon = 0;
@@ -46,11 +45,12 @@ int main()
     int x_Plan_ = 0;
     int y_Plan_ = 0;
 
+
     //Меню стартовой страницы
     button Button_MENU[3];
-    Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, "", "settings", 457, 122};
-    Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, "", "start", 448, 132};
-    Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, "", "exit", 468, 140};
+    Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, " ", "settings", 457, 122};
+    Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, " ", "start", 448, 132};
+    Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
     const char* PAGE = "start";
 
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
@@ -115,24 +115,24 @@ int main()
                     txMouseX() <= Button_MENU[nomer].x + 500 &&
                     txMouseY() <= Button_MENU[nomer].y + 100)
                 {
-                   drawButton(Button_MENU[nomer]);
+                    Button_MENU[nomer].draw();
                 }
-
-
             }
 
-            if (clickButton(Button_MENU[2]))
+            //Клик на выход
+            if (Button_MENU[2].click())
             {
                 txDisableAutoPause();
                 return 0;
             }
 
-            if (clickButton(Button_MENU[1]))
+            //Клик на играть
+            if (Button_MENU[1].click())
             {
                 PAGE = "redactor";
             }
-
-            if (clickButton(Button_MENU[0]))
+            //Клик на справку
+            if (Button_MENU[0].click())
             {
                 PAGE = "settings";
             }
@@ -144,6 +144,7 @@ int main()
             txSetFillColor(TX_WHITE);
             txRectangle(0, 0, 1300, 750);
 
+            //Кнопка "назад"
             Win32::TransparentBlt(txDC(), x_Strelka + 5, y_Strelka + 5, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
             txSetColor(TX_BLACK);
             txSelectFont("Comic Sans MS", 50);
@@ -152,9 +153,10 @@ int main()
             //2 кровати по бокам в справке
             txTransparentBlt(txDC(), 100,  550, 131, 135, variants[0].picture, 0, 0, TX_YELLOW);
             txTransparentBlt(txDC(), 1000, 550, 189, 131, variants[1].picture, 0, 0, TX_YELLOW);
-
+            //Реклама
             txTransparentBlt(txDC(), 500, 450, 300, 200, reklama, 0, 0, TX_YELLOW);
 
+            //Клик на кнопку "назад"
             if (txMouseX() >= 0 && txMouseX() <= 150 &&
                 txMouseY() >= 0 && txMouseY() <= 100 &&
                 txMouseButtons() & 1)
@@ -163,6 +165,7 @@ int main()
                 category = "";
             }
 
+            //Текст в справке
             txSetColor(TX_BLACK);
             txSelectFont("Arial", 50);
             txDrawText(200, 100, 1100, 200,
@@ -187,7 +190,7 @@ int main()
             //Жёлтые кнопки наверху экрана
             for (int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
-                drawButton(Button[nomer]);
+                Button[nomer].draw();
             }
 
             if(drawOBL)
@@ -199,7 +202,7 @@ int main()
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
-                if (clickButton(Button[nomer]))
+                if (Button[nomer].click())
                 {
                     category = Button[nomer].category;
                     drawOBL = true;
@@ -219,11 +222,12 @@ int main()
             {
                 if (category == Plans[nomer].category)
                 {
-                    drawPicture2(Plans[nomer]);
+                    Plans[nomer].draw2();
                 }
             }
-              //клик на план
-              for (int nomer = 0; nomer <  2; nomer = nomer + 1)
+
+            //клик на план
+            for (int nomer = 0; nomer <  2; nomer = nomer + 1)
             {
                 if (txMouseX() >= Plans[nomer].x    &&
                     txMouseY() >= Plans[nomer].y  &&
@@ -235,9 +239,11 @@ int main()
                 }
             }
 
+            //Рисование мебели
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
 
+            //Выбор мебели и её рисование(рандомное)
             for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
             {
                 if (txMouseX() >= variants[nomer].x    &&
@@ -252,6 +258,7 @@ int main()
                 }
             }
 
+            //Движение картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
             //Удаление картинки путём смены местами Active_Pic и n_pics
@@ -269,11 +276,11 @@ int main()
             if(txMouseButtons () == 0)
                 klik = true;
 
-
-             if (txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
-             {
-            Bed2[Active_Pic].x = Bed2[Active_Pic].x + 200;
-             }
+            //Анти попадание на чёрный цвет в плане
+            if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
+            {
+                Bed2[Active_Pic].x = Bed2[Active_Pic].x + 200;
+            }
 
 
 
@@ -311,7 +318,8 @@ int main()
     txDeleteDC(Strelka);
     txDeleteDC(Krestik);
     txDeleteDC(reklama);
-    deletePicBed(variants, count_variants);
+
+    deletePicBed(variants, count_variants, Plans);
     deletePic(Button, Button_MENU, Menu, Pause);
 
     return 0;
