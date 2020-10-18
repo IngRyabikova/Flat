@@ -36,33 +36,6 @@ struct button
 };
 
 
-/*
-void drawButton(button Button1)
-{
-    if (Button1.text != "")
-    {
-        txTransparentBlt(txDC(), Button1.x, Button1.y, Button1.width, Button1.height, Button1.picture, 0, 0, TX_BLACK);
-
-        txSelectFont ("Comic Sans MS", 30);
-        txSetColor(TX_BLACK);
-        txTextOut(Button1.x + 15, Button1.y + 10, Button1.text);
-    }
-
-    //RGB(255, 127, 39)
-};
-
-
-bool clickButton(button Button_MENU)
-{
-    if (txMouseX() >= Button_MENU.x && txMouseX() <= Button_MENU.x + Button_MENU.width &&
-        txMouseY() >= Button_MENU.y && txMouseY() <= Button_MENU.y + Button_MENU.height && txMouseButtons() == 1)
-    {
-            return true;
-    }
-}
-
-*/
-
 //Удаление всех кнопок
 void deletePic(button* Button,  button* Button_MENU, button Menu, button Pause)
 {

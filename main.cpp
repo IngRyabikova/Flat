@@ -18,10 +18,7 @@ int main()
     txCreateWindow (1300, 750);
 
     string category = "";
-
-  //  string PageCategory = "";
-
-
+    //string PageCategory = "";
 
     HDC Fon = txLoadImage("Картинки/Координатная сетка.bmp");
     int x_Fon = 0;
@@ -40,15 +37,9 @@ int main()
     Button[3] = {Button[0].picture, 750,0, "Планировки", "Plan", 200, 60 };
     Button[4] = {Button[0].picture, 1000,0, "", "", 200, 60};
 
-
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
     int x_Strelka= 0;
     int y_Strelka = 0;
-
-
-    HDC Plan =  txLoadImage("Картинки/Кнопки/План.bmp");
-    int x_Plan = 0;
-    int y_Plan = 0;
 
     HDC Plan_ = txLoadImage("Картинки/Планы/План_1.bmp");
     int x_Plan_ = 0;
@@ -57,14 +48,13 @@ int main()
 
     //Меню стартовой страницы
     button Button_MENU[3];
-    Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, " ", "settings", 457, 130};
+    Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, " ", "settings", 457, 122};
     Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, " ", "start", 448, 132};
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
     const char* PAGE = "start";
 
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
     button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
-
 
     HDC reklama = txLoadImage("Картинки/Меню/Реклама 1.bmp");
     int x_reklama = 0;
@@ -73,7 +63,7 @@ int main()
     //А они прям все нужны?
     bool Menu1 = true;
     bool drawOBL = false;
-    bool str_1 = false;
+   //bool str_1 = false; хз чё это (нашёл Михаил, вот и думай какой)
     int Active_Pic = 0;
     bool klik = true;
 
@@ -93,8 +83,8 @@ int main()
     variants[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};
 
     Picture Plans[25];
-    Plans[0] = {1113, 150, 170, 93, txLoadImage("Картинки/Планы/План_1_мини.bmp"), false, "Plan"};
-    Plans[1] = {1115, 350, 200, 110, txLoadImage("Картинки/Планы/План_2_мини.bmp"), false, "Plan"};
+    Plans[0] = {1100, 250, 1290, 752, txLoadImage("Картинки/Планы/План_1.bmp"), false, "Plan"};
+    Plans[1] = {1100, 450, 1290, 752, txLoadImage("Картинки/Планы/План_2.bmp"), false, "Plan"};
    // Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
     //Picture Plans2[2500];
 
@@ -107,7 +97,7 @@ int main()
         txBegin();
         txClear();
 
-        //Стартовая страница
+        //Стартовая страница)
         if (PAGE == "start")
         {
             txTransparentBlt (txDC(), Menu.x, Menu.y, 1300, 750, Menu.picture, 0,  0, RGB(255, 127, 39));
@@ -125,17 +115,17 @@ int main()
                     txMouseX() <= Button_MENU[nomer].x + 500 &&
                     txMouseY() <= Button_MENU[nomer].y + 100)
                 {
-                    //drawButton(Button_MENU[nomer]);
-
                     Button_MENU[nomer].draw();
                 }
             }
+
             //Клик на выход
             if (Button_MENU[2].click())
             {
                 txDisableAutoPause();
                 return 0;
             }
+
             //Клик на играть
             if (Button_MENU[1].click())
             {
@@ -188,7 +178,7 @@ int main()
                         " удалить предмет, зажми его и нажми Delete!\n");
         }
 
-        //Редактор
+        //Редактор)
         else if (PAGE == "redactor")
         {
             //Меню
@@ -230,23 +220,25 @@ int main()
             //Категория планов квартиры
             for (int nomer = 0; nomer < 2; nomer = nomer + 1)
             {
-                 if (category == Plans[nomer].category)
-                 {
-                        Plans[nomer].draw();
-                 }
+                if (category == Plans[nomer].category)
+                {
+                    Plans[nomer].draw2();
+                }
             }
-              //клик на план
-              for (int nomer = 0; nomer <  2; nomer = nomer + 1)
+
+            //клик на план
+            for (int nomer = 0; nomer <  2; nomer = nomer + 1)
             {
                 if (txMouseX() >= Plans[nomer].x    &&
                     txMouseY() >= Plans[nomer].y  &&
-                    txMouseX() <= Plans[nomer].x +  Plans[nomer].width &&
-                    txMouseY() <= Plans[nomer].y +  Plans[nomer].height &&
-                    txMouseButtons () ==1 && category == Plans[nomer].category && klik == true)
+                    txMouseX() <= Plans[nomer].x +  150 &&
+                    txMouseY() <= Plans[nomer].y +  120 &&
+                    txMouseButtons () ==1 && category == Plans[nomer].category)
                 {
-                   Plans[nomer].picture = Plans[nomer].picture + 1;
+                    Plan_ = Plans[nomer].picture;
                 }
             }
+
             //Рисование мебели
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
@@ -284,11 +276,11 @@ int main()
             if(txMouseButtons () == 0)
                 klik = true;
 
-             //Анти попадание на чёрный цвет в плане
-             if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
-             {
+            //Анти попадание на чёрный цвет в плане
+            if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
+            {
                 Bed2[Active_Pic].x = Bed2[Active_Pic].x + 200;
-             }
+            }
 
 
 
@@ -326,6 +318,7 @@ int main()
     txDeleteDC(Strelka);
     txDeleteDC(Krestik);
     txDeleteDC(reklama);
+
     deletePicBed(variants, count_variants, Plans);
     deletePic(Button, Button_MENU, Menu, Pause);
 

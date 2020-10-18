@@ -10,32 +10,29 @@ struct Picture
     bool visible;
     string category;
 
+    //Рисование
     void draw()
-{
-    txTransparentBlt (txDC(), x, y, width, height, picture);
-}
+    {
+        txTransparentBlt (txDC(), x, y, width, height, picture);
+    }
 
-
-
-
+    //Рисование иконки плана
+    void draw2()
+    {
+        Win32::TransparentBlt (txDC(), x, y, 150, 120, picture, 0, 0, width, height, TX_YELLOW);
+    }
 };
 
-/*
-void drawPicture(Picture variants)
-{
-    txTransparentBlt (txDC(), variants.x,   variants.y, variants.width, variants.height, variants.picture);
-}
- */
 
 //Рисование всех вариантов в цикле
 void drawAllVariants(string category, Picture* variants, int count_variants)
 {
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
-         if (category == variants[nomer].category)
-         {
-                variants[nomer].draw();
-         }
+        if (category == variants[nomer].category)
+        {
+            variants[nomer].draw();
+        }
     }
 }
 
