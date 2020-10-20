@@ -16,7 +16,7 @@ int razmer(const char* address)
     int width = *(int *)&header[18];
     return width;
 }
-int razmer2(const char* address)
+int razmer(const char* address)
 {
     char header[54];
     ifstream bmp;
@@ -88,34 +88,30 @@ int main()
     //А они прям все нужны?
     bool Menu1 = true;
     bool drawOBL = false;
-   //bool str_1 = false; хз чё это (нашёл Михаил, вот и думай какой 32.13.2007)
+   //bool str_1 = false; хз чё это (нашёл Михаил, вот и думай какой)
     int Active_Pic = 0;
     bool klik = true;
 
-    int count_variants = 4;
+    int count_variants = 12;
     Picture variants[count_variants];
-    variants[0] = {1100, 150, "Картинки/Кровати/кровать_1.bmp", false, "Bed"};
-    variants[1] = {1100, 350, "Картинки/Кровати/Кровать_2.bmp", false, "Bed"};
-    variants[2] = {1100, 550, "Картинки/Кровати/Кровать_3.bmp", false, "Bed"};
-    variants[3] = {1100, 750, "Картинки/Кровати/Кровать_4.bmp", false, "Bed"};
-/*    variants[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
+    variants[0] = {1100, 150, 0, 135, txLoadImage("Картинки/Кровати/кровать_1.bmp"), false, "Bed"};
+    variants[1] = {1100, 350, 189, 131, txLoadImage("Картинки/Кровати/Кровать_2.bmp"), false, "Bed"};
+    variants[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/Кровать_3.bmp"), false, "Bed"};
+    variants[3] = {1100, 750, 164, 199, txLoadImage("Картинки/Кровати/Кровать_4.bmp"), false, "Bed"};
+    variants[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
     variants[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диваны/Диван_2.bmp"), false, "Sofa"};
     variants[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диваны/Диван_3.bmp"), false, "Sofa"};
     variants[7] = {1100, 450, 150, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
     variants[8] = {1105, 150, 164, 148, txLoadImage("Картинки/Столы/Стол_1.bmp"), false, "Table"};
     variants[9] = {1105, 350, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
     variants[10] = {1105, 550, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
-    variants[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};  *
-   */
-    for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
-    {
-        variants[nomer].picture = txLoadImage(variants[nomer].address);
-        variants[nomer].width = razmer (variants[nomer].address);
-        variants[nomer].width = razmer2(variants[nomer].address);
-    }
-    //Picture Plans[25];
-    //Plans[0] = {1100, 250, 1290, 752, txLoadImage("Картинки/Планы/План_1.bmp"), false, "Plan"};
-    //Plans[1] = {1100, 450, 1290, 752, txLoadImage("Картинки/Планы/План_2.bmp"), false, "Plan"};
+    variants[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};
+    
+    variants[0].width = getWidth("Картинки/Кровати/кровать_1.bmp");
+
+    Picture Plans[25];
+    Plans[0] = {1100, 250, 1290, 752, txLoadImage("Картинки/Планы/План_1.bmp"), false, "Plan"};
+    Plans[1] = {1100, 450, 1290, 752, txLoadImage("Картинки/Планы/План_2.bmp"), false, "Plan"};
    // Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
     //Picture Plans2[2500];
 
@@ -249,16 +245,16 @@ int main()
             }
 
             //Категория планов квартиры
-          /*  for (int nomer = 0; nomer < 2; nomer = nomer + 1)
+            for (int nomer = 0; nomer < 2; nomer = nomer + 1)
             {
                 if (category == Plans[nomer].category)
                 {
                     Plans[nomer].draw2();
                 }
-            }   */
+            }
 
             //клик на план
-          /*  for (int nomer = 0; nomer <  2; nomer = nomer + 1)
+            for (int nomer = 0; nomer <  2; nomer = nomer + 1)
             {
                 if (txMouseX() >= Plans[nomer].x    &&
                     txMouseY() >= Plans[nomer].y  &&
@@ -268,7 +264,7 @@ int main()
                 {
                     Plan_ = Plans[nomer].picture;
                 }
-            }  */
+            }
 
             //Рисование мебели
             drawAllBED2(Bed2, n_pics);
@@ -283,9 +279,7 @@ int main()
                     txMouseY() <= variants[nomer].y +  variants[nomer].height &&
                     txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
-                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].address, true, "Bed",
-                     variants[nomer].picture, variants[nomer].width, variants[nomer].height};
-
+                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].width,  variants[nomer].height, variants[nomer].picture, true};
                      n_pics++;
                      klik = false;
                 }
@@ -352,8 +346,8 @@ int main()
     txDeleteDC(Krestik);
     txDeleteDC(reklama);
 
-//    deletePicBed(variants, count_variants, Plans);
-//    deletePic(Button, Button_MENU, Menu, Pause);
+    deletePicBed(variants, count_variants, Plans);
+    deletePic(Button, Button_MENU, Menu, Pause);
 
     return 0;
 }
