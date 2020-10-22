@@ -56,11 +56,25 @@ int main()
     int count_button = 5;
     button Button[count_button];
 
-    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed", 200, 60};
-    Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa", 200, 60};
-    Button[2] = {Button[0].picture, 500,0, "Столы", "Table", 200, 60};
-    Button[3] = {Button[0].picture, 750,0, "Планировки", "Plan", 200, 60 };
-    Button[4] = {Button[0].picture, 1000,0, "", "", 200, 60};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка_2.bmp"), 0, 0, "Кровати","Bed", 200, 60};
+    Button[1] = {Button[0].picture, 0, 0, "Диваны","Sofa", 200, 60};
+    Button[2] = {Button[0].picture, 0, 0, "Столы", "Table", 200, 60};
+    Button[3] = {Button[0].picture, 0, 0, "Планировки", "Plan", 200, 60 };
+    Button[4] = {Button[0].picture, 0, 0, "", "", 200, 60};
+
+    //Координаты кнопок выбора мебели на PAGE = "redactor"
+    int x_Button = 0;
+    for(int i = 0; i < count_button; i = i + 1)
+    {
+        Button[i].y = 0;
+        Button[i].x = x_Button;
+        x_Button = x_Button + 250;
+
+    }
+
+    HDC button_0 = txLoadImage("Картинки/Кнопки/Кнопка.bmp");
+    int x_button_0 = 0;
+    int y_button_0 = 0;
 
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
     int x_Strelka= 0;
@@ -94,30 +108,92 @@ int main()
 
     int count_variants = 4;
     Picture variants[count_variants];
-    variants[0] = {1100, 150, "Картинки/Кровати/кровать_1.bmp", false, "Bed"};
-    variants[1] = {1100, 350, "Картинки/Кровати/Кровать_2.bmp", false, "Bed"};
-    variants[2] = {1100, 550, "Картинки/Кровати/Кровать_3.bmp", false, "Bed"};
-    variants[3] = {1100, 750, "Картинки/Кровати/Кровать_4.bmp", false, "Bed"};
+    variants[0] = {0, 0, "Картинки/Кровати/кровать_1.bmp", false, "Bed"};
+    variants[1] = {0, 0, "Картинки/Кровати/Кровать_2.bmp", false, "Bed"};
+    variants[2] = {0, 0, "Картинки/Кровати/Кровать_3.bmp", false, "Bed"};
+    variants[3] = {0, 0, "Картинки/Кровати/Кровать_4.bmp", false, "Bed"};
 /*    variants[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
     variants[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диваны/Диван_2.bmp"), false, "Sofa"};
     variants[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диваны/Диван_3.bmp"), false, "Sofa"};
     variants[7] = {1100, 450, 150, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
     variants[8] = {1105, 150, 164, 148, txLoadImage("Картинки/Столы/Стол_1.bmp"), false, "Table"};
-    variants[9] = {1105, 350, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
-    variants[10] = {1105, 550, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
-    variants[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};  *
+    variants[9] = {1105, 300, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
+    variants[10] = {1105, 450, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
+    variants[11] = {1105, 600, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};  *
    */
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
         variants[nomer].picture = txLoadImage(variants[nomer].address);
+        //Ширина и высота из свойств файла
         variants[nomer].width = razmer (variants[nomer].address);
-        variants[nomer].width = razmer2(variants[nomer].address);
+        variants[nomer].height = razmer2(variants[nomer].address);
     }
+        //Координаты кроватей variants
+    int y_Bed = 150;
+    for(int i = 0; i < count_variants; i = i + 1)
+    {
+        variants[i].x = 1100;
+        if(variants[i].category == "Bed")
+        {
+            variants[i].y = y_Bed;
+            y_Bed = y_Bed + 150;
+        }
+    }
+
+        //Координаты диванов variants
+    int y_Sofa = 150;
+    for(int i = 0; i < count_variants; i = i + 1)
+    {
+        variants[i].x = 1100;
+        if(variants[i].category == "Sofa")
+        {
+            variants[i].y = y_Sofa;
+            y_Sofa = y_Sofa + 100;
+        }
+    }
+
+        //Координаты столов variants
+    int y_Table = 150;
+    for(int i = 0; i < count_variants; i = i + 1)
+    {
+        variants[i].x = 1100;
+        if(variants[i].category == "Table")
+        {
+            variants[i].y = y_Table;
+            y_Table = y_Table + 150;
+        }
+    }
+
+
+
+
+
+
+
+
+    int count_Plans = 3;
+
     //Picture Plans[25];
     //Plans[0] = {1100, 250, 1290, 752, txLoadImage("Картинки/Планы/План_1.bmp"), false, "Plan"};
     //Plans[1] = {1100, 450, 1290, 752, txLoadImage("Картинки/Планы/План_2.bmp"), false, "Plan"};
-   // Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
+// Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
     //Picture Plans2[2500];
+
+     //Координаты планов variants
+    int y_Plans = 250;
+    for(int i = 0; i < count_Plans; i = i + 1)
+    {
+        Plans[i].x = 1100;
+        if(Plans[i].category == "Plan")
+        {
+            Plans[i].y = y_Plans;
+            y_Plans = y_Plans + 200;
+        }
+    }
+
+
+
+
 
 
     Picture Bed2[2500];
@@ -218,10 +294,28 @@ int main()
             //Координатная сетка /фон
             txBitBlt(txDC(), x_Plan_, y_Plan_, 1290, 740, Plan_);
 
+            for (int nomer = 0; nomer < count_button; nomer = nomer +1)
+            {
+                    txTransparentBlt(txDC(), x_button_0,  y_button_0, 214, 66, button_0, 0, 0, TX_YELLOW);
+                    x_button_0 = x_button_0 + 250;
+
+
+
+            }
+
             //Жёлтые кнопки наверху экрана
             for (int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
-                Button[nomer].draw();
+                if( txMouseX() >= Button[nomer].x &&
+                    txMouseY() >= Button[nomer].y &&
+                    txMouseX() <= Button[nomer].x + 200 &&
+                    txMouseY() <= Button[nomer].y + 60)
+                {
+
+
+
+                    Button[nomer].draw();
+                }
             }
 
             if(drawOBL)
@@ -273,6 +367,7 @@ int main()
             //Рисование мебели
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
+
 
             //Выбор мебели и её рисование(рандомное)
             for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
