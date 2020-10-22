@@ -4,11 +4,12 @@ struct Picture
 {
     int x;
     int y;
-    int width;
-    int height;
-    HDC picture;
+    const char* address;
     bool visible;
     string category;
+    HDC picture;
+    int width;
+    int height;
 
     //Рисование
     void draw()
