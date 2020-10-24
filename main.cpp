@@ -60,7 +60,7 @@ int main()
     Button[1] = {Button[0].picture, 250,0, "Диваны","Sofa", 200, 60};
     Button[2] = {Button[0].picture, 500,0, "Столы", "Table", 200, 60};
     Button[3] = {Button[0].picture, 750,0, "Планировки", "Plan", 200, 60 };
-    Button[4] = {Button[0].picture, 1000,0, "", "", 200, 60};
+    Button[4] = {Button[0].picture, 1000,0, "Хз кухня тип", "Kuhna", 200, 60};
 
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
     int x_Strelka= 0;
@@ -85,41 +85,53 @@ int main()
     int x_reklama = 0;
     int y_reklama = 0;
 
-    //А они прям все нужны?
-    bool Menu1 = true;
+    //Это да
     bool drawOBL = false;
    //bool str_1 = false; хз чё это (нашёл Михаил, вот и думай какой 32.13.2007)
-    int Active_Pic = 0;
+    int Active_Pic = -1;
     bool klik = true;
 
-    int count_variants = 4;
+    int count_variants = 17;
     Picture variants[count_variants];
     variants[0] = {1100, 150, "Картинки/Кровати/кровать_1.bmp", false, "Bed"};
     variants[1] = {1100, 350, "Картинки/Кровати/Кровать_2.bmp", false, "Bed"};
     variants[2] = {1100, 550, "Картинки/Кровати/Кровать_3.bmp", false, "Bed"};
     variants[3] = {1100, 750, "Картинки/Кровати/Кровать_4.bmp", false, "Bed"};
-/*    variants[4] = {1100, 150, 150,  70, txLoadImage("Картинки/Диваны/Диван_1.bmp"), false, "Sofa"};
-    variants[5] = {1100, 250, 150, 70, txLoadImage("Картинки/Диваны/Диван_2.bmp"), false, "Sofa"};
-    variants[6] = {1100, 350, 150, 70, txLoadImage("Картинки/Диваны/Диван_3.bmp"), false, "Sofa"};
-    variants[7] = {1100, 450, 150, 70, txLoadImage("Картинки/Диваны/Divan2.bmp"), false, "Sofa"};
-    variants[8] = {1105, 150, 164, 148, txLoadImage("Картинки/Столы/Стол_1.bmp"), false, "Table"};
-    variants[9] = {1105, 350, 131, 130, txLoadImage("Картинки/Столы/Стол_2.bmp"), false, "Table"};
-    variants[10] = {1105, 550, 169,  86, txLoadImage("Картинки/Столы/Стол_3.bmp"), false, "Table"};
-    variants[11] = {1105, 650, 227, 137, txLoadImage("Картинки/Столы/Стол_4.bmp"), false, "Table"};  *
-   */
+    variants[4] = {1100, 150, "Картинки/Диваны/Диван_1.bmp", false, "Sofa"};
+    variants[5] = {1100, 250, "Картинки/Диваны/Диван_2.bmp", false, "Sofa"};
+    variants[6] = {1100, 350, "Картинки/Диваны/Диван_3.bmp", false, "Sofa"};
+    variants[7] = {1100, 450, "Картинки/Диваны/Divan2.bmp", false, "Sofa"};
+    variants[8] = {1105, 150, "Картинки/Столы/Стол_1.bmp", false, "Table"};
+    variants[9] = {1105, 350, "Картинки/Столы/Стол_2.bmp", false, "Table"};
+    variants[10]= {1105, 550, "Картинки/Столы/Стол_3.bmp", false, "Table"};
+    variants[11]= {1105, 650, "Картинки/Столы/Стол_4.bmp", false, "Table"};
+    variants[12]= {1210, 150, "Картинки/сральник/сральник.bmp", false, "Kuhna"};
+    variants[13]= {1110, 150, "Картинки/сральник/умывальник.bmp", false, "Kuhna"};
+    variants[15]= {1110, 240, "Картинки/сральник/раковина.bmp", false, "Kuhna"};
+    variants[14]= {1110, 330, "Картинки/сральник/ванна.bmp", false, "Kuhna"};
+    variants[16]= {1215, 330, "Картинки/сральник/плита.bmp", false, "Kuhna"};
+
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
         variants[nomer].picture = txLoadImage(variants[nomer].address);
         variants[nomer].width = razmer (variants[nomer].address);
-        variants[nomer].width = razmer2(variants[nomer].address);
+        variants[nomer].height = razmer2(variants[nomer].address);
     }
-    //Picture Plans[25];
-    //Plans[0] = {1100, 250, 1290, 752, txLoadImage("Картинки/Планы/План_1.bmp"), false, "Plan"};
-    //Plans[1] = {1100, 450, 1290, 752, txLoadImage("Картинки/Планы/План_2.bmp"), false, "Plan"};
-   // Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
-    //Picture Plans2[2500];
+
+    Picture Plans[25];
+    Plans[0] = {1100, 250, "Картинки/Планы/План_1.bmp", false, "Plan"};
+    Plans[1] = {1100, 450, "Картинки/Планы/План_2.bmp", false, "Plan"};
+    //Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
+
+    for (int nomer = 0; nomer < 2; nomer = nomer + 1)
+    {
+        Plans[nomer].picture = txLoadImage(Plans[nomer].address);
+        Plans[nomer].width = razmer (Plans[nomer].address);
+        Plans[nomer].height = razmer2(Plans[nomer].address);
+    }
 
 
+    //Центр. картинки
     Picture Bed2[2500];
     int n_pics = 0;
 
@@ -249,16 +261,10 @@ int main()
             }
 
             //Категория планов квартиры
-          /*  for (int nomer = 0; nomer < 2; nomer = nomer + 1)
-            {
-                if (category == Plans[nomer].category)
-                {
-                    Plans[nomer].draw2();
-                }
-            }   */
+            drawAllPlans(category, Plans, 2);
 
             //клик на план
-          /*  for (int nomer = 0; nomer <  2; nomer = nomer + 1)
+            for (int nomer = 0; nomer <  2; nomer = nomer + 1)
             {
                 if (txMouseX() >= Plans[nomer].x    &&
                     txMouseY() >= Plans[nomer].y  &&
@@ -268,7 +274,7 @@ int main()
                 {
                     Plan_ = Plans[nomer].picture;
                 }
-            }  */
+            }
 
             //Рисование мебели
             drawAllBED2(Bed2, n_pics);
@@ -297,9 +303,19 @@ int main()
             //Удаление картинки путём смены местами Active_Pic и n_pics
             if(Active_Pic >= 0 && txMouseButtons() == 1 && GetAsyncKeyState(VK_DELETE) && klik == true)
             {
-                Bed2[Active_Pic].x = Bed2[n_pics-1].x;
-                Bed2[Active_Pic].y = Bed2[n_pics-1].y;
-                Bed2[Active_Pic].picture = Bed2[n_pics-1].picture;
+               /* char str[100];
+                sprintf(str, "%d", Active_Pic);
+                txMessageBox(str);*/
+                if (n_pics > 1)
+                {   //добавить потом чтоб ширина тоже прилетала
+
+                    Bed2[Active_Pic].height = Bed2[n_pics-1].height;
+                    Bed2[Active_Pic].width = Bed2[n_pics-1].width;
+                    Bed2[Active_Pic].x = Bed2[n_pics-1].x;
+                    Bed2[Active_Pic].y = Bed2[n_pics-1].y;
+                    Bed2[Active_Pic].picture = Bed2[n_pics-1].picture;
+                }
+
 
                 n_pics = n_pics - 1;
                 Active_Pic = -999;
@@ -310,10 +326,10 @@ int main()
                 klik = true;
 
             //Анти попадание на чёрный цвет в плане
-            if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
+            /*if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
             {
                 Bed2[Active_Pic].x = Bed2[Active_Pic].x + 200;
-            }
+            }*/
 
 
 
