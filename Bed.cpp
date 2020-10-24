@@ -36,6 +36,16 @@ void drawAllVariants(string category, Picture* variants, int count_variants)
         }
     }
 }
+void drawAllPlans(string category, Picture* variants, int count_variants)
+{
+    for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
+    {
+        if (category == variants[nomer].category)
+        {
+            variants[nomer].draw2();
+        }
+    }
+}
 
 //Рисование Bed2
 void drawAllBED2(Picture* Bed2, int n_pics)
