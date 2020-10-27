@@ -75,14 +75,48 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
         }
     }
 
+
     if(Active_Pic >= 0 && txMouseButtons() == 1)
     {
         Bed2[Active_Pic].x = txMouseX();
         Bed2[Active_Pic].y = txMouseY();
 
     }
+
+
+     bool monolit = true;
+     int x1 = 0, y1 = 0;
     if(txMouseButtons() == 0)
+    {
+        for (int x = Bed2[Active_Pic].x;
+                 x < Bed2[Active_Pic].x + Bed2[Active_Pic].width;
+                 x = x + 5)
+        {
+            for (int y = Bed2[Active_Pic].y;
+                     y < Bed2[Active_Pic].y + Bed2[Active_Pic].height;
+                     y = y + 5)
+
+            {
+                if (txGetPixel(x, y) == TX_BLACK)
+                {
+                    monolit = false;
+                    x1 = x;
+                    y1 = y;
+                }
+            }
+        }
+
+        //≈сли столкнулись с черным, кидаем влево
+        if (!monolit)
+        {
+            Bed2[Active_Pic].x = x1 + 5;
+            Bed2[Active_Pic].y = y1 + 5;
+        }
+
+
+
         Active_Pic = -1;
+    }
 
     return Active_Pic;
 }
