@@ -55,11 +55,11 @@ int main()
     int count_button = 5;
     button Button[count_button];
     //Можно 2 кнопку, но у нее размер другой
-    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Bed", 200, 60};
-    Button[1] = {Button[0].picture, 0, 0, "Диваны","Sofa", 200, 60};
-    Button[2] = {Button[0].picture, 0, 0, "Столы", "Table", 200, 60};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Кровати", 200, 60};
+    Button[1] = {Button[0].picture, 0, 0, "Диваны","Диваны", 200, 60};
+    Button[2] = {Button[0].picture, 0, 0, "Столы", "Столы", 200, 60};
     Button[3] = {Button[0].picture, 0, 0, "Планировки", "Plan", 200, 60 };
-    Button[4] = {Button[0].picture, 0, 0, "Кухня", "Kuhna", 200, 60};
+    Button[4] = {Button[0].picture, 0, 0, "Кухня", "туалет", 200, 60};
 
     //Координаты кнопок выбора мебели на PAGE = "redactor"
     int x_Button = 0;
@@ -105,26 +105,33 @@ int main()
 
     int count_variants = 17;
     Picture variants[count_variants];
-    variants[0] = {0, 0, "Картинки/Кровати/кровать_1.bmp", false, "Bed"};
-    variants[1] = {0, 0, "Картинки/Кровати/Кровать_2.bmp", false, "Bed"};
-    variants[2] = {0, 0, "Картинки/Кровати/Кровать_3.bmp", false, "Bed"};
-    variants[3] = {0, 0, "Картинки/Кровати/Кровать_4.bmp", false, "Bed"};
-    variants[4] = {1100, 150, "Картинки/Диваны/Диван_1.bmp", false, "Sofa"};
-    variants[5] = {1100, 250, "Картинки/Диваны/Диван_2.bmp", false, "Sofa"};
-    variants[6] = {1100, 350, "Картинки/Диваны/Диван_3.bmp", false, "Sofa"};
-    variants[7] = {1100, 450, "Картинки/Диваны/Divan2.bmp", false, "Sofa"};
-    variants[8] = {1105, 150, "Картинки/Столы/Стол_1.bmp", false, "Table"};
-    variants[9] = {1105, 350, "Картинки/Столы/Стол_2.bmp", false, "Table"};
-    variants[10]= {1105, 550, "Картинки/Столы/Стол_3.bmp", false, "Table"};
-    variants[11]= {1105, 650, "Картинки/Столы/Стол_4.bmp", false, "Table"};
-    variants[12]= {1210, 150, "Картинки/туалет/унитаз.bmp", false, "Kuhna"};
-    variants[13]= {1110, 150, "Картинки/туалет/умывальник.bmp", false, "Kuhna"};
-    variants[15]= {1110, 240, "Картинки/туалет/раковина.bmp", false, "Kuhna"};
-    variants[14]= {1110, 330, "Картинки/туалет/ванна.bmp", false, "Kuhna"};
-    variants[16]= {1215, 330, "Картинки/туалет/плита.bmp", false, "Kuhna"};
+    variants[0] = {"Картинки/Кровати/кровать_1.bmp"};
+    variants[1] = {"Картинки/Кровати/Кровать_2.bmp"};
+    variants[2] = {"Картинки/Кровати/Кровать_3.bmp"};
+    variants[3] = {"Картинки/Кровати/Кровать_4.bmp"};
+    variants[4] = {"Картинки/Диваны/Диван_1.bmp" };
+    variants[5] = {"Картинки/Диваны/Диван_2.bmp" };
+    variants[6] = {"Картинки/Диваны/Диван_3.bmp"};
+    variants[7] = {"Картинки/Диваны/Divan2.bmp"};
+    variants[8] = {"Картинки/Столы/Стол_1.bmp"};
+    variants[9] = {"Картинки/Столы/Стол_2.bmp"};
+    variants[10]= {"Картинки/Столы/Стол_3.bmp"};
+    variants[11]= {"Картинки/Столы/Стол_4.bmp"};
+    variants[12]= {"Картинки/туалет/унитаз.bmp"};
+    variants[13]= {"Картинки/туалет/умывальник.bmp"};
+    variants[15]= {"Картинки/туалет/раковина.bmp"};
+    variants[14]= {"Картинки/туалет/ванна.bmp"};
+    variants[16]= {"Картинки/туалет/плита.bmp"};
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
+        string s = variants[nomer].address;
+        int pos = s.find("/", 0);
+        int pos2 = s.find("/",pos + 1);
+        variants[nomer].category = s.substr(pos + 1,pos2 - pos - 1);  //От первого / до второго
+
+        variants[nomer].visible = false;
+
         variants[nomer].picture = txLoadImage(variants[nomer].address);
         //Ширина и высота из свойств файла
         variants[nomer].width = getWidth (variants[nomer].address);
@@ -135,25 +142,32 @@ int main()
     int y_Bed = 150;        //Координаты кроватей variants
     int y_Sofa = 150;       //Координаты диванов variants
     int y_Table = 150;      //Координаты столов variants
+    int y_Kuhna = 150;      //Координаты Kuhna variants
     for (int i = 0; i < count_variants; i = i + 1)
     {
         variants[i].x = 1100;
-        if (variants[i].category == "Bed")
+        if (variants[i].category == "Кровати")
         {
             variants[i].y = y_Bed;
             y_Bed = y_Bed + 150;
         }
-        if (variants[i].category == "Sofa")
+        if (variants[i].category == "Диваны")
         {
             variants[i].y = y_Sofa;
             y_Sofa = y_Sofa + 100;
         }
 
-        if(variants[i].category == "Table")
+        if(variants[i].category == "Столы")
         {
             variants[i].y = y_Table;
             y_Table = y_Table + 150;
         }
+        if(variants[i].category == "туалет")
+        {
+            variants[i].y = y_Kuhna;
+            y_Kuhna = y_Kuhna + 100;
+        }
+
     }
 
 
@@ -166,8 +180,8 @@ int main()
     int count_Plans = 3;
 
     Picture Plans[25];
-    Plans[0] = {1100, 250, "Картинки/Планы/План_1.bmp", false, "Plan"};
-    Plans[1] = {1100, 450, "Картинки/Планы/План_2.bmp", false, "Plan"};
+    Plans[0] = {"Картинки/Планы/План_1.bmp", false, "Plan"};
+    Plans[1] = {"Картинки/Планы/План_2.bmp", false, "Plan"};
     //Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
 
 
@@ -364,8 +378,8 @@ int main()
                     txMouseY() <= variants[nomer].y +  variants[nomer].height &&
                     txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
-                     Bed2[n_pics] = {random(100, 800), random(100, 600),  variants[nomer].address, true, "Bed",
-                     variants[nomer].picture, variants[nomer].width, variants[nomer].height};
+                     Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, random(100, 800), random(100, 600),
+                      variants[nomer].width, variants[nomer].height};
 
                      n_pics++;
                      klik = false;
