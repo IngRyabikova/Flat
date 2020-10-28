@@ -54,7 +54,7 @@ int main()
 
     int count_button = 5;
     button Button[count_button];
-    //Можно 2 кнопку, но у нее размер другой
+    //Можно 2 кнопку, но у нее размер другой  #О чем речь? ##Есть более мелкая картинка
     Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Кровати", 200, 60};
     Button[1] = {Button[0].picture, 0, 0, "Диваны","Диваны", 200, 60};
     Button[2] = {Button[0].picture, 0, 0, "Столы", "Столы", 200, 60};
@@ -167,26 +167,17 @@ int main()
             variants[i].y = y_Kuhna;
             y_Kuhna = y_Kuhna + 100;
         }
-
     }
 
 
-
-
-
-
-
-
     int count_Plans = 3;
-
-    Picture Plans[25];
+    Picture Plans[count_Plans];
     Plans[0] = {"Картинки/Планы/План_1.bmp", false, "Plan"};
     Plans[1] = {"Картинки/Планы/План_2.bmp", false, "Plan"};
-    //Plans[2] = {1100, 550, 192, 212, txLoadImage("Картинки/Кровати/План_3_мини.bmp"), false, "Bed"};
+    Plans[2] = {"Картинки/Планы/План_3.bmp", false, "Plan"};
 
-
-    int y_Plans = 250;      //Координаты планов variants
-    for (int nomer = 0; nomer < 2; nomer = nomer + 1)
+    int y_Plans = 150;      //Координаты планов variants
+    for (int nomer = 0; nomer < count_Plans; nomer = nomer + 1)
     {
         Plans[nomer].picture = txLoadImage(Plans[nomer].address);
         Plans[nomer].width = getWidth (Plans[nomer].address);
@@ -348,11 +339,9 @@ int main()
                 category="";
             }
 
-            //Категория планов квартиры
-            drawAllPlans(category, Plans, 2);
 
             //клик на план
-            for (int nomer = 0; nomer <  2; nomer = nomer + 1)
+            for (int nomer = 0; nomer <  count_Plans; nomer = nomer + 1)
             {
                 if (txMouseX() >= Plans[nomer].x    &&
                     txMouseY() >= Plans[nomer].y  &&
@@ -363,10 +352,6 @@ int main()
                     Plan_ = Plans[nomer].picture;
                 }
             }
-
-            //Рисование мебели
-            drawAllBED2(Bed2, n_pics);
-            drawAllVariants(category, variants, count_variants);
 
 
             //Выбор мебели и её рисование(рандомное)
@@ -395,8 +380,9 @@ int main()
                /* char str[100];
                 sprintf(str, "%d", Active_Pic);
                 txMessageBox(str);*/
+
                 if (n_pics > 1)
-                {   //добавить потом чтоб ширина тоже прилетала
+                {
 
                     Bed2[Active_Pic].height = Bed2[n_pics-1].height;
                     Bed2[Active_Pic].width = Bed2[n_pics-1].width;
@@ -415,7 +401,10 @@ int main()
                 klik = true;
 
             //Анти попадание на чёрный цвет в плане
-            /*if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
+            /*for (int nomer = 0; nomer <  9; nomer = nomer + 1)
+            nomer =
+
+            if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
             {
                 Bed2[Active_Pic].x = Bed2[Active_Pic].x + 200;
             }*/
@@ -428,7 +417,7 @@ int main()
             }
 
             //А почему не сделать паузу 2 картинками как с настройками и плеем?
-            if (txMouseX() >=1220   && txMouseY() >=10  && txMouseX() <=1300 && txMouseY() <=77)
+            if (txMouseX() >= 1210   && txMouseY() >=10  && txMouseX() <=1290 && txMouseY() <=50)
             {
                 Pause.x_kadr = 1;
             }
@@ -437,14 +426,22 @@ int main()
                 Pause.x_kadr = 0;
             }
 
-            if (txMouseX() >=1220   && txMouseY() >=10  && txMouseX() <=1300 && txMouseY() <=77&&
+            if (txMouseX() >=1220   && txMouseY() >= 1  && txMouseX() <=1300 && txMouseY() <=77&&
                 txMouseButtons () ==1)
             {
                 txPlaySound("2.wav", SND_ASYNC);
                 PAGE = "start";
             }
 
-            txTransparentBlt (txDC(), Pause.x, Pause.y , 74, 67, Pause.picture, 74 * Pause.x_kadr,  0, RGB(255, 127, 39));
+
+
+            //Категория планов квартиры
+            drawAllPlans(category, Plans, count_Plans);
+            //Рисование мебели
+            drawAllBED2(Bed2, n_pics);
+            drawAllVariants(category, variants, count_variants);
+
+            txTransparentBlt (txDC(), Pause.x + 5, Pause.y , 80, 45, Pause.picture, 80 * Pause.x_kadr,  0, RGB(255, 127, 39));
         }
 
         txSleep(20);
