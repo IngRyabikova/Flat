@@ -61,13 +61,29 @@ int main()
     Button[3] = {Button[0].picture, 0, 0, "Планировки", "Plan", 200, 60 };
     Button[4] = {Button[0].picture, 0, 0, "Кухня", "туалет", 200, 60};
 
-    //Координаты кнопок выбора мебели на PAGE = "redactor"
-    int x_Button = 0;
-    for(int i = 0; i < count_button; i = i + 1)
+
+
+
+    for(int i = 0; i < count_button; i++)
     {
         Button[i].y = 0;
-        Button[i].x = x_Button;
-        x_Button = x_Button + 250;
+        //if(count_button > 5)
+        {
+            Button[i].x = 1200 * i / count_button;
+            Button[i].width = 1200 / count_button;
+
+
+
+        }
+
+
+    }
+
+    //Координаты кнопок выбора мебели на PAGE = "redactor"
+    for(int i = 0; i < count_button; i = i + 1)
+    {
+        //Button[i].y = 0;
+        //Button[i].x = i * 250;
         //Ширина, высота
     }
 
@@ -223,7 +239,7 @@ int main()
                     txMouseX() <= Button_MENU[nomer].x + 500 &&
                     txMouseY() <= Button_MENU[nomer].y + 100)
                 {
-                    Button_MENU[nomer].draw();
+                    Button_MENU[nomer].draw2();
                 }
             }
 
@@ -453,6 +469,8 @@ int main()
     txDeleteDC(Strelka);
     txDeleteDC(Krestik);
     txDeleteDC(reklama);
+    txDeleteDC(button_0);
+    txDeleteDC(Plan_);
 
     deletePicBed(variants, count_variants, Plans);
     deletePic(Button, Button_MENU, Menu, Pause);
