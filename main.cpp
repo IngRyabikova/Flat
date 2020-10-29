@@ -305,7 +305,7 @@ int main()
             //Жёлтые кнопки наверху экрана
             for (int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
-                //Это что еще такое?
+                //Это что еще такое?       это прикаляс
                 /*if( txMouseX() >= Button[nomer].x &&
                     txMouseY() >= Button[nomer].y &&
                     txMouseX() <= Button[nomer].x + 200 &&
@@ -368,7 +368,13 @@ int main()
 
                      n_pics++;
                      klik = false;
+            if (Bed2[n_pics].x  <= Bed2[Active_Pic].x +  Bed2[Active_Pic].width  &&
+            Bed2[Active_Pic].x <= Bed2[n_pics].x  +  Bed2[n_pics].width  && txMouseButtons() == 0)
+            {
+            Bed2[Active_Pic].x  = 500;
+            }
                 }
+
             }
 
             //Движение картинки
@@ -377,10 +383,6 @@ int main()
             //Удаление картинки путём смены местами Active_Pic и n_pics
             if(Active_Pic >= 0 && txMouseButtons() == 1 && GetAsyncKeyState(VK_DELETE) && klik == true)
             {
-               /* char str[100];
-                sprintf(str, "%d", Active_Pic);
-                txMessageBox(str);*/
-
                 if (n_pics > 1)
                 {
 
@@ -397,18 +399,9 @@ int main()
             }
 
 
+
             if(txMouseButtons () == 0)
                 klik = true;
-
-            //Анти попадание на чёрный цвет в плане
-            /*for (int nomer = 0; nomer <  9; nomer = nomer + 1)
-            nomer =
-
-            if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
-            {
-                Bed2[Active_Pic].x = Bed2[Active_Pic].x + 200;
-            }*/
-
 
 
             if(GetAsyncKeyState('P'))
@@ -432,8 +425,13 @@ int main()
                 txPlaySound("2.wav", SND_ASYNC);
                 PAGE = "start";
             }
+          //!!!!!!!!!! int x2 = 0, y2 = 0;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    :)                                                                                                                                                                                                                                                                                                                                                                                                                                            :)
 
 
+    //for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
+    //{
+
+    //}
 
             //Категория планов квартиры
             drawAllPlans(category, Plans, count_Plans);
