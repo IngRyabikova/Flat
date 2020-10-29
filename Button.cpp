@@ -16,13 +16,31 @@ struct button
     {
         if (text != "")
         {
-            txTransparentBlt(txDC(), x, y, width, height, picture, 0, 0, TX_BLACK);
+            //txTransparentBlt(txDC(), x, y, width, height, picture, 0, 0, TX_BLACK);
+            Win32::TransparentBlt(txDC(), x, y, width, height, picture, 0, 0, 200,60, TX_BLACK);
 
             txSelectFont ("Comic Sans MS", 30);
             txSetColor(TX_BLACK);
             txTextOut(x + 15, y + 10, text);
         }
     };
+    void draw2()
+    {
+        if (text != "")
+        {
+            txTransparentBlt(txDC(), x, y, width, height, picture, 0, 0, TX_BLACK);
+            //Win32::TransparentBlt(txDC(), x, y, width, height, picture, 0, 0, 200,60, TX_BLACK);
+
+            txSelectFont ("Comic Sans MS", 30);
+            txSetColor(TX_BLACK);
+            txTextOut(x + 15, y + 10, text);
+        }
+    };
+
+
+
+
+
 
     //Клик на кнопки
     bool click()
