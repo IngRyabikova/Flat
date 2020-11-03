@@ -52,40 +52,36 @@ int main()
     int x_Krestik = 1100;
     int y_Krestik = 60;
 
-    int count_button = 5;
+    int count_button = 8;
     button Button[count_button];
     //Можно 2 кнопку, но у нее размер другой  #О чем речь? ##Есть более мелкая картинка
-    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Кровати","Кровати", 200, 60};
-    Button[1] = {Button[0].picture, 0, 0, "Диваны","Диваны", 200, 60};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Планировки","Plan", 200, 60};
+    Button[1] = {Button[0].picture, 0, 0, "Кровати","Кровати", 200, 60};
     Button[2] = {Button[0].picture, 0, 0, "Столы", "Столы", 200, 60};
-    Button[3] = {Button[0].picture, 0, 0, "Планировки", "Plan", 200, 60 };
+    Button[3] = {Button[0].picture, 0, 0, "Диваны", "Диваны", 200, 60 };
     Button[4] = {Button[0].picture, 0, 0, "Кухня", "туалет", 200, 60};
+    Button[5] = {Button[0].picture, 0, 0, "Сохранить", "туалет", 200, 60};
+    Button[6] = {Button[0].picture, 0, 0, "Загрузить", "туалет", 200, 60};
+    Button[7] = {Button[0].picture, 0, 0, "Меню", "туалет", 200, 60};
 
 
 
 
+    //Расставляем координаты и ширину кнопкам
     for(int i = 0; i < count_button; i++)
     {
         Button[i].y = 0;
-        //if(count_button > 5)
-        {
-            Button[i].x = 1200 * i / count_button;
-            Button[i].width = 1200 / count_button;
-
-
-
-        }
-
-
+        Button[i].x = 1298 * i / count_button;
+        Button[i].width = 1200 / count_button;
     }
 
     //Координаты кнопок выбора мебели на PAGE = "redactor"
-    for(int i = 0; i < count_button; i = i + 1)
+    /*for(int i = 0; i < count_button; i = i + 1)
     {
-        //Button[i].y = 0;
-        //Button[i].x = i * 250;
-        //Ширина, высота
-    }
+        Button[i].y = 0;
+        Button[i].x = i * 250;
+        Ширина, высота
+    } */
 
     HDC button_0 = txLoadImage("Картинки/Кнопки/Кнопка.bmp");
     int x_button_0 = 0;
@@ -95,9 +91,6 @@ int main()
     int x_Strelka= 0;
     int y_Strelka = 0;
 
-    HDC Plan_ = txLoadImage("Картинки/Планы/План_1.bmp");
-    int x_Plan_ = 0;
-    int y_Plan_ = 0;
 
 
     //Меню стартовой страницы
@@ -107,8 +100,11 @@ int main()
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
     const char* PAGE = "start";
 
+    if (category == "redactor")
+        PAGE = "start";
+
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
-    button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
+    ///button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
 
     HDC reklama = txLoadImage("Картинки/Меню/Реклама 1.bmp");
     int x_reklama = 0;
@@ -191,6 +187,12 @@ int main()
     Plans[0] = {"Картинки/Планы/План_1.bmp", false, "Plan"};
     Plans[1] = {"Картинки/Планы/План_2.bmp", false, "Plan"};
     Plans[2] = {"Картинки/Планы/План_3.bmp", false, "Plan"};
+
+
+    HDC Plan_ = txLoadImage("Картинки/Планы/План_228.bmp");
+    int x_Plan_ = 0;
+    int y_Plan_ = 0;
+
 
     int y_Plans = 150;      //Координаты планов variants
     for (int nomer = 0; nomer < count_Plans; nomer = nomer + 1)
@@ -307,6 +309,10 @@ int main()
         {
             //Меню
             txSetFillColour(TX_WHITE);
+            if (Button[7].click())
+            {
+                PAGE = "start";
+            }
 
             //Координатная сетка /фон
             txBitBlt(txDC(), x_Plan_, y_Plan_, 1290, 740, Plan_);
@@ -344,6 +350,18 @@ int main()
                 {
                     category = Button[nomer].category;
                     drawOBL = true;
+                }
+                 //анимация кнопок
+                if (txMouseX() >= Button[nomer].x &&
+                    txMouseY() >= Button[nomer].y &&
+                    txMouseX() <= Button[nomer].x + Button[nomer].width &&
+                    txMouseY() <= Button[nomer].y + Button[nomer].height)
+                {
+                    //PAGE = "start";
+
+                    txSetFillColor(TX_TRANSPARENT);
+                    txSetColor(RGB(0, 0, 0), 7);
+                    Win32::RoundRect(txDC(), Button[nomer].x + 4, Button[nomer].y + 10, Button[nomer].x + 147, Button[nomer].y + 59, 10, 10);
                 }
             }
 
@@ -385,6 +403,18 @@ int main()
                      n_pics++;
                      klik = false;
                 }
+
+                /*if (txMouseX() >= variants[nomer].x &&   попытка анимации мебели справа
+                    txMouseY() >= variants[nomer].y &&
+                    txMouseX() <= variants[nomer].x + variants[nomer].width &&
+                    txMouseY() <= variants[nomer].y + variants[nomer].height)
+                {
+                    //PAGE = "start";
+
+                    txSetFillColor(TX_TRANSPARENT);
+                    txSetColor(RGB(170, 220, 25), 7);
+                    Win32::RoundRect(txDC(), variants[nomer].x + 4, variants[nomer].y + 10, variants[nomer].x + 170, variants[nomer].y + 59, 10, 10);
+                }  */
             }
 
             //Движение картинки
@@ -433,7 +463,7 @@ int main()
             }
 
             //А почему не сделать паузу 2 картинками как с настройками и плеем?
-            if (txMouseX() >= 1210   && txMouseY() >=10  && txMouseX() <=1290 && txMouseY() <=50)
+            /*if (txMouseX() >= 1210   && txMouseY() >=10  && txMouseX() <=1290 && txMouseY() <=50)
             {
                 Pause.x_kadr = 1;
             }
@@ -441,28 +471,50 @@ int main()
             {
                 Pause.x_kadr = 0;
             }
-
-            if (txMouseX() >=1220   && txMouseY() >= 1  && txMouseX() <=1300 && txMouseY() <=77&&
+              */
+            /*if (txMouseX() >=1220   && txMouseY() >= 1  && txMouseX() <=1300 && txMouseY() <=77&&
                 txMouseButtons () ==1)
             {
                 txPlaySound("2.wav", SND_ASYNC);
                 PAGE = "start";
-            }
+            } */
 
 
 
-            //Категория планов квартиры
+            //Категория); планов квартиры
             drawAllPlans(category, Plans, count_Plans);
             //Рисование мебели
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
 
-            txTransparentBlt (txDC(), Pause.x + 5, Pause.y , 80, 45, Pause.picture, 80 * Pause.x_kadr,  0, RGB(255, 127, 39));
+          //  txTransparentBlt (txDC(), Pause.x + 5, Pause.y , 80, 45, Pause.picture, 80 * Pause.x_kadr,  0, RGB(255, 127, 39));
+
+
+
+
+
+
         }
 
         txSleep(20);
         txEnd();
     }
+
+
+
+//Открыть файл
+    ofstream file2("картинки.txt");
+
+    //Пробежать по всем картинкам
+    for (int i = 0; i < n_pics; i++)
+    {
+        //И сохранить вот это
+        file2 << Bed2[i].x << endl;
+        file2 << Bed2[i].y << endl;
+        file2 << Bed2[i].address << endl;
+    }
+
+    file2.close();
 
     //Удаление картинок
     txDeleteDC(Fon);
@@ -471,9 +523,11 @@ int main()
     txDeleteDC(reklama);
     txDeleteDC(button_0);
     txDeleteDC(Plan_);
+    //txDeleteDC(Button);
+    //txDeleteDC(Plans);
 
     deletePicBed(variants, count_variants, Plans);
-    deletePic(Button, Button_MENU, Menu, Pause);
+   // deletePic(Button, Button_MENU, Menu);
 
     return 0;
 }
