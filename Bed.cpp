@@ -86,7 +86,8 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 
      bool monolit = true;
      int x1 = 0, y1 = 0;
-    if(txMouseButtons() == 0)
+
+    if(Active_Pic >= 0 && txMouseButtons() == 0)
     {
         for (int x = Bed2[Active_Pic].x;
                  x < Bed2[Active_Pic].x + Bed2[Active_Pic].width;
