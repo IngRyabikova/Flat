@@ -61,7 +61,7 @@ int main()
     Button[3] = {Button[0].picture, 0, 0, "Диваны", "Диваны", 200, 60 };
     Button[4] = {Button[0].picture, 0, 0, "Кухня", "туалет", 200, 60};
     Button[5] = {Button[0].picture, 0, 0, "Сохранить", "Save", 200, 60};
-    Button[6] = {Button[0].picture, 0, 0, "Загрузить", "Load", 200, 60};
+    Button[6] = {Button[0].picture, 0, 0, "Загрузить", "туалет", 200, 60};
     Button[7] = {Button[0].picture, 0, 0, "Меню", "туалет", 200, 60};
 
 
@@ -222,6 +222,49 @@ int main()
     string strokaX;
     string strokaY;
     string address;
+
+
+        //Прочитал первую строку
+        ifstream file("1.txt");
+        while (file.good())
+        {
+            //Строка1 (x)
+            getline(file, strokaX);
+            Bed2[n_pics].x = atoi(strokaX.c_str());
+
+            //Строка2 (y)
+            getline(file, strokaY);
+            Bed2[n_pics].y = atoi(strokaY.c_str());
+
+            //Строка3 (адрес)
+            getline(file, address);
+            Bed2[n_pics].address = address.c_str();
+
+
+
+            Bed2[n_pics].visible = true;
+
+            Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address);
+            //Ширина и высота из свойств файла
+            Bed2[n_pics].width = getWidth (Bed2[n_pics].address);
+            Bed2[n_pics].height = getHeight(Bed2[n_pics].address);
+
+            n_pics = n_pics + 1;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -450,6 +493,7 @@ int main()
                 Active_Pic = -999;
             }
 
+
             if(txMouseButtons () == 0)
                 klik = true;
 
@@ -498,59 +542,27 @@ int main()
 
 
 
-            if (category == "Save" && txMouseButtons() == 1)
-            {
-                //Открыть файл
-                ofstream file2("картинки.txt");
+if (category == "Save" && GetAsyncKeyState(VK_ESCAPE))
+    {
+        //Открыть файл
+        ofstream file2("картинки.txt");
 
-                //Пробежать по всем картинкам
-                for (int i = 0; i < n_pics; i++)
-                {
-                    //И сохранить вот это
-                    file2 << Bed2[i].x << endl;
-                    file2 << Bed2[i].y << endl;
-                    file2 << Bed2[i].address << endl;
-                }
+        //Пробежать по всем картинкам
+        for (int i = 0; i < n_pics; i++)
+        {
+            //И сохранить вот это
+            file2 << Bed2[i].x << endl;
+            file2 << Bed2[i].y << endl;
+            file2 << Bed2[i].address << endl;
+        }
 
-                file2.close();
+        file2.close();
 
-                txMessageBox("Успешно сохранено");
+        txMessageBox("хы");
 
-            }
-
-            if (category == "Load" && txMouseButtons() == 1)
-            {
-                //Прочитал первую строку
-                ifstream file("картинки.txt");
-                while (file.good())
-                {
-                    //Строка1 (x)
-                    getline(file, strokaX);
-                    Bed2[n_pics].x = atoi(strokaX.c_str());
-
-                    //Строка2 (y)
-                    getline(file, strokaY);
-                    Bed2[n_pics].y = atoi(strokaY.c_str());
-
-                    //Строка3 (адрес)
-                    getline(file, address);
-                    Bed2[n_pics].address = address.c_str();
+    }
 
 
-
-                    Bed2[n_pics].visible = true;
-
-                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address);
-                    //Ширина и высота из свойств файла
-                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address);
-                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address);
-
-                    n_pics = n_pics + 1;
-
-                }
-                txMessageBox("Загрузка...");
-
-            }
         }
 
         txSleep(20);
