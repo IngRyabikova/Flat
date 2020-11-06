@@ -147,6 +147,7 @@ int main()
         variants[nomer].picture = txLoadImage(variants[nomer].address);
         //Ширина и высота из свойств файла
         variants[nomer].width = getWidth (variants[nomer].address);
+        variants[nomer].x = 1100 + ((150 - variants[nomer].width) / 2);
         variants[nomer].height = getHeight(variants[nomer].address);
     }
 
@@ -157,7 +158,6 @@ int main()
     int y_Kuhna = 150;      //Координаты Kuhna variants
     for (int i = 0; i < count_variants; i = i + 1)
     {
-        variants[i].x = 1100;
         if (variants[i].category == "Кровати")
         {
             variants[i].y = y_Bed;
@@ -580,7 +580,7 @@ int main()
     //txDeleteDC(Plans);
 
     deletePicBed(variants, count_variants, Plans);
-   // deletePic(Button, Button_MENU, Menu);
+    //deletePic(Button, Button_MENU, Menu);
 
     return 0;
 }
