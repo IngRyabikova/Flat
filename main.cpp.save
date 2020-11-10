@@ -1,6 +1,5 @@
 #include "TXLib.h"
 #include "Bed.cpp"
-//#include "228337.cpp"
 #include "Button.cpp"
 #include <fstream>
 #include <iostream>
@@ -28,28 +27,6 @@ int getHeight(const char* address)
     return width;
 }
 
-void Bot_reading(const char* address)
-{
-    setlocale(LC_ALL, "Russian");
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hf;
-    hf=FindFirstFile(address, &FindFileData);
-
-    //
-    if (hf!=INVALID_HANDLE_VALUE){
-        do{
-            string str = FindFileData.cFileName;
-            str = (string)address + "/"+ str;
-            if (str.find(".bmp") != -1)
-            {
-                std::cout << str << "\n";
-            }
-        }
-        while (FindNextFile(hf,&FindFileData)!=0);
-        FindClose(hf);
-    }
-}
-
 void drawObl(HDC Krestik)
 {
     int x_Krestik = 1100;
@@ -64,7 +41,6 @@ void drawObl(HDC Krestik)
 int main()
 {
     txCreateWindow (1300, 750);
-    setlocale(LC_ALL, "Russian");
 
     string category = "";
 
@@ -139,28 +115,24 @@ int main()
     int Active_Pic = -1;
     bool klik = true;
 
-
-   /* WIN32_FIND_DATA FindFileData;
+   setlocale(LC_ALL, "Russian");
+    WIN32_FIND_DATA FindFileData;
     HANDLE hf;
-    hf=FindFirstFile("Картинки/*", &FindFileData);
+    hf=FindFirstFile("Картинки/Кровати/*", &FindFileData);
 
     //
     if (hf!=INVALID_HANDLE_VALUE){
         do{
             string str = FindFileData.cFileName;
-            str = "Картинки/Кровати/" + str;
             if (str.find(".bmp") != -1)
             {
-                 cout << str << endl;
+                std::cout << str << "\n";
             }
         }
         while (FindNextFile(hf,&FindFileData)!=0);
         FindClose(hf);
     }
-          txSleep(1000);  */
 
-Bot_reading("address");
-//cout << << ;
 
     int count_variants = 17;
     Picture variants[count_variants];
