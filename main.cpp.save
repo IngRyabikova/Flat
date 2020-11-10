@@ -159,7 +159,6 @@ int main()
     }
           txSleep(1000);  */
 
-Bot_reading("address");
 //cout << << ;
 
     int count_variants = 17;
@@ -176,6 +175,8 @@ Bot_reading("address");
     variants[9] = {"Картинки/Столы/Стол_2.bmp"};
     variants[10]= {"Картинки/Столы/Стол_3.bmp"};
     variants[11]= {"Картинки/Столы/Стол_4.bmp"};
+    
+    Bot_reading("Картинки/туалет/", variants);
     variants[12]= {"Картинки/туалет/унитаз.bmp"};
     variants[13]= {"Картинки/туалет/умывальник.bmp"};
     variants[15]= {"Картинки/туалет/раковина.bmp"};
