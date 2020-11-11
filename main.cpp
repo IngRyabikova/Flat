@@ -498,7 +498,7 @@ int main()
 
 
 
-            if (category == "Save" && txMouseButtons() == 1)
+            if (Button[5].click() && txMouseButtons() == 1)
             {
                 //Открыть файл
                 ofstream file2("картинки.txt");
@@ -518,7 +518,7 @@ int main()
 
             }
 
-            if (category == "Load" && txMouseButtons() == 1)
+            if (Button[6].click() && txMouseButtons() == 1)
             {
                 //Прочитал первую строку
                 ifstream file("картинки.txt");
