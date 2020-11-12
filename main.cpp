@@ -38,9 +38,43 @@ void drawObl(HDC Krestik)
     txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
 
+int Bot_reading(const char* address, Picture*variants, int N)
+{
+    setlocale(LC_ALL, "Russian");
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hf;
+    string str = address;
+    str = str + "*";
+
+    hf=FindFirstFile(str.c_str(), &FindFileData);
+
+    //
+    if (hf!=INVALID_HANDLE_VALUE){
+        do{
+
+            str = FindFileData.cFileName;
+            str = (string)address + str;
+
+            if (str.find(".bmp") != -1)
+            {
+                string s = str;
+                variants[N] = {s.c_str()};
+                N = N + 1;
+                txSleep(20);
+            }
+        }
+        while (FindNextFile(hf,&FindFileData)!=0);
+        FindClose(hf);
+    }
+
+    return N;
+}
+
+
 int main()
 {
     txCreateWindow (1300, 750);
+
 
     string category = "";
 
@@ -110,14 +144,20 @@ int main()
     int x_reklama = 0;
     int y_reklama = 0;
 
+    bool mouse1 = false;
+
     //Это да
     bool drawOBL = false;
     int Active_Pic = -1;
     bool klik = true;
 
-    int count_variants = 17;
-    Picture variants[count_variants];
-    variants[0] = {"Картинки/Кровати/кровать_1.bmp"};
+
+    int count_variants = 0;
+    Picture variants[777];
+
+    count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
+    count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
+    /*variants[0] = {"Картинки/Кровати/кровать_1.bmp"};
     variants[1] = {"Картинки/Кровати/Кровать_2.bmp"};
     variants[2] = {"Картинки/Кровати/Кровать_3.bmp"};
     variants[3] = {"Картинки/Кровати/Кровать_4.bmp"};
@@ -133,7 +173,7 @@ int main()
     variants[13]= {"Картинки/туалет/умывальник.bmp"};
     variants[15]= {"Картинки/туалет/раковина.bmp"};
     variants[14]= {"Картинки/туалет/ванна.bmp"};
-    variants[16]= {"Картинки/туалет/плита.bmp"};
+    variants[16]= {"Картинки/туалет/плита.bmp"}; */
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
@@ -354,10 +394,11 @@ int main()
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
-                if (Button[nomer].click())
+                if (Button[nomer].click() && mouse1 == false)
                 {
                     category = Button[nomer].category;
                     drawOBL = true;
+
                 }
                  //анимация кнопок
                 if (txMouseX() >= Button[nomer].x &&
