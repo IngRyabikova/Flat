@@ -2,7 +2,7 @@
 
 struct Picture
 {
-    const char* address;
+    string address;
     bool visible;
     string category;
     HDC picture;

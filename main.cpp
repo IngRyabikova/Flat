@@ -38,9 +38,43 @@ void drawObl(HDC Krestik)
     txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
 
+int Bot_reading(const char* address, Picture*variants, int N)
+{
+    setlocale(LC_ALL, "Russian");
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hf;
+    string str = address;
+    str = str + "*";
+
+    hf=FindFirstFile(str.c_str(), &FindFileData);
+
+    //
+    if (hf!=INVALID_HANDLE_VALUE){
+        do{
+
+            str = FindFileData.cFileName;
+            str = (string)address + str;
+
+            if (str.find(".bmp") != -1)
+            {
+                string s = str;
+                variants[N] = {s.c_str()};
+                N = N + 1;
+                txSleep(20);
+            }
+        }
+        while (FindNextFile(hf,&FindFileData)!=0);
+        FindClose(hf);
+    }
+
+    return N;
+}
+
+
 int main()
 {
     txCreateWindow (1300, 750);
+
 
     string category = "";
 
@@ -110,30 +144,18 @@ int main()
     int x_reklama = 0;
     int y_reklama = 0;
 
+    bool mouse1 = false;
+
     //Это да
     bool drawOBL = false;
     int Active_Pic = -1;
     bool klik = true;
 
-    int count_variants = 1;
-    Picture variants[count_variants];
-    variants[0] = {"Картинки/Кровати/кровать_1.bmp"};
-    /*variants[1] = {"Картинки/Кровати/Кровать_2.bmp"};
-    variants[2] = {"Картинки/Кровати/Кровать_3.bmp"};
-    variants[3] = {"Картинки/Кровати/Кровать_4.bmp"};
-    variants[4] = {"Картинки/Диваны/Диван_1.bmp" };
-    variants[5] = {"Картинки/Диваны/Диван_2.bmp" };
-    variants[6] = {"Картинки/Диваны/Диван_3.bmp"};
-    variants[7] = {"Картинки/Диваны/Divan2.bmp"};
-    variants[8] = {"Картинки/Столы/Стол_1.bmp"};
-    variants[9] = {"Картинки/Столы/Стол_2.bmp"};
-    variants[10]= {"Картинки/Столы/Стол_3.bmp"};
-    variants[11]= {"Картинки/Столы/Стол_4.bmp"};
-    variants[12]= {"Картинки/туалет/унитаз.bmp"};
-    variants[13]= {"Картинки/туалет/умывальник.bmp"};
-    variants[15]= {"Картинки/туалет/раковина.bmp"};
-    variants[14]= {"Картинки/туалет/ванна.bmp"};
-    variants[16]= {"Картинки/туалет/плита.bmp"};   */
+    int count_variants = 0;
+    Picture variants[777];
+
+    count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
+    count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
@@ -144,17 +166,14 @@ int main()
 
         variants[nomer].visible = false;
 
-        variants[nomer].picture1 = txLoadImage(variants[nomer].addres);s
+        variants[nomer].picture1 = txLoadImage(variants[nomer].address.c_str());
         variants[nomer].picture2 = txLoadImage(("1" + (string)variants[nomer].address).c_str());
-        variants[nomer].picture = txLoadImage(variants[nomer].address);
+        variants[nomer].picture = variants[nomer].picture1;
 
-
-
-        //variants[nomer].picture = variants[nomer].picture;
         //Ширина и высота из свойств файла
-        variants[nomer].width = getWidth (variants[nomer].address);
+        variants[nomer].width = getWidth (variants[nomer].address.c_str());
         variants[nomer].x = 1100 + ((150 - variants[nomer].width) / 2);
-        variants[nomer].height = getHeight(variants[nomer].address);
+        variants[nomer].height = getHeight(variants[nomer].address.c_str());
     }
 
 
@@ -199,9 +218,9 @@ int main()
     int y_Plans = 150;      //Координаты планов variants
     for (int nomer = 0; nomer < count_Plans; nomer = nomer + 1)
     {
-        Plans[nomer].picture = txLoadImage(Plans[nomer].address);
-        Plans[nomer].width = getWidth (Plans[nomer].address);
-        Plans[nomer].height = getHeight(Plans[nomer].address);
+        Plans[nomer].picture = txLoadImage(Plans[nomer].address.c_str());
+        Plans[nomer].width = getWidth (Plans[nomer].address.c_str());
+        Plans[nomer].height = getHeight(Plans[nomer].address.c_str());
 
         Plans[nomer].x = 1100;
         if(Plans[nomer].category == "Plan")
@@ -368,10 +387,11 @@ int main()
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
-                if (Button[nomer].click())
+                if (Button[nomer].click() && mouse1 == false)
                 {
                     category = Button[nomer].category;
                     drawOBL = true;
+
                 }
                  //анимация кнопок
                 if (txMouseX() >= Button[nomer].x &&
@@ -576,16 +596,15 @@ int main()
 
                     Bed2[n_pics].visible = true;
 
-                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address);
+                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
                     //Ширина и высота из свойств файла
-                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address);
-                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address);
+                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
+                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
 
                     n_pics = n_pics + 1;
-
                 }
-                txMessageBox("Загрузка...");
 
+                txMessageBox("Загрузка...");
             }
         }
 
