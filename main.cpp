@@ -138,7 +138,7 @@ int main()
         PAGE = "start";
 
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
-    ///button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
+    //button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
 
     HDC reklama = txLoadImage("Картинки/Меню/Реклама 1.bmp");
     int x_reklama = 0;
@@ -151,29 +151,11 @@ int main()
     int Active_Pic = -1;
     bool klik = true;
 
-
     int count_variants = 0;
     Picture variants[777];
 
     count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
-    /*variants[0] = {"Картинки/Кровати/кровать_1.bmp"};
-    variants[1] = {"Картинки/Кровати/Кровать_2.bmp"};
-    variants[2] = {"Картинки/Кровати/Кровать_3.bmp"};
-    variants[3] = {"Картинки/Кровати/Кровать_4.bmp"};
-    variants[4] = {"Картинки/Диваны/Диван_1.bmp" };
-    variants[5] = {"Картинки/Диваны/Диван_2.bmp" };
-    variants[6] = {"Картинки/Диваны/Диван_3.bmp"};
-    variants[7] = {"Картинки/Диваны/Divan2.bmp"};
-    variants[8] = {"Картинки/Столы/Стол_1.bmp"};
-    variants[9] = {"Картинки/Столы/Стол_2.bmp"};
-    variants[10]= {"Картинки/Столы/Стол_3.bmp"};
-    variants[11]= {"Картинки/Столы/Стол_4.bmp"};
-    variants[12]= {"Картинки/туалет/унитаз.bmp"};
-    variants[13]= {"Картинки/туалет/умывальник.bmp"};
-    variants[15]= {"Картинки/туалет/раковина.bmp"};
-    variants[14]= {"Картинки/туалет/ванна.bmp"};
-    variants[16]= {"Картинки/туалет/плита.bmp"}; */
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
@@ -184,11 +166,14 @@ int main()
 
         variants[nomer].visible = false;
 
-        variants[nomer].picture = txLoadImage(variants[nomer].address);
+        variants[nomer].picture1 = txLoadImage(variants[nomer].address.c_str());
+        variants[nomer].picture2 = txLoadImage(("1" + (string)variants[nomer].address).c_str());
+        variants[nomer].picture = variants[nomer].picture1;
+
         //Ширина и высота из свойств файла
-        variants[nomer].width = getWidth (variants[nomer].address);
+        variants[nomer].width = getWidth (variants[nomer].address.c_str());
         variants[nomer].x = 1100 + ((150 - variants[nomer].width) / 2);
-        variants[nomer].height = getHeight(variants[nomer].address);
+        variants[nomer].height = getHeight(variants[nomer].address.c_str());
     }
 
 
@@ -233,9 +218,9 @@ int main()
     int y_Plans = 150;      //Координаты планов variants
     for (int nomer = 0; nomer < count_Plans; nomer = nomer + 1)
     {
-        Plans[nomer].picture = txLoadImage(Plans[nomer].address);
-        Plans[nomer].width = getWidth (Plans[nomer].address);
-        Plans[nomer].height = getHeight(Plans[nomer].address);
+        Plans[nomer].picture = txLoadImage(Plans[nomer].address.c_str());
+        Plans[nomer].width = getWidth (Plans[nomer].address.c_str());
+        Plans[nomer].height = getHeight(Plans[nomer].address.c_str());
 
         Plans[nomer].x = 1100;
         if(Plans[nomer].category == "Plan")
@@ -257,6 +242,14 @@ int main()
     //Центр. картинки
     Picture Bed2[2500];
     int n_pics = 0;
+
+
+
+
+
+
+
+
 
    //int n_pics2 = 0;
     string strokaX;
@@ -446,8 +439,8 @@ int main()
                     txMouseY() <= variants[nomer].y +  variants[nomer].height &&
                     txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
-                     Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, random(100, 800), random(100, 600),
-                      variants[nomer].width, variants[nomer].height};
+                     Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, variants[nomer].picture1, variants[nomer].picture2,
+                     random(100, 800), random(100, 600), variants[nomer].width, variants[nomer].height};
 
                      n_pics++;
                      klik = false;
@@ -468,6 +461,28 @@ int main()
 
             //Движение картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
+
+
+            //Переворот/перерисовка картинки
+                if(GetAsyncKeyState('R') && Active_Pic >= 0)
+                {
+                    /*
+                    string adress = variants[nomer].addres;
+                    string category = variants[nomer].category;
+
+
+
+                    int pos = adress.find(category) ;
+                    adress = adress.replace(pos, category.size(),category + "1");
+                    */
+
+
+                    Bed2[Active_Pic].picture = Bed2[Active_Pic].picture2;
+
+                }
+
+
+
 
             //Удаление картинки путём смены местами Active_Pic и n_pics
             if(Active_Pic >= 0 && txMouseButtons() == 1 && GetAsyncKeyState(VK_DELETE) && klik == true)
@@ -581,16 +596,15 @@ int main()
 
                     Bed2[n_pics].visible = true;
 
-                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address);
+                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
                     //Ширина и высота из свойств файла
-                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address);
-                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address);
+                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
+                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
 
                     n_pics = n_pics + 1;
-
                 }
-                txMessageBox("Загрузка...");
 
+                txMessageBox("Загрузка...");
             }
         }
 

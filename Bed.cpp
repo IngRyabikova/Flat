@@ -6,6 +6,8 @@ struct Picture
     bool visible;
     string category;
     HDC picture;
+    HDC picture1;
+    HDC picture2;
     int x;
     int y;
     int width;
@@ -56,6 +58,14 @@ void drawAllBED2(Picture* Bed2, int n_pics)
             Bed2[nomer].draw();
     }
 }
+
+
+
+
+
+
+
+
 
 //Движение картинок
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
