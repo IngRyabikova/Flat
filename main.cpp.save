@@ -74,8 +74,6 @@ int Bot_reading(const char* address, Picture*variants, int N)
 int main()
 {
     txCreateWindow (1300, 750);
-    // POINT size = txGetConsoleFontSize();
-  //txSetConsoleCursorPos ( * size.x, 0 * size.y);
 
 
     string category = "";
@@ -391,7 +389,6 @@ int main()
             }
 
 
-
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
@@ -544,10 +541,10 @@ int main()
             }
               */
             /*if (txMouseX() >=1220   && txMouseY() >= 1  && txMouseX() <=1300 && txMouseY() <=77&&
-                txMouseButtons () ==1Plans)
+                txMouseButtons () ==1)
             {
                 txPlaySound("2.wav", SND_ASYNC);
-                PAGE = "start";Plans
+                PAGE = "start";
             } */
 
 
@@ -605,7 +602,7 @@ int main()
 
     // Покажем диалоговое окно Открыть (Open).
 
-    if (GetSaveFileName(&ofn) == TRUE)
+    if (GetOpenFileName(&ofn) == TRUE)
      {
 
         string fileName = ofn.lpstrFile;
@@ -613,9 +610,9 @@ int main()
         for (int i = 0; i < n_pics; i++)
         {
 
-            file2 << Bed2[i].x << endl;
-            file2 << Bed2[i].y << endl;
-            file2 << Bed2[i].address << endl;
+            file2 << Bed[nomer].x << endl;
+            file2 << Bed[nomer].y << endl;
+            file2 << Bed[i].address << endl;
         }
 
         file2.close();
