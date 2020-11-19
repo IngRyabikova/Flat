@@ -576,8 +576,41 @@ int main()
 
             if (Button[6].click() && txMouseButtons() == 1)
             {
-                //Прочитал первую строку
-                ifstream file("картинки.txt");
+
+    OPENFILENAME ofn;			// структура стандартного диалогового окна
+    char szFile[260];			// буфер для имени файла
+    HWND hwnd;              		// окно владельца
+    HANDLE hf;              		// дескриптор файла
+
+    // Инициализация OPENFILENAME
+    ZeroMemory(&ofn, sizeof(OPENFILENAME));
+    ofn.lStructSize = sizeof(OPENFILENAME);
+    ofn.hwndOwner = txWindow();
+    ofn.lpstrFile = szFile;
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = NULL;
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+    // Покажем диалоговое окно Открыть (Open).
+
+    if (GetOpenFileName(&ofn) == TRUE)
+     {
+
+     //fileName = ofn.lpstrFile;
+
+     //ifstream file(lpstrFile);
+
+
+
+
+     }
+
+
+              /*  //Прочитал первую строку
                 while (file.good())
                 {
                     //Строка1 (x)
@@ -604,7 +637,7 @@ int main()
                     n_pics = n_pics + 1;
                 }
 
-                txMessageBox("Загрузка...");
+                txMessageBox("Загрузка...");*/
             }
         }
 
