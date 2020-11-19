@@ -597,47 +597,45 @@ int main()
 
     // Покажем диалоговое окно Открыть (Open).
 
+
     if (GetOpenFileName(&ofn) == TRUE)
      {
 
-     //fileName = ofn.lpstrFile;
+        ifstream file(ofn.lpstrFile);
 
-     //ifstream file(lpstrFile);
+        while (file.good())
+        {
+            //Прочитал первую строку
+            //Строка1 (x)
+            getline(file, strokaX);
+            Bed2[n_pics].x = atoi(strokaX.c_str());
 
+            //Строка2 (y)
+            getline(file, strokaY);
+            Bed2[n_pics].y = atoi(strokaY.c_str());
 
+            //Строка3 (адрес)
+            getline(file, address);
+            Bed2[n_pics].address = address.c_str();
+
+            Bed2[n_pics].visible = true;
+
+            Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+            //Ширина и высота из свойств файла
+            Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
+            Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
+
+            n_pics = n_pics + 1;
+        }
+
+            txMessageBox("Загрузка...");
 
 
      }
 
 
-              /*  //Прочитал первую строку
-                while (file.good())
-                {
-                    //Строка1 (x)
-                    getline(file, strokaX);
-                    Bed2[n_pics].x = atoi(strokaX.c_str());
-
-                    //Строка2 (y)
-                    getline(file, strokaY);
-                    Bed2[n_pics].y = atoi(strokaY.c_str());
-
-                    //Строка3 (адрес)
-                    getline(file, address);
-                    Bed2[n_pics].address = address.c_str();
 
 
-
-                    Bed2[n_pics].visible = true;
-
-                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
-                    //Ширина и высота из свойств файла
-                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
-                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
-
-                    n_pics = n_pics + 1;
-                }
-
-                txMessageBox("Загрузка...");*/
             }
         }
 
