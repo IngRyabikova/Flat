@@ -174,7 +174,20 @@ int main()
         variants[nomer].visible = false;
 
         variants[nomer].picture1 = txLoadImage(variants[nomer].address.c_str());
-        variants[nomer].picture2 = txLoadImage(("1" + (string)variants[nomer].address).c_str());
+
+
+
+
+                 //   string address = variants[Active_Pic].address;
+        category = variants[nomer].category;
+
+        int pos1 = s.find(category) ;
+        s = s.replace(pos1, category.size(),category + "1");
+
+        variants[nomer].picture2 = txLoadImage(s.c_str());
+
+
+        //variants[nomer].picture2 = txLoadImage(("1" + (string)variants[nomer].address).c_str());
         variants[nomer].picture = variants[nomer].picture1;
 
         //Ширина и высота из свойств файла
@@ -375,11 +388,7 @@ int main()
             //Жёлтые кнопки наверху экрана
             for (int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
-                //Это что еще такое?
-                /*if( txMouseX() >= Button[nomer].x &&
-                    txMouseY() >= Button[nomer].y &&
-                    txMouseX() <= Button[nomer].x + 200 &&
-                    txMouseY() <= Button[nomer].y + 60) */
+
                 {
                     Button[nomer].draw();
                 }
@@ -474,18 +483,24 @@ int main()
             //Переворот/перерисовка картинки
                 if(GetAsyncKeyState('R') && Active_Pic >= 0)
                 {
-                    /*
-                    string adress = variants[nomer].addres;
-                    string category = variants[nomer].category;
+
+                   /* string address = variants[Active_Pic].address;
+                    category = variants[Active_Pic].category;
 
 
 
-                    int pos = adress.find(category) ;
-                    adress = adress.replace(pos, category.size(),category + "1");
-                    */
+                    int pos1 = address.find(category) ;
+                    address = address.replace(pos1, category.size(),category + "1");
+                    cout << address << endl;
+
+                    txSleep(2000);  */
+
+       // variants[Active_Pic].picture2 = txLoadImage(("1" + (string)variants[Active_Pic].address).c_str());
 
 
-                    Bed2[Active_Pic].picture = Bed2[Active_Pic].picture2;
+
+
+                Bed2[Active_Pic].picture = Bed2[Active_Pic].picture2;
 
                 }
 
