@@ -1,31 +1,10 @@
 #include "TXLib.h"
 #include "Bed.cpp"
 #include "Button.cpp"
+#include "Files.cpp"
 #include <fstream>
 #include <iostream>
-
 using namespace std;
-
-int getWidth(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-
-    bmp.read(header, 54);
-    int width = *(int *)&header[18];
-    return width;
-}
-int getHeight(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-
-    bmp.read(header, 54);
-    int width = *(int *)&header[22];
-    return width;
-}
 
 void drawObl(HDC Krestik)
 {
@@ -37,39 +16,6 @@ void drawObl(HDC Krestik)
     txRectangle(1100, 60, 1300, 750);
     txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
-
-int Bot_reading(const char* address, Picture*variants, int N)
-{
-    setlocale(LC_ALL, "Russian");
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hf;
-    string str = address;
-    str = str + "*";
-
-    hf=FindFirstFile(str.c_str(), &FindFileData);
-
-    //
-    if (hf!=INVALID_HANDLE_VALUE){
-        do{
-
-            str = FindFileData.cFileName;
-            str = (string)address + str;
-
-            if (str.find(".bmp") != -1)
-            {
-                string s = str;
-                variants[N] = {s.c_str()};
-                N = N + 1;
-                txSleep(20);
-            }
-        }
-        while (FindNextFile(hf,&FindFileData)!=0);
-        FindClose(hf);
-    }
-
-    return N;
-}
-
 
 int main()
 {
@@ -462,18 +408,6 @@ int main()
                      n_pics++;
                      klik = false;
                 }
-
-                /*if (txMouseX() >= variants[nomer].x &&   попытка анимации мебели справа
-                    txMouseY() >= variants[nomer].y &&
-                    txMouseX() <= variants[nomer].x + variants[nomer].width &&
-                    txMouseY() <= variants[nomer].y + variants[nomer].height)
-                {
-                    //PAGE = "start";
-
-                    txSetFillColor(TX_TRANSPARENT);
-                    txSetColor(RGB(170, 220, 25), 7);
-                    Win32::RoundRect(txDC(), variants[nomer].x + 4, variants[nomer].y + 10, variants[nomer].x + 170, variants[nomer].y + 59, 10, 10);
-                }  */
             }
 
             //Движение картинки
@@ -579,92 +513,70 @@ int main()
 
             if (Button[5].click() && txMouseButtons() == 1)
             {
-                //Открыть файл
-                ofstream file2("картинки.txt");
+                string fileName = RunDialog(true);
 
-                //Пробежать по всем картинкам
-                for (int i = 0; i < n_pics; i++)
+                // Покажем диалоговое окно Открыть (Open).
+                if (fileName.size() > 0)
                 {
-                    //И сохранить вот это
-                    file2 << Bed2[i].x << endl;
-                    file2 << Bed2[i].y << endl;
-                    file2 << Bed2[i].address << endl;
+                    //Открыть файл
+                    ofstream file2(fileName);
+
+                    //Пробежать по всем картинкам
+                    for (int i = 0; i < n_pics; i++)
+                    {
+                        //И сохранить вот это
+                        file2 << Bed2[i].x << endl;
+                        file2 << Bed2[i].y << endl;
+                        file2 << Bed2[i].address << endl;
+                    }
+
+                    file2.close();
+
+                    txMessageBox("Успешно сохранено");
                 }
-
-                file2.close();
-
-                txMessageBox("Успешно сохранено");
 
             }
 
             if (Button[6].click() && txMouseButtons() == 1)
             {
-
-    OPENFILENAME ofn;			// структура стандартного диалогового окна
-    char szFile[260];			// буфер для имени файла
-    HWND hwnd;              		// окно владельца
-    HANDLE hf;              		// дескриптор файла
-
-    // Инициализация OPENFILENAME
-    ZeroMemory(&ofn, sizeof(OPENFILENAME));
-    ofn.lStructSize = sizeof(OPENFILENAME);
-    ofn.hwndOwner = txWindow();
-    ofn.lpstrFile = szFile;
-    ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-    // Покажем диалоговое окно Открыть (Open).
-
-    if (GetSaveFileName(&ofn) == TRUE)
-     {
-
-        string fileName = ofn.lpstrFile;
-        ofstream file2(fileName);
-        for (int i = 0; i < n_pics; i++)
-        {
-
-            file2 << Bed2[i].x << endl;
-            file2 << Bed2[i].y << endl;
-            file2 << Bed2[i].address << endl;
-        }
-
-        file2.close();
-     }
-
-
-              /*  //Прочитал первую строку
-                while (file.good())
+                string fileName = RunDialog(false);
+                // Покажем диалоговое окно Открыть (Open)
+                if (fileName.size() > 0)
                 {
-                    //Строка1 (x)
-                    getline(file, strokaX);
-                    Bed2[n_pics].x = atoi(strokaX.c_str());
+                    n_pics = 0;
+                    ifstream file2(fileName);
+                    //Прочитал первую строку
+                    while (file2.good())
+                    {
+                        //Строка1 (x)
+                        getline(file2, strokaX);
+                        if (strokaX.size() > 0)
+                        {
+                            Bed2[n_pics].x = atoi(strokaX.c_str());
 
-                    //Строка2 (y)
-                    getline(file, strokaY);
-                    Bed2[n_pics].y = atoi(strokaY.c_str());
+                            //Строка2 (y)
+                            getline(file2, strokaY);
+                            Bed2[n_pics].y = atoi(strokaY.c_str());
 
-                    //Строка3 (адрес)
-                    getline(file, address);
-                    Bed2[n_pics].address = address.c_str();
+                            //Строка3 (адрес)
+                            getline(file2, address);
+                            Bed2[n_pics].address = address.c_str();
 
+                            Bed2[n_pics].visible = true;
+                            Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+                            //Ширина и высота из свойств файла
+                            Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
+                            Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
 
+                            n_pics = n_pics + 1;
+                        }
+                    }
 
-                    Bed2[n_pics].visible = true;
+                    txMessageBox("Загрузка...");
 
-                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
-                    //Ширина и высота из свойств файла
-                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
-                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
-
-                    n_pics = n_pics + 1;
+                    file2.close();
                 }
 
-                txMessageBox("Загрузка...");*/
             }
         }
 
