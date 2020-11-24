@@ -46,7 +46,7 @@ struct button
     bool click()
     {
         if (txMouseX() >= x && txMouseX() <= x + width &&
-            txMouseY() >= y && txMouseY() <= y + height && txMouseButtons() == 1)
+            txMouseY() >= y && txMouseY() <= y + height && txMouseButtons() == 1 &&  activee == true)
         {
             return true;
         }

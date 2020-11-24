@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 
+
 using namespace std;
 
 int getWidth(const char* address)
@@ -74,6 +75,7 @@ int Bot_reading(const char* address, Picture*variants, int N)
 int main()
 {
     txCreateWindow (1300, 750);
+    txTextCursor (false);   //убирает курсор
     // POINT size = txGetConsoleFontSize();
   //txSetConsoleCursorPos ( * size.x, 0 * size.y);
 
@@ -88,17 +90,18 @@ int main()
     int x_Krestik = 1100;
     int y_Krestik = 60;
 
-    int count_button = 8;
+    int count_button = 9;
     button Button[count_button];
     //Можно 2 кнопку, но у нее размер другой  #О чем речь? ##Есть более мелкая картинка
-    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Планировки","Plan", 200, 60};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Планы","Plan", 200, 60};
     Button[1] = {Button[0].picture, 0, 0, "Кровати","Кровати", 200, 60};
     Button[2] = {Button[0].picture, 0, 0, "Столы", "Столы", 200, 60};
     Button[3] = {Button[0].picture, 0, 0, "Диваны", "Диваны", 200, 60 };
     Button[4] = {Button[0].picture, 0, 0, "Кухня", "туалет", 200, 60};
     Button[5] = {Button[0].picture, 0, 0, "Сохранить", "Save", 200, 60};
     Button[6] = {Button[0].picture, 0, 0, "Загрузить", "Load", 200, 60};
-    Button[7] = {Button[0].picture, 0, 0, "Меню", "туалет", 200, 60};
+    Button[7] = {Button[0].picture, 0, 0, "Меню", "Кровати", 200, 60};
+    Button[8] = {Button[0].picture, 0, 0, "Очистить", "Кровати", 200, 60};
 
 
 
@@ -163,6 +166,7 @@ int main()
     count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Диваны/", variants, count_variants);
     count_variants = Bot_reading("Картинки/туалет/", variants, count_variants);
+
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
@@ -233,8 +237,6 @@ int main()
     Plans[1] = {"Картинки/Планы/План_2.bmp", false, "Plan"};
     Plans[2] = {"Картинки/Планы/План_3.bmp", false, "Plan"};
 
-
-
     int y_Plans = 150;      //Координаты планов variants
     for (int nomer = 0; nomer < count_Plans; nomer = nomer + 1)
     {
@@ -250,26 +252,13 @@ int main()
         }
     }
 
-
-
     HDC Plan_ = Plans[0].picture;
     int x_Plan_ = 0;
     int y_Plan_ = 0;
 
-
-
-
     //Центр. картинки
     Picture Bed2[2500];
     int n_pics = 0;
-
-
-
-
-
-
-
-
 
    //int n_pics2 = 0;
     string strokaX;
@@ -370,7 +359,7 @@ int main()
 
             //Меню
             txSetFillColour(TX_WHITE);
-            if (Button[7].click())
+            if (Button[7].click() &&  activee == true)
             {
                 PAGE = "start";
             }
@@ -394,7 +383,7 @@ int main()
                 }
             }
 
-            if(drawOBL)
+            if(drawOBL )
             {
                 drawObl(Krestik);
             }
@@ -404,7 +393,7 @@ int main()
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
-                if (Button[nomer].click() && mouse1 == false)
+                if (Button[nomer].click() && mouse1 == false && activee == true )
                 {
                     category = Button[nomer].category;
                     drawOBL = true;
@@ -414,13 +403,13 @@ int main()
                 if (txMouseX() >= Button[nomer].x &&
                     txMouseY() >= Button[nomer].y &&
                     txMouseX() <= Button[nomer].x + Button[nomer].width &&
-                    txMouseY() <= Button[nomer].y + Button[nomer].height)
+                    txMouseY() <= Button[nomer].y + Button[nomer].height && activee == true)
                 {
                     //PAGE = "start";
 
                     txSetFillColor(TX_TRANSPARENT);
                     txSetColor(RGB(0, 0, 0), 7);
-                    Win32::RoundRect(txDC(), Button[nomer].x + 4, Button[nomer].y + 10, Button[nomer].x + 147, Button[nomer].y + 59, 10, 10);
+                    Win32::RoundRect(txDC(), Button[nomer].x + 4, Button[nomer].y + 10, Button[nomer].x + 130, Button[nomer].y + 59, 10, 10);
                 }
             }
 
@@ -446,6 +435,11 @@ int main()
                 }
             }
 
+            if (Button[8].click() &&  activee == true )//очистка
+            {
+                n_pics = 0;
+            }
+
 
             //Выбор мебели и её рисование(рандомное)
             for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
@@ -462,22 +456,18 @@ int main()
                      n_pics++;
                      klik = false;
                 }
-
-                /*if (txMouseX() >= variants[nomer].x &&   попытка анимации мебели справа
-                    txMouseY() >= variants[nomer].y &&
-                    txMouseX() <= variants[nomer].x + variants[nomer].width &&
-                    txMouseY() <= variants[nomer].y + variants[nomer].height)
-                {
-                    //PAGE = "start";
-
-                    txSetFillColor(TX_TRANSPARENT);
-                    txSetColor(RGB(170, 220, 25), 7);
-                    Win32::RoundRect(txDC(), variants[nomer].x + 4, variants[nomer].y + 10, variants[nomer].x + 170, variants[nomer].y + 59, 10, 10);
-                }  */
-            }
+                     //попытка столкновения предметов
+                /*if (Bed2[Active_Pic].x == Bed2[n_pics].x + 150 &&
+                    //Bed2[Active_Pic].x == Bed2[n_pics].x + 50 &&
+                    //Bed2[Active_Pic].y == Bed2[n_pics].y - 50 &&
+                    Bed2[Active_Pic].y == Bed2[n_pics].y + 150 )
+                    Bed2[Active_Pic].y = Bed2[Active_Pic].y + 50;   */
+             }
 
             //Движение картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
+
+
 
 
             //Переворот/перерисовка картинки
@@ -504,7 +494,11 @@ int main()
 
                 }
 
+             if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseY() >= 675  )
+             Bed2[Active_Pic].y = Bed2[Active_Pic].y - 150;
 
+             if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseX() + 50 >= 1283  )
+             Bed2[Active_Pic].x = Bed2[Active_Pic].x - 150;
 
 
             //Удаление картинки путём смены местами Active_Pic и n_pics
@@ -577,7 +571,7 @@ int main()
 
 
 
-            if (Button[5].click() && txMouseButtons() == 1)
+            if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
                 //Открыть файл
                 ofstream file2("картинки.txt");
@@ -597,7 +591,7 @@ int main()
 
             }
 
-            if (Button[6].click() && txMouseButtons() == 1)
+            if (Button[6].click() && txMouseButtons() == 1 &&  activee == true)
             {
 
     OPENFILENAME ofn;			// структура стандартного диалогового окна

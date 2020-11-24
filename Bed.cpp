@@ -73,7 +73,7 @@ void drawAllBED2(Picture* Bed2, int n_pics)
 
 
 
-
+ bool activee = true;
 //Движение картинок
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {
@@ -84,13 +84,17 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
             txMouseY() >= Bed2[n].y &&
             txMouseX() <= Bed2[n].x +  Bed2[n].width &&
             txMouseY() <= Bed2[n].y +  Bed2[n].height  &&
-            txMouseButtons() == 1 )
+            txMouseButtons() == 1 && activee == true)
         {
             //Bed2[n].x = txMouseX();
             //Bed2[n].y = txMouseY();
             Active_Pic = n;
+            activee = false;
         }
     }
+    if (txMouseButtons() == 0)
+    activee = true;
+
 
 
     if(Active_Pic >= 0 && txMouseButtons() == 1)
@@ -118,8 +122,8 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
                 if (txGetPixel(x, y) == TX_BLACK)
                 {
                     monolit = false;
-                    x1 = x;
-                    y1 = y;
+                    x1 = x - 200;
+                    y1 = y - 200;
                 }
             }
         }
@@ -127,9 +131,13 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
         //Если столкнулись с черным, кидаем влево
         if (!monolit)
         {
-            Bed2[Active_Pic].x = x1 + 5;
-            Bed2[Active_Pic].y = y1 + 5;
+            Bed2[Active_Pic].x = random(100, 1100);
+            Bed2[Active_Pic].y = random(100, 650);
+
+            //if (Bed2[Active_Pic].x <= 50);
+            //Bed2[Active_Pic].x = 100;
         }
+
 
 
 
