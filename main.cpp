@@ -1,9 +1,10 @@
 #include "TXLib.h"
-#include "Bed.cpp"
-#include "Button.cpp"
-#include "Files.cpp"
+#include "Lib/Bed.cpp"
+#include "Lib/Button.cpp"
+#include "Lib/Files.cpp"
 #include <fstream>
 #include <iostream>
+
 using namespace std;
 
 void drawObl(HDC Krestik)
@@ -20,8 +21,7 @@ void drawObl(HDC Krestik)
 int main()
 {
     txCreateWindow (1300, 750);
-    // POINT size = txGetConsoleFontSize();
-  //txSetConsoleCursorPos ( * size.x, 0 * size.y);
+    txTextCursor (false);   //убирает курсор
 
 
     string category = "";
@@ -34,20 +34,17 @@ int main()
     int x_Krestik = 1100;
     int y_Krestik = 60;
 
-    int count_button = 8;
+    int count_button = 9;
     button Button[count_button];
-    //Можно 2 кнопку, но у нее размер другой  #О чем речь? ##Есть более мелкая картинка
-    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Планировки","Plan", 200, 60};
+    Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Планы","Plan", 200, 60};
     Button[1] = {Button[0].picture, 0, 0, "Кровати","Кровати", 200, 60};
     Button[2] = {Button[0].picture, 0, 0, "Столы", "Столы", 200, 60};
     Button[3] = {Button[0].picture, 0, 0, "Диваны", "Диваны", 200, 60 };
     Button[4] = {Button[0].picture, 0, 0, "Кухня", "туалет", 200, 60};
     Button[5] = {Button[0].picture, 0, 0, "Сохранить", "Save", 200, 60};
     Button[6] = {Button[0].picture, 0, 0, "Загрузить", "Load", 200, 60};
-    Button[7] = {Button[0].picture, 0, 0, "Меню", "туалет", 200, 60};
-
-
-
+    Button[7] = {Button[0].picture, 0, 0, "Меню", "Кровати", 200, 60};
+    Button[8] = {Button[0].picture, 0, 0, "Очистить", "Кровати", 200, 60};
 
     //Расставляем координаты и ширину кнопкам
     for(int i = 0; i < count_button; i++)
@@ -56,14 +53,6 @@ int main()
         Button[i].x = 1298 * i / count_button;
         Button[i].width = 1200 / count_button;
     }
-
-    //Координаты кнопок выбора мебели на PAGE = "redactor"
-    /*for(int i = 0; i < count_button; i = i + 1)
-    {
-        Button[i].y = 0;
-        Button[i].x = i * 250;
-        Ширина, высота
-    } */
 
     HDC button_0 = txLoadImage("Картинки/Кнопки/Кнопка.bmp");
     int x_button_0 = 0;
@@ -82,6 +71,7 @@ int main()
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
     const char* PAGE = "start";
 
+    //ЧТо это делает?
     if (category == "redactor")
         PAGE = "start";
 
@@ -94,21 +84,24 @@ int main()
 
     //Cursor =- 1;
 
-
+    //Что это?
     bool mouse1 = false;
 
     //Это да
     bool drawOBL = false;
     int Active_Pic = -1;
+    //Что это?
     bool klik = true;
 
     int count_variants = 0;
     Picture variants[777];
 
+    //Коммент, функция
     count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Диваны/", variants, count_variants);
     count_variants = Bot_reading("Картинки/туалет/", variants, count_variants);
+
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
@@ -179,8 +172,6 @@ int main()
     Plans[1] = {"Картинки/Планы/План_2.bmp", false, "Plan"};
     Plans[2] = {"Картинки/Планы/План_3.bmp", false, "Plan"};
 
-
-
     int y_Plans = 150;      //Координаты планов variants
     for (int nomer = 0; nomer < count_Plans; nomer = nomer + 1)
     {
@@ -196,26 +187,13 @@ int main()
         }
     }
 
-
-
     HDC Plan_ = Plans[0].picture;
     int x_Plan_ = 0;
     int y_Plan_ = 0;
 
-
-
-
     //Центр. картинки
     Picture Bed2[2500];
     int n_pics = 0;
-
-
-
-
-
-
-
-
 
    //int n_pics2 = 0;
     string strokaX;
@@ -316,7 +294,7 @@ int main()
 
             //Меню
             txSetFillColour(TX_WHITE);
-            if (Button[7].click())
+            if (Button[7].click() &&  activee == true)
             {
                 PAGE = "start";
             }
@@ -340,7 +318,7 @@ int main()
                 }
             }
 
-            if(drawOBL)
+            if(drawOBL )
             {
                 drawObl(Krestik);
             }
@@ -350,7 +328,7 @@ int main()
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
-                if (Button[nomer].click() && mouse1 == false)
+                if (Button[nomer].click() && mouse1 == false && activee == true )
                 {
                     category = Button[nomer].category;
                     drawOBL = true;
@@ -360,13 +338,13 @@ int main()
                 if (txMouseX() >= Button[nomer].x &&
                     txMouseY() >= Button[nomer].y &&
                     txMouseX() <= Button[nomer].x + Button[nomer].width &&
-                    txMouseY() <= Button[nomer].y + Button[nomer].height)
+                    txMouseY() <= Button[nomer].y + Button[nomer].height && activee == true)
                 {
                     //PAGE = "start";
 
                     txSetFillColor(TX_TRANSPARENT);
                     txSetColor(RGB(0, 0, 0), 7);
-                    Win32::RoundRect(txDC(), Button[nomer].x + 4, Button[nomer].y + 10, Button[nomer].x + 147, Button[nomer].y + 59, 10, 10);
+                    Win32::RoundRect(txDC(), Button[nomer].x + 4, Button[nomer].y + 10, Button[nomer].x + 130, Button[nomer].y + 59, 10, 10);
                 }
             }
 
@@ -392,6 +370,11 @@ int main()
                 }
             }
 
+            if (Button[8].click() &&  activee == true )//очистка
+            {
+                n_pics = 0;
+            }
+
 
             //Выбор мебели и её рисование(рандомное)
             for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
@@ -414,31 +397,20 @@ int main()
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
 
+
+
             //Переворот/перерисовка картинки
-                if(GetAsyncKeyState('R') && Active_Pic >= 0)
-                {
-
-                   /* string address = variants[Active_Pic].address;
-                    category = variants[Active_Pic].category;
-
-
-
-                    int pos1 = address.find(category) ;
-                    address = address.replace(pos1, category.size(),category + "1");
-                    cout << address << endl;
-
-                    txSleep(2000);  */
-
-       // variants[Active_Pic].picture2 = txLoadImage(("1" + (string)variants[Active_Pic].address).c_str());
-
-
-
-
+            if(GetAsyncKeyState('R') && Active_Pic >= 0)
+            {
+                //А в обратную сторону?
                 Bed2[Active_Pic].picture = Bed2[Active_Pic].picture2;
+            }
 
-                }
+             if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseY() >= 675  )
+             Bed2[Active_Pic].y = Bed2[Active_Pic].y - 150;
 
-
+             if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseX() + 50 >= 1283  )
+             Bed2[Active_Pic].x = Bed2[Active_Pic].x - 150;
 
 
             //Удаление картинки путём смены местами Active_Pic и n_pics
@@ -476,7 +448,7 @@ int main()
             }*/
 
 
-
+            //Кто ж про это клавишу знает?
             if(GetAsyncKeyState('P'))
             {
                 PAGE = "start";
@@ -511,7 +483,7 @@ int main()
 
 
 
-            if (Button[5].click() && txMouseButtons() == 1)
+            if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
                 string fileName = RunDialog(true);
 
@@ -537,7 +509,7 @@ int main()
 
             }
 
-            if (Button[6].click() && txMouseButtons() == 1)
+            if (Button[6].click() && txMouseButtons() == 1 &&  activee == true)
             {
                 string fileName = RunDialog(false);
                 // Покажем диалоговое окно Открыть (Open)
