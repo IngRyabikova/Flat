@@ -1,32 +1,11 @@
 #include "TXLib.h"
-#include "Bed.cpp"
-#include "Button.cpp"
+#include "Lib/Bed.cpp"
+#include "Lib/Button.cpp"
+#include "Lib/Files.cpp"
 #include <fstream>
 #include <iostream>
 
-
 using namespace std;
-
-int getWidth(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-
-    bmp.read(header, 54);
-    int width = *(int *)&header[18];
-    return width;
-}
-int getHeight(const char* address)
-{
-    char header[54];
-    ifstream bmp;
-    bmp.open(address, ios::in | ios::binary);
-
-    bmp.read(header, 54);
-    int width = *(int *)&header[22];
-    return width;
-}
 
 void drawObl(HDC Krestik)
 {
@@ -39,45 +18,10 @@ void drawObl(HDC Krestik)
     txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
 
-int Bot_reading(const char* address, Picture*variants, int N)
-{
-    setlocale(LC_ALL, "Russian");
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hf;
-    string str = address;
-    str = str + "*";
-
-    hf=FindFirstFile(str.c_str(), &FindFileData);
-
-    //
-    if (hf!=INVALID_HANDLE_VALUE){
-        do{
-
-            str = FindFileData.cFileName;
-            str = (string)address + str;
-
-            if (str.find(".bmp") != -1)
-            {
-                string s = str;
-                variants[N] = {s.c_str()};
-                N = N + 1;
-                txSleep(20);
-            }
-        }
-        while (FindNextFile(hf,&FindFileData)!=0);
-        FindClose(hf);
-    }
-
-    return N;
-}
-
-
 int main()
 {
     txCreateWindow (1300, 750);
     txTextCursor (false);   //убирает курсор
-    // POINT size = txGetConsoleFontSize();
-  //txSetConsoleCursorPos ( * size.x, 0 * size.y);
 
 
     string category = "";
@@ -92,7 +36,6 @@ int main()
 
     int count_button = 9;
     button Button[count_button];
-    //Можно 2 кнопку, но у нее размер другой  #О чем речь? ##Есть более мелкая картинка
     Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Планы","Plan", 200, 60};
     Button[1] = {Button[0].picture, 0, 0, "Кровати","Кровати", 200, 60};
     Button[2] = {Button[0].picture, 0, 0, "Столы", "Столы", 200, 60};
@@ -103,9 +46,6 @@ int main()
     Button[7] = {Button[0].picture, 0, 0, "Меню", "Кровати", 200, 60};
     Button[8] = {Button[0].picture, 0, 0, "Очистить", "Кровати", 200, 60};
 
-
-
-
     //Расставляем координаты и ширину кнопкам
     for(int i = 0; i < count_button; i++)
     {
@@ -113,14 +53,6 @@ int main()
         Button[i].x = 1298 * i / count_button;
         Button[i].width = 1200 / count_button;
     }
-
-    //Координаты кнопок выбора мебели на PAGE = "redactor"
-    /*for(int i = 0; i < count_button; i = i + 1)
-    {
-        Button[i].y = 0;
-        Button[i].x = i * 250;
-        Ширина, высота
-    } */
 
     HDC button_0 = txLoadImage("Картинки/Кнопки/Кнопка.bmp");
     int x_button_0 = 0;
@@ -139,6 +71,7 @@ int main()
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
     const char* PAGE = "start";
 
+    //ЧТо это делает?
     if (category == "redactor")
         PAGE = "start";
 
@@ -151,17 +84,19 @@ int main()
 
     //Cursor =- 1;
 
-
+    //Что это?
     bool mouse1 = false;
 
     //Это да
     bool drawOBL = false;
     int Active_Pic = -1;
+    //Что это?
     bool klik = true;
 
     int count_variants = 0;
     Picture variants[777];
 
+    //Коммент, функция
     count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Диваны/", variants, count_variants);
@@ -456,13 +391,7 @@ int main()
                      n_pics++;
                      klik = false;
                 }
-                     //попытка столкновения предметов
-                /*if (Bed2[Active_Pic].x == Bed2[n_pics].x + 150 &&
-                    //Bed2[Active_Pic].x == Bed2[n_pics].x + 50 &&
-                    //Bed2[Active_Pic].y == Bed2[n_pics].y - 50 &&
-                    Bed2[Active_Pic].y == Bed2[n_pics].y + 150 )
-                    Bed2[Active_Pic].y = Bed2[Active_Pic].y + 50;   */
-             }
+            }
 
             //Движение картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
@@ -471,28 +400,11 @@ int main()
 
 
             //Переворот/перерисовка картинки
-                if(GetAsyncKeyState('R') && Active_Pic >= 0)
-                {
-
-                   /* string address = variants[Active_Pic].address;
-                    category = variants[Active_Pic].category;
-
-
-
-                    int pos1 = address.find(category) ;
-                    address = address.replace(pos1, category.size(),category + "1");
-                    cout << address << endl;
-
-                    txSleep(2000);  */
-
-       // variants[Active_Pic].picture2 = txLoadImage(("1" + (string)variants[Active_Pic].address).c_str());
-
-
-
-
+            if(GetAsyncKeyState('R') && Active_Pic >= 0)
+            {
+                //А в обратную сторону?
                 Bed2[Active_Pic].picture = Bed2[Active_Pic].picture2;
-
-                }
+            }
 
              if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseY() >= 675  )
              Bed2[Active_Pic].y = Bed2[Active_Pic].y - 150;
@@ -536,7 +448,7 @@ int main()
             }*/
 
 
-
+            //Кто ж про это клавишу знает?
             if(GetAsyncKeyState('P'))
             {
                 PAGE = "start";
@@ -573,92 +485,70 @@ int main()
 
             if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
-                //Открыть файл
-                ofstream file2("картинки.txt");
+                string fileName = RunDialog(true);
 
-                //Пробежать по всем картинкам
-                for (int i = 0; i < n_pics; i++)
+                // Покажем диалоговое окно Открыть (Open).
+                if (fileName.size() > 0)
                 {
-                    //И сохранить вот это
-                    file2 << Bed2[i].x << endl;
-                    file2 << Bed2[i].y << endl;
-                    file2 << Bed2[i].address << endl;
+                    //Открыть файл
+                    ofstream file2(fileName);
+
+                    //Пробежать по всем картинкам
+                    for (int i = 0; i < n_pics; i++)
+                    {
+                        //И сохранить вот это
+                        file2 << Bed2[i].x << endl;
+                        file2 << Bed2[i].y << endl;
+                        file2 << Bed2[i].address << endl;
+                    }
+
+                    file2.close();
+
+                    txMessageBox("Успешно сохранено");
                 }
-
-                file2.close();
-
-                txMessageBox("Успешно сохранено");
 
             }
 
             if (Button[6].click() && txMouseButtons() == 1 &&  activee == true)
             {
-
-    OPENFILENAME ofn;			// структура стандартного диалогового окна
-    char szFile[260];			// буфер для имени файла
-    HWND hwnd;              		// окно владельца
-    HANDLE hf;              		// дескриптор файла
-
-    // Инициализация OPENFILENAME
-    ZeroMemory(&ofn, sizeof(OPENFILENAME));
-    ofn.lStructSize = sizeof(OPENFILENAME);
-    ofn.hwndOwner = txWindow();
-    ofn.lpstrFile = szFile;
-    ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "All\0*.*\0Text\0*.TXT\0";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-    // Покажем диалоговое окно Открыть (Open).
-
-    if (GetSaveFileName(&ofn) == TRUE)
-     {
-
-        string fileName = ofn.lpstrFile;
-        ofstream file2(fileName);
-        for (int i = 0; i < n_pics; i++)
-        {
-
-            file2 << Bed2[i].x << endl;
-            file2 << Bed2[i].y << endl;
-            file2 << Bed2[i].address << endl;
-        }
-
-        file2.close();
-     }
-
-
-              /*  //Прочитал первую строку
-                while (file.good())
+                string fileName = RunDialog(false);
+                // Покажем диалоговое окно Открыть (Open)
+                if (fileName.size() > 0)
                 {
-                    //Строка1 (x)
-                    getline(file, strokaX);
-                    Bed2[n_pics].x = atoi(strokaX.c_str());
+                    n_pics = 0;
+                    ifstream file2(fileName);
+                    //Прочитал первую строку
+                    while (file2.good())
+                    {
+                        //Строка1 (x)
+                        getline(file2, strokaX);
+                        if (strokaX.size() > 0)
+                        {
+                            Bed2[n_pics].x = atoi(strokaX.c_str());
 
-                    //Строка2 (y)
-                    getline(file, strokaY);
-                    Bed2[n_pics].y = atoi(strokaY.c_str());
+                            //Строка2 (y)
+                            getline(file2, strokaY);
+                            Bed2[n_pics].y = atoi(strokaY.c_str());
 
-                    //Строка3 (адрес)
-                    getline(file, address);
-                    Bed2[n_pics].address = address.c_str();
+                            //Строка3 (адрес)
+                            getline(file2, address);
+                            Bed2[n_pics].address = address.c_str();
 
+                            Bed2[n_pics].visible = true;
+                            Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+                            //Ширина и высота из свойств файла
+                            Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
+                            Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
 
+                            n_pics = n_pics + 1;
+                        }
+                    }
 
-                    Bed2[n_pics].visible = true;
+                    txMessageBox("Загрузка...");
 
-                    Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
-                    //Ширина и высота из свойств файла
-                    Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
-                    Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
-
-                    n_pics = n_pics + 1;
+                    file2.close();
                 }
 
-                txMessageBox("Загрузка...");*/
             }
         }
 
