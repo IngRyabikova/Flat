@@ -69,11 +69,9 @@ int main()
     Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, " ", "settings", 457, 122};
     Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, " ", "start", 448, 132};
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
-    const char* PAGE = "start";
+    const char* PAGE = "redactor";
 
-    //ЧТо это делает?
-    if (category == "redactor")
-        PAGE = "start";
+
 
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
     //button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
@@ -96,11 +94,13 @@ int main()
     int count_variants = 0;
     Picture variants[777];
 
-    //Коммент, функция
+    //Заполнение вариантов диванов, другой мебели
     count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Диваны/", variants, count_variants);
     count_variants = Bot_reading("Картинки/туалет/", variants, count_variants);
+
+
 
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
@@ -142,26 +142,29 @@ int main()
     int y_Kuhna = 150;      //Координаты Kuhna variants
     for (int i = 0; i < count_variants; i = i + 1)
     {
+        variants[i].x = 1120;
         if (variants[i].category == "Кровати")
         {
             variants[i].y = y_Bed;
-            y_Bed = y_Bed + 150;
+            y_Bed = y_Bed + PIC_SIZE * 1.1;
+
         }
         if (variants[i].category == "Диваны")
         {
             variants[i].y = y_Sofa;
-            y_Sofa = y_Sofa + 100;
+            y_Sofa = y_Sofa + PIC_SIZE * 1.1;
         }
 
         if(variants[i].category == "Столы")
         {
             variants[i].y = y_Table;
-            y_Table = y_Table + 150;
+            //x_Table = 700;
+            y_Table = y_Table + PIC_SIZE * 1.1;
         }
         if(variants[i].category == "туалет")
         {
             variants[i].y = y_Kuhna;
-            y_Kuhna = y_Kuhna + 100;
+            y_Kuhna = y_Kuhna + PIC_SIZE * 1.1;
         }
     }
 
@@ -183,7 +186,7 @@ int main()
         if(Plans[nomer].category == "Plan")
         {
             Plans[nomer].y = y_Plans;
-            y_Plans = y_Plans + 200;
+            y_Plans = y_Plans + PIC_SIZE * 1.1;
         }
     }
 
@@ -381,12 +384,13 @@ int main()
             {
                 if (txMouseX() >= variants[nomer].x    &&
                     txMouseY() >= variants[nomer].y  &&
-                    txMouseX() <= variants[nomer].x +  variants[nomer].width &&
-                    txMouseY() <= variants[nomer].y +  variants[nomer].height &&
+                    txMouseX() <= variants[nomer].x + 150 &&
+                    txMouseY() <= variants[nomer].y + 150 &&
                     txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
                      Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, variants[nomer].picture1, variants[nomer].picture2,
                      random(100, 800), random(100, 600), variants[nomer].width, variants[nomer].height};
+
 
                      n_pics++;
                      klik = false;
@@ -550,6 +554,14 @@ int main()
                 }
 
             }
+        }
+
+        else if(PAGE == "fun")
+        {
+
+        txSetColor(RGB(0, 0, 0), 5);
+        txLine(50, 50, txMouseX(), txMouseY());
+        //это пасхалка будет весел полезно
         }
 
         txSleep(20);
