@@ -111,23 +111,17 @@ int main()
         variants[nomer].category = s.substr(pos + 1,pos2 - pos - 1);  //От первого / до второго
 
         variants[nomer].visible = false;
-
-        variants[nomer].picture1 = txLoadImage(variants[nomer].address.c_str());
-
-
-
-
-                 //   string address = variants[Active_Pic].address;
         category = variants[nomer].category;
+
 
         int pos1 = s.find(category) ;
         s = s.replace(pos1, category.size(),category + "1");
 
+
         variants[nomer].picture2 = txLoadImage(s.c_str());
-
-
-        //variants[nomer].picture2 = txLoadImage(("1" + (string)variants[nomer].address).c_str());
+        variants[nomer].picture1 = txLoadImage(variants[nomer].address.c_str());
         variants[nomer].picture = variants[nomer].picture1;
+
 
         //Ширина и высота из свойств файла
         variants[nomer].width = getWidth (variants[nomer].address.c_str());
@@ -190,6 +184,9 @@ int main()
     HDC Plan_ = Plans[0].picture;
     int x_Plan_ = 0;
     int y_Plan_ = 0;
+
+
+
 
     //Центр. картинки
     Picture Bed2[2500];
@@ -398,13 +395,22 @@ int main()
 
 
 
+                //Переворот/перерисовка картинки
+                if (GetAsyncKeyState('R') && Active_Pic >= 0 &&
+                    Bed2[Active_Pic].picture == Bed2[Active_Pic].picture1)
+                {
+                    Bed2[Active_Pic].picture = Bed2[Active_Pic].picture2;
+                    txSleep(200);
+                }
+                else if(GetAsyncKeyState('R') && Active_Pic >= 0 &&
+                    Bed2[Active_Pic].picture == Bed2[Active_Pic].picture2)
+                {
+                    Bed2[Active_Pic].picture = Bed2[Active_Pic].picture1;
+                    txSleep(200);
+                }
 
-            //Переворот/перерисовка картинки
-            if(GetAsyncKeyState('R') && Active_Pic >= 0)
-            {
-                //А в обратную сторону?
-                Bed2[Active_Pic].picture = Bed2[Active_Pic].picture2;
-            }
+
+
 
              if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseY() >= 675  )
              Bed2[Active_Pic].y = Bed2[Active_Pic].y - 150;
