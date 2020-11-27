@@ -1,7 +1,5 @@
 #include "TXLib.h"
 
-const int PIC_SIZE = 100;
-
 struct Picture
 {
     string address;
@@ -18,18 +16,24 @@ struct Picture
     //Рисование
     void draw()
     {
-        if (width > height * 1.2)
-            Win32::TransparentBlt (txDC(), x, y, PIC_SIZE, PIC_SIZE * height / width, picture, 0, 0, width, height, TX_WHITE);
 
-        else if (height > width * 1.2)
-            Win32::TransparentBlt (txDC(), x, y, PIC_SIZE * width / height, PIC_SIZE, picture, 0, 0, width, height, TX_WHITE);
+
+        if (width > height * 1.2)
+            Win32::TransparentBlt (txDC(), x, y, 100, 100 * height / width, picture, 0, 0, width, height, TX_WHITE);
+
+        else if (height > width)
+            Win32::TransparentBlt (txDC(), x, y, 100 * height / width, 100, picture, 0, 0, width, height, TX_WHITE);
         else
-            Win32::TransparentBlt (txDC(), x, y, PIC_SIZE * 0.8, PIC_SIZE * 0.8, picture, 0, 0, width, height, TX_WHITE);
+            Win32::TransparentBlt (txDC(), x, y, 120, 120, picture, 0, 0, width, height, TX_WHITE);
+
+
     }
 
     //Рисование иконки плана
     void draw2()
     {
+
+
         Win32::TransparentBlt (txDC(), x, y, 150, 120, picture, 0, 0, width, height, TX_YELLOW);
     }
 };
