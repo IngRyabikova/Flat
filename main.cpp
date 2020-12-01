@@ -21,7 +21,7 @@ void drawObl(HDC Krestik)
 int main()
 {
     txCreateWindow (1300, 750);
-    txTextCursor (false);   //убирает курсор
+    txTextCursor (false);   //убирает курсор *прекол
 
 
     string category = "";
@@ -46,7 +46,7 @@ int main()
     Button[7] = {Button[0].picture, 0, 0, "Меню", "Кровати", 200, 60};
     Button[8] = {Button[0].picture, 0, 0, "Очистить", "Кровати", 200, 60};
 
-    //Расставляем координаты и ширину кнопкам
+    //Расставляем координаты и ширину кнопкам *прекол
     for(int i = 0; i < count_button; i++)
     {
         Button[i].y = 0;
@@ -62,19 +62,15 @@ int main()
     int x_Strelka= 0;
     int y_Strelka = 0;
 
-
-
-    //Меню стартовой страницы
+    //Меню стартовой страницы*прекол
     button Button_MENU[3];
     Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, " ", "settings", 457, 122};
     Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, " ", "start", 448, 132};
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
     const char* PAGE = "redactor";
 
-
-
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
-    //button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
+    //button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};*прекол
 
     HDC reklama = txLoadImage("Картинки/Меню/Реклама 1.bmp");
     int x_reklama = 0;
@@ -82,13 +78,13 @@ int main()
 
     //Cursor =- 1;
 
-    //Что это?
+    //Что это? *прекол
     bool mouse1 = false;
 
-    //Это да
+    //Это *прекол
     bool drawOBL = false;
     int Active_Pic = -1;
-    //Что это?
+    //Что это?  *прекол
     bool klik = true;
 
     int count_variants = 0;
@@ -99,9 +95,6 @@ int main()
     count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Диваны/", variants, count_variants);
     count_variants = Bot_reading("Картинки/туалет/", variants, count_variants);
-
-
-
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
@@ -162,7 +155,6 @@ int main()
         }
     }
 
-
     int count_Plans = 3;
     Picture Plans[count_Plans];
     Plans[0] = {"Картинки/Планы/План_1.bmp", false, "Plan"};
@@ -188,9 +180,6 @@ int main()
     int x_Plan_ = 0;
     int y_Plan_ = 0;
 
-
-
-
     //Центр. картинки
     Picture Bed2[2500];
     int n_pics = 0;
@@ -199,8 +188,6 @@ int main()
     string strokaX;
     string strokaY;
     string address;
-
-
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -285,7 +272,11 @@ int main()
                         "Ты можешь выбирать любой из данных предметов\n"
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
-                        " удалить предмет, зажми его и нажми Delete!\n");
+                        " удалить предмет, зажми его и нажми Delete!\n"
+                        "))))))))))))))))))))))))))))))))))))))))))))))))))))))\n"
+                        " ПАСХАЛКА: На этой странице нажать ПКМ\n"
+                        " ОБРАТНО: 8 ДоЛжНо БыЛо БыТь Но я не умный\n"
+                        " ЦИКЛ мешает\n");
         }
 
         //Редактор)
@@ -322,8 +313,6 @@ int main()
             {
                 drawObl(Krestik);
             }
-
-
 
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
@@ -375,14 +364,13 @@ int main()
                 n_pics = 0;
             }
 
-
             //Выбор мебели и её рисование(рандомное)
             for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
             {
                 if (txMouseX() >= variants[nomer].x    &&
                     txMouseY() >= variants[nomer].y  &&
-                    txMouseX() <= variants[nomer].x + 150 &&
-                    txMouseY() <= variants[nomer].y + 150 &&
+                    txMouseX() <= variants[nomer].x + PIC_SIZE &&
+                    txMouseY() <= variants[nomer].y + PIC_SIZE &&
                     txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
                      Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, variants[nomer].picture1, variants[nomer].picture2,
@@ -397,8 +385,6 @@ int main()
             //Движение картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
-
-
                 //Переворот/перерисовка картинки
                 if (GetAsyncKeyState('R') && Active_Pic >= 0 &&
                     Bed2[Active_Pic].picture == Bed2[Active_Pic].picture1)
@@ -412,9 +398,6 @@ int main()
                     Bed2[Active_Pic].picture = Bed2[Active_Pic].picture1;
                     txSleep(200);
                 }
-
-
-
 
              if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseY() >= 675  )
              Bed2[Active_Pic].y = Bed2[Active_Pic].y - 150;
@@ -481,8 +464,6 @@ int main()
                 PAGE = "start";Plans
             } */
 
-
-
             //Категория); планов квартиры
             drawAllPlans(category, Plans, count_Plans);
             //Рисование мебели
@@ -490,8 +471,6 @@ int main()
             drawAllVariants(category, variants, count_variants);
 
           //  txTransparentBlt (txDC(), Pause.x + 5, Pause.y , 80, 45, Pause.picture, 80 * Pause.x_kadr,  0, RGB(255, 127, 39));
-
-
 
             if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
@@ -562,14 +541,37 @@ int main()
             }
         }
 
+        if(PAGE == "settings" && txMouseButtons() == 2)
+        PAGE = "fun";
+
         else if(PAGE == "fun")
         {
+        if(GetAsyncKeyState('8') )
+        PAGE = "settings";
 
-        txSetColor(RGB(0, 0, 0), 5);
-        txLine(50, 50, txMouseX(), txMouseY());
-        //это пасхалка будет весел полезно
-        }
+        int x1 = 0;
+        int y1 = 0;
 
+                txSetColor(RGB(0, 0, 0) ,6);
+                txCircle( x1 + 300,  y1 + 60, 15);
+                int x2 = 0;
+                int y2 = 0;
+
+                while (txMouseButtons() != (VK_UP))
+                {
+                    if (txMouseButtons() & 1)
+
+                        txCircle (txMouseX(), txMouseY(), 1);
+                        txSleep (20);
+                    }
+                    if(txMouseButtons () == 2)
+                    {
+                        txLine(303 + x1, 60 + y1, txMouseX() ,txMouseY() );
+                        txCircle(txMouseX() ,txMouseY(), 15);
+                        txRectangle( txMouseX(), txMouseY(), 303 + x1, 60 + y1 );
+                        txSleep (20);
+                }
+                        }
         txSleep(20);
         txEnd();
     }
