@@ -18,15 +18,7 @@ void drawObl(HDC Krestik)
 int main()
 {
     txCreateWindow (1300, 750);
-    txTextCursor (false);   //убирает курсор
-
-
-
-
-
-    HDC Krestik = txLoadImage("Картинки/Кнопки/Knopochka.bmp");
-    int x_Krestik = 1100;
-    int y_Krestik = 60;
+    txTextCursor (false);   //убирает курсор *прекол
 
     int count_button = 9;
     button Button[count_button];
@@ -40,7 +32,7 @@ int main()
     Button[7] = {Button[0].picture, 0, 0, "Меню", "Кровати", 200, 60};
     Button[8] = {Button[0].picture, 0, 0, "Очистить", "Кровати", 200, 60};
 
-    //Расставляем координаты и ширину кнопкам
+    //Расставляем координаты и ширину кнопкам *прекол
     for(int i = 0; i < count_button; i++)
     {
         Button[i].y = 0;
@@ -50,7 +42,7 @@ int main()
 
     HDC button_0 = txLoadImage("Картинки/Кнопки/Кнопка.bmp");
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
-
+    HDC Krestik = txLoadImage("Картинки/Кнопки/Knopochka.bmp");
 
     //Меню стартовой страницы
     button Button_MENU[3];
@@ -59,31 +51,24 @@ int main()
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
     const char* PAGE = "start";
 
-
-
     button Menu = {txLoadImage("Картинки/Меню/Меню.bmp"), 0, 0, ""};
-    //button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
-
     HDC reklama = txLoadImage("Картинки/Меню/Реклама 1.bmp");
 
-
-    //Это да
+    //Что это? *прекол
+    bool mouse1 = false;
+    //Это *прекол
     bool drawOBL = false;
     int Active_Pic = -1;
     //Что это?  это важная фигня НЕ ТРОГАТЬ!
     bool klik = true;
 
+    //Заполнение вариантов диванов, другой мебели
     int count_variants = 0;
     Picture variants[777];
-
-    //Заполнение вариантов диванов, другой мебели
     count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Столы/", variants, count_variants);
     count_variants = Bot_reading("Картинки/Диваны/", variants, count_variants);
     count_variants = Bot_reading("Картинки/туалет/", variants, count_variants);
-
-
-
 
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
     {
@@ -93,9 +78,9 @@ int main()
         variants[nomer].category = s.substr(pos + 1,pos2 - pos - 1);  //От первого / до второго
 
         variants[nomer].visible = false;
+
+        //Зеркальную картинку ищем в Диванах1 вместо Диванов
         string category1 = variants[nomer].category;
-
-
         int pos1 = s.find(category1) ;
         s = s.replace(pos1, category1.size(),category1 + "1");
 
@@ -144,7 +129,6 @@ int main()
         }
     }
 
-
     int count_Plans = 3;
     Picture Plans[count_Plans];
     Plans[0] = {"Картинки/Планы/План_1.bmp", false, "Plan"};
@@ -169,20 +153,14 @@ int main()
     HDC Plan_ = Plans[0].picture;
 
 
-
-
-
     //Центр. картинки
     Picture Bed2[2500];
     int n_pics = 0;
 
-   //int n_pics2 = 0;
     string strokaX;
     string strokaY;
     string address;
     string category = "";
-
-
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
@@ -267,13 +245,20 @@ int main()
                         "Ты можешь выбирать любой из данных предметов\n"
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
-                        " удалить предмет, зажми его и нажми Delete!\n");
+                        " удалить предмет, зажми его и нажми Delete!\n"
+                        "))))))))))))))))))))))))))))))))))))))))))))))))))))))\n"
+                        " ПАСХАЛКА: На этой странице нажать ПКМ\n"
+                        " ОБРАТНО: 8 ДоЛжНо БыЛо БыТь Но я не умный\n"
+                        " ЦИКЛ мешает\n");
+                        //Так сделай кнопкой или паузу добавь
+
+            if (txMouseButtons() == 2)
+                PAGE = "fun";
         }
 
         //Редактор)
         else if (PAGE == "redactor")
         {
-
             //Меню
             txSetFillColour(TX_WHITE);
             if (Button[7].click() &&  activee == true)
@@ -295,8 +280,6 @@ int main()
             {
                 drawObl(Krestik);
             }
-
-
 
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
@@ -348,14 +331,13 @@ int main()
                 n_pics = 0;
             }
 
-
             //Выбор мебели и её рисование(рандомное)
             for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
             {
                 if (txMouseX() >= variants[nomer].x    &&
                     txMouseY() >= variants[nomer].y  &&
-                    txMouseX() <= variants[nomer].x + 150 &&
-                    txMouseY() <= variants[nomer].y + 150 &&
+                    txMouseX() <= variants[nomer].x + PIC_SIZE &&
+                    txMouseY() <= variants[nomer].y + PIC_SIZE &&
                     txMouseButtons () ==1 && category == variants[nomer].category && klik == true)
                 {
                      Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, variants[nomer].picture1, variants[nomer].picture2,
@@ -370,8 +352,6 @@ int main()
             //Движение картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
-
-
                 //Переворот/перерисовка картинки
                 if (GetAsyncKeyState('R') && Active_Pic >= 0 &&
                     Bed2[Active_Pic].picture == Bed2[Active_Pic].picture1)
@@ -385,9 +365,6 @@ int main()
                     Bed2[Active_Pic].picture = Bed2[Active_Pic].picture1;
                     txSleep(200);
                 }
-
-
-
 
              if (Active_Pic >= 0 && txMouseButtons() == 1 && txMouseY() >= 675  )
              Bed2[Active_Pic].y = Bed2[Active_Pic].y - 150;
@@ -454,8 +431,6 @@ int main()
                 PAGE = "start";Plans
             } */
 
-
-
             //Категория); планов квартиры
             drawAllPlans(category, Plans, count_Plans);
             //Рисование мебели
@@ -463,8 +438,6 @@ int main()
             drawAllVariants(category, variants, count_variants);
 
           //  txTransparentBlt (txDC(), Pause.x + 5, Pause.y , 80, 45, Pause.picture, 80 * Pause.x_kadr,  0, RGB(255, 127, 39));
-
-
 
             if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
@@ -548,6 +521,32 @@ int main()
 
         else if(PAGE == "fun")
         {
+            if(GetAsyncKeyState('8') )
+                PAGE = "settings";
+
+
+        int x1 = 0;
+        int y1 = 0;
+
+                txSetColor(RGB(0, 0, 0) ,6);
+                txCircle( x1 + 300,  y1 + 60, 15);
+                int x2 = 0;
+                int y2 = 0;
+
+                while (txMouseButtons() != (VK_UP))
+                {
+                    if (txMouseButtons() & 1)
+
+                        txCircle (txMouseX(), txMouseY(), 1);
+                        txSleep (20);
+                    }
+                    if(txMouseButtons () == 2)
+                    {
+                        txLine(303 + x1, 60 + y1, txMouseX() ,txMouseY() );
+                        txCircle(txMouseX() ,txMouseY(), 15);
+                        txRectangle( txMouseX(), txMouseY(), 303 + x1, 60 + y1 );
+                        txSleep (20);
+                }
 
             txSetColor(RGB(0, 0, 0), 5);
             txLine(50, 50, txMouseX(), txMouseY());
@@ -556,13 +555,11 @@ int main()
 
 
 
-txTextOut(100 ,400, category.c_str());
+        txTextOut(100 ,400, category.c_str());
+
         txSleep(20);
         txEnd();
     }
-
-
-
 
 
     //Удаление картинок
@@ -571,8 +568,6 @@ txTextOut(100 ,400, category.c_str());
     txDeleteDC(reklama);
     txDeleteDC(button_0);
     txDeleteDC(Plan_);
-    //txDeleteDC(Button);
-    //txDeleteDC(Plans);
 
     deletePicBed(variants, count_variants, Plans);
     deletePic(Button, Button_MENU, Menu);

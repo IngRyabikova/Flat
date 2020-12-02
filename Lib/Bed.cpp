@@ -46,6 +46,7 @@ void drawAllVariants(string category, Picture* variants, int count_variants)
         }
     }
 }
+//рисование всех ПЛАНОВ
 void drawAllPlans(string category, Picture* variants, int count_variants)
 {
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
@@ -63,28 +64,23 @@ void drawAllBED2(Picture* Bed2, int n_pics)
     for (int nomer = 0; nomer <  n_pics; nomer = nomer + 1)
     {
         if(Bed2[nomer].visible == true)
-            Bed2[nomer].draw();
+           Bed2[nomer].draw();
     }
 }
 
 
 
-
-
-
-
-
- bool activee = true;
+bool activee = true;
 //Движение картинок
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {
     //Движение мышкой
     for (int n = 0; n < n_pics; n = n + 1)
     {
-        if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
+         if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
             txMouseY() >= Bed2[n].y &&
-            txMouseX() <= Bed2[n].x +  Bed2[n].width &&
-            txMouseY() <= Bed2[n].y +  Bed2[n].height  &&
+            txMouseX() <= Bed2[n].x + PIC_SIZE &&
+            txMouseY() <= Bed2[n].y + PIC_SIZE &&
             txMouseButtons() == 1 && activee == true)
         {
             //Bed2[n].x = txMouseX();
@@ -112,11 +108,11 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
     if(Active_Pic >= 0 && txMouseButtons() == 0)
     {
         for (int x = Bed2[Active_Pic].x;
-                 x < Bed2[Active_Pic].x + Bed2[Active_Pic].width;
+                 x < Bed2[Active_Pic].x + Bed2[Active_Pic].width * 0.8;
                  x = x + 5)
         {
             for (int y = Bed2[Active_Pic].y;
-                     y < Bed2[Active_Pic].y + Bed2[Active_Pic].height;
+                     y < Bed2[Active_Pic].y + Bed2[Active_Pic].height * 0.8;
                      y = y + 5)
 
             {
@@ -132,7 +128,7 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
         //Если столкнулись с черным, кидаем влево
         if (!monolit)
         {
-            Bed2[Active_Pic].x = random(100, 1100);
+            Bed2[Active_Pic].x = random(100, 950);
             Bed2[Active_Pic].y = random(100, 650);
 
             //if (Bed2[Active_Pic].x <= 50);

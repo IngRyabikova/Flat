@@ -1,0 +1,179 @@
+<html>
+<head>
+<title>Flat build log</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+<body>
+<tt>
+Build started on: <u>02-12-2020 at 09:23.39</u><br />
+Build ended on: <u>02-12-2020 at 09:23.43</u><p />
+<b>-------------- Build: Debug in Flat (compiler: GNU GCC Compiler - Strict + Fast (SINGLE FILES ONLY))---------------</b><br />
+mingw32-g++.exe "C:\Users\beavi\Downloads\git\Flat\main.cpp" -o bin\Debug\Flat.exe -mwindows  -Wall -fexceptions  -g  -Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal -Winline -Wunreachable-code -Wmissing-declarations -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Weffc++ -Wmain -Wextra -Wall -g -pipe -fexceptions -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wempty-body -Wformat-security -Wformat=2 -Wignored-qualifiers -Wlogical-op -Wmissing-field-initializers -Wnon-virtual-dtor -Woverloaded-virtual -Wpointer-arith -Wsign-promo -Wstack-usage=8192 -Wstrict-aliasing -Wstrict-null-sentinel -Wtype-limits -Wwrite-strings -D_DEBUG -D_EJUDGE_CLIENT_SIDE -D_EJC<br />
+In file included from C:\Users\beavi\Downloads\git\Flat\main.cpp:2:0:<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp: In function 'void drawAllVariants(std::string, Picture*, int)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:39:6: warning: no previous declaration for 'void drawAllVariants(std::string, Picture*, int)' [-Wmissing-declarations]</font><br />
+ void drawAllVariants(string category, Picture* variants, int count_variants)<br />
+      ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp: In function 'void drawAllPlans(std::string, Picture*, int)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:50:6: warning: no previous declaration for 'void drawAllPlans(std::string, Picture*, int)' [-Wmissing-declarations]</font><br />
+ void drawAllPlans(string category, Picture* variants, int count_variants)<br />
+      ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp: In function 'void drawAllBED2(Picture*, int)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:62:6: warning: no previous declaration for 'void drawAllBED2(Picture*, int)' [-Wmissing-declarations]</font><br />
+ void drawAllBED2(Picture* Bed2, int n_pics)<br />
+      ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp: In function 'int movePic(Picture*, int, int)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:80:5: warning: no previous declaration for 'int movePic(Picture*, int, int)' [-Wmissing-declarations]</font><br />
+ int movePic(Picture* Bed2, int Active_Pic, int n_pics)<br />
+     ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:136:49: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+             Bed2[Active_Pic].x = random(100, 950);<br />
+                                                 ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:137:49: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+             Bed2[Active_Pic].y = random(100, 650);<br />
+                                                 ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:111:10: warning: variable 'x1' set but not used [-Wunused-but-set-variable]</font><br />
+      int x1 = 0, y1 = 0;<br />
+          ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:111:18: warning: variable 'y1' set but not used [-Wunused-but-set-variable]</font><br />
+      int x1 = 0, y1 = 0;<br />
+                  ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp: In function 'void deletePicBed(Picture*, int, Picture*)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:154:6: warning: no previous declaration for 'void deletePicBed(Picture*, int, Picture*)' [-Wmissing-declarations]</font><br />
+ void deletePicBed(Picture* variants, int count_variants, Picture* Plans)<br />
+      ^<br />
+In file included from C:\Users\beavi\Downloads\git\Flat\main.cpp:3:0:<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp: In member function 'void button::draw()':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:17:21: warning: comparison with string literal results in unspecified behaviour [-Waddress]</font><br />
+         if (text != "")<br />
+                     ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp: In member function 'void button::draw2()':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:29:21: warning: comparison with string literal results in unspecified behaviour [-Waddress]</font><br />
+         if (text != "")<br />
+                     ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp: In function 'void deletePic(button*, button*, button)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:58:6: warning: no previous declaration for 'void deletePic(button*, button*, button)' [-Wmissing-declarations]</font><br />
+ void deletePic(button* Button,  button* Button_MENU, button Menu)<br />
+      ^<br />
+In file included from C:\Users\beavi\Downloads\git\Flat\main.cpp:4:0:<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp: In function 'int getWidth(const char*)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp:7:5: warning: no previous declaration for 'int getWidth(const char*)' [-Wmissing-declarations]</font><br />
+ int getWidth(const char* address)<br />
+     ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp: In function 'int getHeight(const char*)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp:17:5: warning: no previous declaration for 'int getHeight(const char*)' [-Wmissing-declarations]</font><br />
+ int getHeight(const char* address)<br />
+     ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp: In function 'int Bot_reading(const char*, Picture*, int)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp:28:5: warning: no previous declaration for 'int Bot_reading(const char*, Picture*, int)' [-Wmissing-declarations]</font><br />
+ int Bot_reading(const char* address, Picture*variants, int N)<br />
+     ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp:45:38: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]</font><br />
+             if (str.find(".bmp") != -1)<br />
+                                      ^<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp: In function 'std::string RunDialog(bool)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp:62:8: warning: no previous declaration for 'std::string RunDialog(bool)' [-Wmissing-declarations]</font><br />
+ string RunDialog(bool isSave)<br />
+        ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp:90:31: warning: value computed is not used [-Wunused-value]</font><br />
+         GetSaveFileName(&amp;ofn) == TRUE;<br />
+                               ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Files.cpp:67:12: warning: unused variable 'hf' [-Wunused-variable]</font><br />
+     HANDLE hf;                // дескриптор файла<br />
+            ^<br />
+C:\Users\beavi\Downloads\git\Flat\main.cpp: In function 'void drawObl(HDC)':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:10:6: warning: no previous declaration for 'void drawObl(HDC)' [-Wmissing-declarations]</font><br />
+ void drawObl(HDC Krestik)<br />
+      ^<br />
+In file included from C:\Users\beavi\Downloads\git\Flat\main.cpp:3:0:<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp: In constructor 'button::button()':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::picture' should be initialized in the member initialization list [-Weffc++]</font><br />
+ struct button<br />
+        ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::x' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::y' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::text' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::category' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::width' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::height' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:3:8: warning: 'button::x_kadr' should be initialized in the member initialization list [-Weffc++]</font><br />
+C:\Users\beavi\Downloads\git\Flat\main.cpp: In function 'int main()':<br />
+C:\Users\beavi\Downloads\git\Flat\main.cpp:24:31: note: synthesized method 'button::button()' first required here <br />
+     button Button[count_button];<br />
+                               ^<br />
+In file included from C:\Users\beavi\Downloads\git\Flat\main.cpp:2:0:<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp: In constructor 'Picture::Picture()':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::address' should be initialized in the member initialization list [-Weffc++]</font><br />
+ struct Picture<br />
+        ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::visible' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::category' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::picture' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::picture1' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::picture2' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::x' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::y' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::width' should be initialized in the member initialization list [-Weffc++]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Bed.cpp:5:8: warning: 'Picture::height' should be initialized in the member initialization list [-Weffc++]</font><br />
+C:\Users\beavi\Downloads\git\Flat\main.cpp: In function 'int main()':<br />
+C:\Users\beavi\Downloads\git\Flat\main.cpp:67:25: note: synthesized method 'Picture::Picture()' first required here <br />
+     Picture variants[777];<br />
+                         ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:110:27: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+             y_Bed = y_Bed + PIC_SIZE * 1.1;<br />
+                           ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:116:29: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+             y_Sofa = y_Sofa + PIC_SIZE * 1.1;<br />
+                             ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:123:31: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+             y_Table = y_Table + PIC_SIZE * 1.1;<br />
+                               ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:128:31: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+             y_Kuhna = y_Kuhna + PIC_SIZE * 1.1;<br />
+                               ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:149:31: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+             y_Plans = y_Plans + PIC_SIZE * 1.1;<br />
+                               ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:171:21: warning: comparison with string literal results in unspecified behaviour [-Waddress]</font><br />
+         if (PAGE == "start")<br />
+                     ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:212:25: warning: comparison with string literal results in unspecified behaviour [-Waddress]</font><br />
+         else if(PAGE == "settings")<br />
+                         ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:260:26: warning: comparison with string literal results in unspecified behaviour [-Waddress]</font><br />
+         else if (PAGE == "redactor")<br />
+                          ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:345:37: warning: narrowing conversion of '{anonymous}::TX::random(1.0e+2, 8.0e+2)' from 'double' to 'int' inside { } [-Wnarrowing]</font><br />
+                      random(100, 800), random(100, 600), variants[nomer].width, variants[nomer].height};<br />
+                                     ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:345:37: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:345:55: warning: narrowing conversion of '{anonymous}::TX::random(1.0e+2, 6.0e+2)' from 'double' to 'int' inside { } [-Wnarrowing]</font><br />
+                      random(100, 800), random(100, 600), variants[nomer].width, variants[nomer].height};<br />
+                                                       ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:345:55: warning: conversion to 'int' from 'double' may alter its value [-Wconversion]</font><br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:523:25: warning: comparison with string literal results in unspecified behaviour [-Waddress]</font><br />
+         else if(PAGE == "fun")<br />
+                         ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:534:21: warning: unused variable 'x2' [-Wunused-variable]</font><br />
+                 int x2 = 0;<br />
+                     ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:535:21: warning: unused variable 'y2' [-Wunused-variable]</font><br />
+                 int y2 = 0;<br />
+                     ^<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:58:10: warning: unused variable 'mouse1' [-Wunused-variable]</font><br />
+     bool mouse1 = false;<br />
+          ^<br />
+In file included from C:\Users\beavi\Downloads\git\Flat\main.cpp:3:0:<br />
+C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp: In member function 'bool button::click()':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\Lib/Button.cpp:53:5: warning: control reaches end of non-void function [-Wreturn-type]</font><br />
+     }<br />
+     ^<br />
+C:\Users\beavi\Downloads\git\Flat\main.cpp: In function 'int main()':<br />
+<font color="#0000ff">C:\Users\beavi\Downloads\git\Flat\main.cpp:577:1: warning: stack usage might be unbounded [-Wstack-usage=]</font><br />
+ }<br />
+ ^<br />
+Output size is 1,95 MB<br />
+<font color="#0000ff">Process terminated with status 0 (0 minutes, 3 seconds)</font><br />
+<font color="#0000ff">0 errors, 56 warnings (0 minutes, 3 seconds)</font><br />
+</tt>
+</body>
+</html>
