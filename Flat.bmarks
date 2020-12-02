@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<BrowseTracker_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="Lib\Bed.cpp" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+		<BrowseMarks positions="2518,3881" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="0">
+		<Cursor position="0" topLine="0" />
+		<BrowseMarks positions="419,3490,3605,3607,3850,6481,6713,8156,21053,21388,22220,22291,22370,10636" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="Lib\Button.cpp" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+		<BrowseMarks positions="" />
+		<Book_Marks positions="" />
+	</File>
+	<File name="Lib\Files.cpp" open="1" top="0" tabpos="0">
+		<Cursor position="0" topLine="0" />
+		<BrowseMarks positions="1481" />
+		<Book_Marks positions="" />
+	</File>
+</BrowseTracker_layout_file>

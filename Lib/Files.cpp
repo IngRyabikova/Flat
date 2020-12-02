@@ -78,8 +78,16 @@ string RunDialog(bool isSave)
     ofn.nMaxFileTitle = 0;
     ofn.lpstrInitialDir = NULL;
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-    if (GetOpenFileName(&ofn) == TRUE)
+
+
+    if(isSave == false)
     {
+       if(GetOpenFileName(&ofn) == TRUE)
+            str = szFile;
+    }
+    else if(isSave)
+    {
+        GetSaveFileName(&ofn) == TRUE;
         str = szFile;
     }
 

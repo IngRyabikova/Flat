@@ -70,12 +70,7 @@ void drawAllBED2(Picture* Bed2, int n_pics)
 
 
 
-
-
-
-
-
- bool activee = true;
+bool activee = true;
 //Движение картинок
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {
