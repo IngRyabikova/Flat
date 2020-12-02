@@ -80,15 +80,13 @@ string RunDialog(bool isSave)
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
 
-    if(isSave == false)
+    if(isSave == falseGetOpenFileName(&ofn) == TRUE)
     {
-       if(GetOpenFileName(&ofn) == TRUE)
-            str = szFile;
+        str = szFile;
     }
     else if(isSave)
     {
         GetSaveFileName(&ofn) == TRUE;
-        str = szFile;
     }
 
     return str;

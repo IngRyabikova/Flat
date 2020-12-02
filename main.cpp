@@ -9,13 +9,10 @@ using namespace std;
 
 void drawObl(HDC Krestik)
 {
-    int x_Krestik = 1100;
-    int y_Krestik = 60;
-
     txSetColor(TX_ORANGE);
     txSetFillColor(TX_WHITE);
     txRectangle(1100, 60, 1300, 750);
-    txTransparentBlt(txDC(), x_Krestik, y_Krestik, 60, 60, Krestik, 0, 0, TX_WHITE);
+    txTransparentBlt(txDC(), 1100, 60, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
 
 int main()
@@ -24,11 +21,8 @@ int main()
     txTextCursor (false);   //убирает курсор
 
 
-    string category = "";
 
-    HDC Fon = txLoadImage("Картинки/Координатная сетка.bmp");
-    int x_Fon = 0;
-    int y_Fon = 0;
+
 
     HDC Krestik = txLoadImage("Картинки/Кнопки/Knopochka.bmp");
     int x_Krestik = 1100;
@@ -55,13 +49,7 @@ int main()
     }
 
     HDC button_0 = txLoadImage("Картинки/Кнопки/Кнопка.bmp");
-    int x_button_0 = 0;
-    int y_button_0 = 0;
-
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
-    int x_Strelka= 0;
-    int y_Strelka = 0;
-
 
 
     //Меню стартовой страницы
@@ -69,7 +57,7 @@ int main()
     Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, " ", "settings", 457, 122};
     Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, " ", "start", 448, 132};
     Button_MENU[2] = {txLoadImage("Картинки/Меню/Дверь.bmp"), 355, 480, " ", "exit", 468, 140};
-    const char* PAGE = "redactor";
+    const char* PAGE = "start";
 
 
 
@@ -77,18 +65,12 @@ int main()
     //button Pause = {txLoadImage("Картинки/Меню/Пауза.bmp"), 1200, 0,  "", "", 0};
 
     HDC reklama = txLoadImage("Картинки/Меню/Реклама 1.bmp");
-    int x_reklama = 0;
-    int y_reklama = 0;
 
-    //Cursor =- 1;
-
-    //Что это?
-    bool mouse1 = false;
 
     //Это да
     bool drawOBL = false;
     int Active_Pic = -1;
-    //Что это?
+    //Что это?  это важная фигня НЕ ТРОГАТЬ!
     bool klik = true;
 
     int count_variants = 0;
@@ -111,11 +93,11 @@ int main()
         variants[nomer].category = s.substr(pos + 1,pos2 - pos - 1);  //От первого / до второго
 
         variants[nomer].visible = false;
-        category = variants[nomer].category;
+        string category1 = variants[nomer].category;
 
 
-        int pos1 = s.find(category) ;
-        s = s.replace(pos1, category.size(),category + "1");
+        int pos1 = s.find(category1) ;
+        s = s.replace(pos1, category1.size(),category1 + "1");
 
 
         variants[nomer].picture2 = txLoadImage(s.c_str());
@@ -185,8 +167,7 @@ int main()
     }
 
     HDC Plan_ = Plans[0].picture;
-    int x_Plan_ = 0;
-    int y_Plan_ = 0;
+
 
 
 
@@ -199,6 +180,7 @@ int main()
     string strokaX;
     string strokaY;
     string address;
+    string category = "";
 
 
 
@@ -255,7 +237,7 @@ int main()
             txRectangle(0, 0, 1300, 750);
 
             //Кнопка "назад"
-            Win32::TransparentBlt(txDC(), x_Strelka + 5, y_Strelka + 5, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
+            Win32::TransparentBlt(txDC(), 5, 5, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
             txSetColor(TX_BLACK);
             txSelectFont("Comic Sans MS", 50);
             txTextOut(40, 7, "Назад");
@@ -300,22 +282,13 @@ int main()
             }
 
             //Координатная сетка /фон
-            txBitBlt(txDC(), x_Plan_, y_Plan_, 1290, 740, Plan_);
+            txBitBlt(txDC(), 0, 0, 1290, 740, Plan_);
 
-            for (int nomer = 0; nomer < count_button; nomer = nomer +1)
-            {
-                //А что тебе координаты самой кнопки не взять?
-                txTransparentBlt(txDC(), x_button_0,  y_button_0, 214, 66, button_0, 0, 0, TX_YELLOW);
-                x_button_0 = x_button_0 + 250;
-            }
 
             //Жёлтые кнопки наверху экрана
             for (int nomer = 0; nomer < count_button; nomer = nomer +1)
             {
-
-                {
                     Button[nomer].draw();
-                }
             }
 
             if(drawOBL )
@@ -328,7 +301,7 @@ int main()
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
-                if (Button[nomer].click() && mouse1 == false && activee == true )
+                if (Button[nomer].click() && activee == true )
                 {
                     category = Button[nomer].category;
                     drawOBL = true;
@@ -544,8 +517,19 @@ int main()
                             getline(file2, address);
                             Bed2[n_pics].address = address.c_str();
 
+                            bool addressFind = false;
+                            for(int i = 0; i < n_pics; i++)
+                               if(Bed2[i].address == address)
+                               {
+                                  addressFind = true;
+                                  Bed2[n_pics].picture =Bed2[i].picture;
+                               }
+                           if(!addressFind)
+                                Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+
+
                             Bed2[n_pics].visible = true;
-                            Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+                            //Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
                             //Ширина и высота из свойств файла
                             Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
                             Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
@@ -565,11 +549,14 @@ int main()
         else if(PAGE == "fun")
         {
 
-        txSetColor(RGB(0, 0, 0), 5);
-        txLine(50, 50, txMouseX(), txMouseY());
-        //это пасхалка будет весел полезно
+            txSetColor(RGB(0, 0, 0), 5);
+            txLine(50, 50, txMouseX(), txMouseY());
+            //это пасхалка будет весел полезно
         }
 
+
+
+txTextOut(100 ,400, category.c_str());
         txSleep(20);
         txEnd();
     }
@@ -579,7 +566,6 @@ int main()
 
 
     //Удаление картинок
-    txDeleteDC(Fon);
     txDeleteDC(Strelka);
     txDeleteDC(Krestik);
     txDeleteDC(reklama);
@@ -589,7 +575,7 @@ int main()
     //txDeleteDC(Plans);
 
     deletePicBed(variants, count_variants, Plans);
-    //deletePic(Button, Button_MENU, Menu);
+    deletePic(Button, Button_MENU, Menu);
 
     return 0;
 }

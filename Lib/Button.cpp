@@ -55,7 +55,7 @@ struct button
 
 
 //Удаление всех кнопок
-void deletePic(button* Button,  button* Button_MENU, button Menu, button Pause)
+void deletePic(button* Button,  button* Button_MENU, button Menu)
 {
     for(int i = 0; i < 10; i = i +1)
     {
@@ -63,5 +63,5 @@ void deletePic(button* Button,  button* Button_MENU, button Menu, button Pause)
         txDeleteDC(Button_MENU[i].picture);
     }
     txDeleteDC(Menu.picture);
-    txDeleteDC(Pause.picture);
+   // txDeleteDC(Pause.picture);
 }
