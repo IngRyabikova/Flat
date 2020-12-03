@@ -1,13 +1,9 @@
-///\file Files.cpp
-///Библиотека работы с файлами
-
 #include "TXLib.h"
 #include <fstream>
 #include <iostream>
 
 using namespace std;
 
-/// по адресу узнают автоматом ширину
 int getWidth(const char* address)
 {
     char header[54];
@@ -18,7 +14,7 @@ int getWidth(const char* address)
     int width = *(int *)&header[18];
     return width;
 }
-/// по адресу узнают автоматом высоту
+/// по адресу узнают автоматом ширину
 int getHeight(const char* address)
 {
     char header[54];
@@ -29,8 +25,7 @@ int getHeight(const char* address)
     int width = *(int *)&header[22];
     return width;
 }
-
-///автоматjv считывает адресоа картинок по .bmp
+         ///автомат. считывание адресов картинок по .bmp
 int Bot_reading(const char* address, Picture*variants, int N)
 {
     setlocale(LC_ALL, "Russian");
@@ -41,13 +36,13 @@ int Bot_reading(const char* address, Picture*variants, int N)
 
     hf=FindFirstFile(str.c_str(), &FindFileData);
 
-
+    //
     if (hf!=INVALID_HANDLE_VALUE){
         do{
 
             str = FindFileData.cFileName;
             str = (string)address + str;
-            ///если в названи .bmp то это нужная картинка
+
             if (str.find(".bmp") != -1)
             {
                 string s = str;
@@ -63,17 +58,16 @@ int Bot_reading(const char* address, Picture*variants, int N)
     return N;
 }
 
-///запускает диалоговое окно
+
+
 string RunDialog(bool isSave)
 {
-    ///Выбранный адрес файла
     string str = "";
-
-    //Окно
-    OPENFILENAME ofn;
+    OPENFILENAME ofn;			///cтруктура стандартного диалогового окна
     char szFile[260];			/// буфер для имени файла
+    HANDLE hf;              		/// дескриптор файла
 
-    /// Инициализация OPENFILENAME
+    // Инициализация OPENFILENAME
     ZeroMemory(&ofn, sizeof(OPENFILENAME));
     ofn.lStructSize = sizeof(OPENFILENAME);
     ofn.hwndOwner = txWindow();
@@ -86,7 +80,7 @@ string RunDialog(bool isSave)
     ofn.lpstrInitialDir = NULL;
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-    ///Либо сохраняем, либо открываем
+
     if(isSave == false)
     {
        if(GetOpenFileName(&ofn) == TRUE)

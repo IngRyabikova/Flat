@@ -1,20 +1,17 @@
-///\file Button.cpp
 #include "TXLib.h"
 
-///Структура "кнопка"
 struct button
 {
-    ///Сама картинка
     HDC picture;
     int x;
     int y;
-    ///текст внутри кнопки
     const char* text;
     string category;
     int width;
     int height;
+    int x_kadr;
 
-    ///функция рисования кнопки (для файлов размером 200*60)
+    ///функция рисование кнопки
     void draw()
     {
         if (text != "")
@@ -26,19 +23,23 @@ struct button
             txTextOut(x + 15, y + 10, text);
         }
     };
-    ///функция рисования кнопки
     void draw2()
     {
         if (text != "")
         {
-            txTransparentBlt(txDC(), x, y, width, height, picture, 0, 0, TX_BLACK);
-            txSelectFont ("Comic Sans MS", 30);
-            txSetColor(TX_BLACK);
-            txTextOut(x + 15, y + 10, text);
+            //txTransparentBlt(txDC(), x, y, width, height, picture, 0, 0, TX_BLACK);
+            //txSelectFont ("Comic Sans MS", 30);
+            //txSetColor(TX_BLACK);
+            //txTextOut(x + 15, y + 10, text);
         }
     };
 
-    ///Клик на кнопку
+
+
+
+
+
+    ///Клик на кнопки
     bool click()
     {
         if (txMouseX() >= x && txMouseX() <= x + width &&
@@ -49,7 +50,8 @@ struct button
     }
 };
 
-///Удаление картинок всех кнопок чтоб не спамило ыыы -__- у вас не освобождено 79 картинок -__-   ыыы
+
+///Удаление картинок всех кнопок чтоб не спамило ыыы -__- у вас не освобождено 79 картинок -__-
 void deletePic(button* Button,  button* Button_MENU, button Menu)
 {
     for(int i = 0; i < 10; i = i +1)

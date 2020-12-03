@@ -511,7 +511,7 @@ int main()
                         }
                     }
 
-                    txMessageBox("Загрузка...");
+                    txMessageBox("Загрузка Завершена");
 
                     file2.close();
                 }
@@ -521,8 +521,7 @@ int main()
 
         else if(PAGE == "fun")
         {
-            if(GetAsyncKeyState('8') )
-                PAGE = "settings";
+
 
 
         int x1 = 0;
@@ -533,24 +532,31 @@ int main()
                 int x2 = 0;
                 int y2 = 0;
 
-                while (txMouseButtons() != (VK_UP))
+                while (GetAsyncKeyState(VK_UP))
                 {
+
+
+
                     if (txMouseButtons() & 1)
 
                         txCircle (txMouseX(), txMouseY(), 1);
                         txSleep (20);
-                    }
+                }
                     if(txMouseButtons () == 2)
                     {
                         txLine(303 + x1, 60 + y1, txMouseX() ,txMouseY() );
                         txCircle(txMouseX() ,txMouseY(), 15);
                         txRectangle( txMouseX(), txMouseY(), 303 + x1, 60 + y1 );
-                        txSleep (20);
-                }
+                        txSetColor(RGB(0, 0, 0), 5);
+                        txLine(50, 50, txMouseX(), txMouseY());
+                        txSleep (10);
 
-            txSetColor(RGB(0, 0, 0), 5);
-            txLine(50, 50, txMouseX(), txMouseY());
-            //это пасхалка будет весел полезно
+                }
+                if(GetAsyncKeyState('8'))
+                    PAGE = "settings";
+
+
+            ///это пасхалка будет весел полезно
         }
 
 
