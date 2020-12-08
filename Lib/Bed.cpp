@@ -1,3 +1,4 @@
+///\file Bed.cpp
 #pragma once
 #include "TXLib.h"
 #include "Files.cpp"
@@ -6,18 +7,21 @@ const int PIC_SIZE = 100;
 
 struct Picture
 {
+/// параметры: по англискому понятно какие, адрес видимость категория несколько видов картинок, и тд там ширина высота
     string address;
     bool visible;
     string category;
     HDC picture;
+    ///обычная картинка
     HDC picture1;
+    ///перевёпнутая картинка
     HDC picture2;
     int x;
     int y;
     int width;
     int height;
 
-    //Рисование
+    ///Рисование иконок мебели
     void draw()
     {
         if (width > height * 1.2)
@@ -29,7 +33,7 @@ struct Picture
             Win32::TransparentBlt (txDC(), x, y, PIC_SIZE * 0.8, PIC_SIZE * 0.8, picture, 0, 0, width, height, TX_WHITE);
     }
 
-    //Рисование иконки плана
+    ///Рисование иконки плана
     void draw2()
     {
         Win32::TransparentBlt (txDC(), x, y, 150, 120, picture, 0, 0, width, height, TX_YELLOW);
@@ -135,7 +139,7 @@ void fillMebelCoords(Picture* variants, int count_variants)
 }
 
 
-//Рисование всех вариантов в цикле
+///Рисование всех вариантов в цикле
 void drawAllVariants(string category, Picture* variants, int count_variants)
 {
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
@@ -146,7 +150,8 @@ void drawAllVariants(string category, Picture* variants, int count_variants)
         }
     }
 }
-//рисование всех ПЛАНОВ
+
+///рисование всех ПЛАНОВ
 void drawAllPlans(string category, Picture* variants, int count_variants)
 {
     for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
@@ -158,7 +163,7 @@ void drawAllPlans(string category, Picture* variants, int count_variants)
     }
 }
 
-//Рисование Bed2
+///Рисование Bed2
 void drawAllBED2(Picture* Bed2, int n_pics)
 {
     for (int nomer = 0; nomer <  n_pics; nomer = nomer + 1)
@@ -168,13 +173,12 @@ void drawAllBED2(Picture* Bed2, int n_pics)
     }
 }
 
-
-
 bool activee = true;
-//Движение картинок
+
+///Движение картинок
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {
-    //Движение мышкой
+    ///проверка то мышка НА мебели
     for (int n = 0; n < n_pics; n = n + 1)
     {
          if(txMouseX() >= Bed2[n].x &&      //!!!!!!!!!!!!!
@@ -183,39 +187,38 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
             txMouseY() <= Bed2[n].y + PIC_SIZE &&
             txMouseButtons() == 1 && activee == true)
         {
-            //Bed2[n].x = txMouseX();
-            //Bed2[n].y = txMouseY();
             Active_Pic = n;
             activee = false;
         }
     }
+    ///Фигня
     if (txMouseButtons() == 0)
     activee = true;
 
-
-
+    ///движение за мышкой активной картинки
     if(Active_Pic >= 0 && txMouseButtons() == 1)
     {
         Bed2[Active_Pic].x = txMouseX();
         Bed2[Active_Pic].y = txMouseY();
-
     }
-
 
      bool monolit = true;
      int x1 = 0, y1 = 0;
-
+    ///много проверок столкновения с черным цветом(стенами)
     if(Active_Pic >= 0 && txMouseButtons() == 0)
     {
-        for (int x = Bed2[Active_Pic].x;
-                 x < Bed2[Active_Pic].x + Bed2[Active_Pic].width * 0.8;
-                 x = x + 5)
+        ///перебираем картинки по ширине
+       for (int x = Bed2[Active_Pic].x;
+         x < Bed2[Active_Pic].x + Bed2[Active_Pic].width * 0.8;
+         x = x + 5)
         {
+            ///перебираем картинки по y по высоте
             for (int y = Bed2[Active_Pic].y;
                      y < Bed2[Active_Pic].y + Bed2[Active_Pic].height * 0.8;
                      y = y + 5)
 
             {
+                ///Если столкнулись с черным,
                 if (txGetPixel(x, y) == TX_BLACK)
                 {
                     monolit = false;
@@ -224,28 +227,20 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
                 }
             }
         }
-
-        //Если столкнулись с черным, кидаем влево
+        ///Если столкнулись с черным, кидаем влево
         if (!monolit)
         {
             Bed2[Active_Pic].x = random(100, 950);
             Bed2[Active_Pic].y = random(100, 650);
 
-            //if (Bed2[Active_Pic].x <= 50);
-            //Bed2[Active_Pic].x = 100;
         }
-
-
-
-
         Active_Pic = -1;
     }
 
     return Active_Pic;
 }
 
-
-//Удаление всех картинок
+///Удаление всех картинок
 void deletePicBed(Picture* variants, int count_variants, Picture* Plans)
 {
     for(int i = 0; i < count_variants; i = i +1)

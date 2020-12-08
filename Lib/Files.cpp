@@ -1,3 +1,6 @@
+///\file Files.cpp
+///Библиотека работы с файлами
+
 #pragma once
 #include "TXLib.h"
 #include <fstream>
@@ -5,6 +8,7 @@
 
 using namespace std;
 
+/// по адресу узнают автоматом ширину
 int getWidth(const char* address)
 {
     char header[54];
@@ -15,6 +19,7 @@ int getWidth(const char* address)
     int width = *(int *)&header[18];
     return width;
 }
+/// по адресу узнают автоматом высоту
 int getHeight(const char* address)
 {
     char header[54];
@@ -26,16 +31,16 @@ int getHeight(const char* address)
     return width;
 }
 
-
-
 string RunDialog(bool isSave)
 {
+    ///Выбранный адрес файла
     string str = "";
-    OPENFILENAME ofn;			// структура стандартного диалогового окна
-    char szFile[260];			// буфер для имени файла
-    HANDLE hf;              		// дескриптор файла
 
-    // Инициализация OPENFILENAME
+    //Окно
+    OPENFILENAME ofn;
+    char szFile[260];			/// буфер для имени файла
+
+    /// Инициализация OPENFILENAME
     ZeroMemory(&ofn, sizeof(OPENFILENAME));
     ofn.lStructSize = sizeof(OPENFILENAME);
     ofn.hwndOwner = txWindow();
@@ -48,7 +53,7 @@ string RunDialog(bool isSave)
     ofn.lpstrInitialDir = NULL;
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-
+    ///Либо сохраняем, либо открываем
     if(isSave == false)
     {
        if(GetOpenFileName(&ofn) == TRUE)
