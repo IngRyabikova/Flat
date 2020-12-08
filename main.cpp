@@ -69,7 +69,6 @@ int main()
     ///int Active_Pic активные картинки
     int Active_Pic = -1;
     //Что это?  это важная фигня НЕ ТРОГАТЬ!
-
     bool klik = true;
 
     ///Заполнение вариантов диванов, другой мебели
@@ -172,16 +171,16 @@ int main()
             txRectangle(0, 0, 1300, 750);
 
             //Кнопка "назад"
-            Win32::TransparentBlt(txDC(), 5, 5, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
+            Win32::TransparentBlt(txDC(), 5, 7, 50, 50, Strelka, 0, 0, 225,225, TX_RED);
             txSetColor(TX_BLACK);
             txSelectFont("Comic Sans MS", 50);
-            txTextOut(40, 7, "Назад");
+            txTextOut(40, 7, " Назад");
 
             //2 кровати по бокам в справке
             txTransparentBlt(txDC(), 100,  550, 131, 135, variants[0].picture, 0, 0, TX_YELLOW);
             txTransparentBlt(txDC(), 1000, 550, 189, 131, variants[1].picture, 0, 0, TX_YELLOW);
             //Реклама
-            txTransparentBlt(txDC(), 500, 450, 300, 200, reklama, 0, 0, TX_YELLOW);
+            txTransparentBlt(txDC(), 500, 375, 300, 200, reklama, 0, 0, TX_YELLOW);
 
             //Клик на кнопку "назад"
             if (txMouseX() >= 0 && txMouseX() <= 150 &&
@@ -195,16 +194,16 @@ int main()
             //Текст в справке
             txSetColor(TX_BLACK);
             txSelectFont("Arial", 50);
-            txDrawText(200, 100, 1100, 200,
+            txDrawText(200, 20, 1100, 100,
                         "Привет, это симулятор создания квартиры!");
             txSelectFont("Arial", 40);
-            txDrawText(270, 200, 1000, 900, "Цель этой игры - весело провести время!\n"
+            txDrawText(270, 100, 1000, 900, "Цель этой игры - весело провести время!\n"
                         "Ты можешь выбирать любой из данных предметов\n"
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
                         " удалить предмет, зажми его и нажми Delete!\n"
                          " P - это пауза, но её можно вызвать и другими способами :)\n"
-                        "))))))))))))))))))))))))))))))))))))))))))))))))))))))\n"
+                        "\n\n\n\n))))))))))))))))))))))))))))))))))))))))))))))))))))))\n"
                         " ПАСХАЛКА: На этой странице нажать ПКМ\n"
                         " ОБРАТНО: 8 ДоЛжНо БыЛо БыТь Но я не умный\n"
                         " ЦИКЛ мешает\n");
@@ -233,12 +232,10 @@ int main()
             {
                     Button[nomer].draw();
             }
-
             if(drawOBL )
             {
                 drawObl(Krestik);
             }
-
             //Выбор категории
             for(int nomer = 0; nomer < count_button; nomer = nomer + 1)
             {
@@ -261,7 +258,6 @@ int main()
                     Win32::RoundRect(txDC(), Button[nomer].x + 4, Button[nomer].y + 10, Button[nomer].x + 130, Button[nomer].y + 59, 10, 10);
                 }
             }
-
             //Выход из категории
             if(txMouseX() >= 1100   && txMouseY() >= 60  && txMouseX() <= 1140 && txMouseY() <= 100 &&
                 txMouseButtons () ==1)
@@ -269,8 +265,6 @@ int main()
                 drawOBL = false;
                 category="";
             }
-
-
             //клик на план
             for (int nomer = 0; nomer <  count_Plans; nomer = nomer + 1)
             {
@@ -283,12 +277,10 @@ int main()
                     Plan_ = Plans[nomer].picture;
                 }
             }
-
             if (Button[8].click() &&  activee == true )//очистка
             {
                 n_pics = 0;
             }
-
             //Выбор мебели и её рисование(рандомное)
             for (int nomer = 0; nomer <  count_variants; nomer = nomer + 1)
             {
@@ -306,7 +298,6 @@ int main()
                      klik = false;
                 }
             }
-
             ///   вызов функции движения картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
@@ -404,43 +395,8 @@ int main()
                 {
                     n_pics = 0;
                     ifstream file2(fileName);
-                    //Прочитал первую строку
-                    while (file2.good())
-                    {
-                        //Строка1 (x)
-                        getline(file2, strokaX);
-                        if (strokaX.size() > 0)
-                        {
-                            Bed2[n_pics].x = atoi(strokaX.c_str());
 
-                            //Строка2 (y)
-                            getline(file2, strokaY);
-                            Bed2[n_pics].y = atoi(strokaY.c_str());
-
-                            //Строка3 (адрес)
-                            getline(file2, address);
-                            Bed2[n_pics].address = address.c_str();
-
-                            bool addressFind = false;
-                            for(int i = 0; i < n_pics; i++)
-                               if(Bed2[i].address == address)
-                               {
-                                  addressFind = true;
-                                  Bed2[n_pics].picture =Bed2[i].picture;
-                               }
-                            if(!addressFind)
-                                Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
-
-                            Bed2[n_pics].visible = true;
-
-                            //Ширина и высота из свойств файла
-                            Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
-                            Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
-
-                            n_pics = n_pics + 1;
-                        }
-                        //readFile(Bed2, strokaX, strokaY, address, n_pics);
-                    }
+                    n_pics = readFile(Bed2, strokaX, strokaY, address, n_pics, fileName);
 
                     txMessageBox("Загрузка Завершена");
 
@@ -477,12 +433,9 @@ int main()
             if(GetAsyncKeyState('8'))
                 PAGE = "settings";
 
-            ///это пасхалка будет весел полезно
+            ///это пасхалка будет, весело и полезно
         }
 
-
-
-        txTextOut(100 ,400, category.c_str());
 
         txSleep(20);
         txEnd();
@@ -496,7 +449,7 @@ int main()
     txDeleteDC(button_0);
     txDeleteDC(Plan_);
 
-    deletePicBed(variants, count_variants, Plans);
+    deletePicBed(variants, count_variants, Plans, Bed2, n_pics);
     deletePic(Button, Button_MENU, Menu);
 
     return 0;
