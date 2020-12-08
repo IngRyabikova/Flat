@@ -1,5 +1,7 @@
 ///\file Bed.cpp
+#pragma once
 #include "TXLib.h"
+#include "Files.cpp"
 
 const int PIC_SIZE = 100;
 
@@ -38,6 +40,105 @@ struct Picture
     }
 };
 
+int Bot_reading(const char* address, Picture*variants, int N)
+{
+    setlocale(LC_ALL, "Russian");
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hf;
+    string str = address;
+    str = str + "*";
+
+    hf=FindFirstFile(str.c_str(), &FindFileData);
+
+    //
+    if (hf!=INVALID_HANDLE_VALUE){
+        do{
+
+            str = FindFileData.cFileName;
+            str = (string)address + str;
+
+            if (str.find(".bmp") != -1)
+            {
+                string s = str;
+                variants[N] = {s.c_str()};
+                N = N + 1;
+                txSleep(20);
+            }
+        }
+        while (FindNextFile(hf,&FindFileData)!=0);
+        FindClose(hf);
+    }
+
+    return N;
+}
+
+void fillMebelParams(int count_variants, Picture* variants)
+{
+    for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
+    {
+        ///заполнение категории
+        string s = variants[nomer].address;
+        int pos = s.find("/", 0);
+        int pos2 = s.find("/",pos + 1);
+        variants[nomer].category = s.substr(pos + 1,pos2 - pos - 1);  //От первого / до второго
+
+        variants[nomer].visible = false;
+
+        //Зеркальную картинку ищем в Диванах1 вместо Диванов
+        string category1 = variants[nomer].category;
+        int pos1 = s.find(category1) ;
+        s = s.replace(pos1, category1.size(),category1 + "1");
+
+
+        variants[nomer].picture2 = txLoadImage(s.c_str());
+        variants[nomer].picture1 = txLoadImage(variants[nomer].address.c_str());
+        variants[nomer].picture = variants[nomer].picture1;
+
+
+        ///Ширина и высота, читаемая из свойств файла
+        variants[nomer].width = getWidth (variants[nomer].address.c_str());
+        variants[nomer].x = 1100 + ((150 - variants[nomer].width) / 2);
+        variants[nomer].height = getHeight(variants[nomer].address.c_str());
+    }
+}
+
+void fillMebelCoords(Picture* variants, int count_variants)
+{
+    int y_Bed = 150;        ///int y_Bed Координаты кроватей variants
+    int y_Sofa = 150;       ///int y_Sofa Координаты диванов variants
+    int y_Table = 150;      ///int y_Table Координаты столов variants
+    int y_Kuhna = 150;      ///int y_Kuhna Координаты Kuhna variants
+    for (int i = 0; i < count_variants; i = i + 1)
+    {
+        variants[i].x = 1120;
+        if (variants[i].category == "Кровати")
+        {
+            variants[i].y = y_Bed;
+            y_Bed = y_Bed + PIC_SIZE * 1.1;
+
+        }
+        if (variants[i].category == "Диваны")
+        {
+            variants[i].y = y_Sofa;
+            y_Sofa = y_Sofa + PIC_SIZE * 1.1;
+        }
+
+        if(variants[i].category == "Столы")
+        {
+            variants[i].y = y_Table;
+            //x_Table = 700;
+            y_Table = y_Table + PIC_SIZE * 1.1;
+        }
+        if(variants[i].category == "туалет")
+        {
+            variants[i].y = y_Kuhna;
+            y_Kuhna = y_Kuhna + PIC_SIZE * 1.1;
+        }
+    }
+
+}
+
+
 ///Рисование всех вариантов в цикле
 void drawAllVariants(string category, Picture* variants, int count_variants)
 {
@@ -73,6 +174,7 @@ void drawAllBED2(Picture* Bed2, int n_pics)
 }
 
 bool activee = true;
+
 ///Движение картинок
 int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 {

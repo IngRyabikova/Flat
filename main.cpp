@@ -7,6 +7,7 @@
 
 using namespace std;
 
+///void drawObl рисование области выбора картинки
 void drawObl(HDC Krestik)
 {
     txSetColor(TX_ORANGE);
@@ -15,12 +16,17 @@ void drawObl(HDC Krestik)
     txTransparentBlt(txDC(), 1100, 60, 60, 60, Krestik, 0, 0, TX_WHITE);
 }
 
+
+///int main главная функция
 int main()
 {
     txCreateWindow (1300, 750);
     txTextCursor (false);   //убирает курсор *прекол
 
+
+    ///Колиечство кнопок
     int count_button = 9;
+    ///кнопки страницы редактора
     button Button[count_button];
     Button[0] = {txLoadImage("Картинки/Кнопки/Кнопка.bmp"), 0, 0, "Планы","Plan", 200, 60};
     Button[1] = {Button[0].picture, 0, 0, "Кровати","Кровати", 200, 60};
@@ -44,7 +50,7 @@ int main()
     HDC Strelka =  txLoadImage("Картинки/Кнопки/Стрелочка.bmp");
     HDC Krestik = txLoadImage("Картинки/Кнопки/Knopochka.bmp");
 
-    //Меню стартовой страницы
+    /// button Button_MENU массив кнопок стартовой страницы
     button Button_MENU[3];
     Button_MENU[0] = {txLoadImage("Картинки/Меню/Шестерёнка.bmp"), 390, 340, " ", "settings", 457, 122};
     Button_MENU[1] = {txLoadImage("Картинки/Меню/Плей.bmp"), 387, 187, " ", "start", 448, 132};
@@ -57,12 +63,16 @@ int main()
     //Что это? *прекол
     bool mouse1 = false;
     //Это *прекол
+    ///bool drawOBL рисовать/не рисовать меню выбора
     bool drawOBL = false;
+
+    ///int Active_Pic активные картинки
     int Active_Pic = -1;
     //Что это?  это важная фигня НЕ ТРОГАТЬ!
+
     bool klik = true;
 
-    //Заполнение вариантов диванов, другой мебели
+    ///Заполнение вариантов диванов, другой мебели
     int count_variants = 0;
     Picture variants[777];
     count_variants = Bot_reading("Картинки/Кровати/", variants, count_variants);
@@ -70,65 +80,12 @@ int main()
     count_variants = Bot_reading("Картинки/Диваны/", variants, count_variants);
     count_variants = Bot_reading("Картинки/туалет/", variants, count_variants);
 
-    for (int nomer = 0; nomer < count_variants; nomer = nomer + 1)
-    {
-        string s = variants[nomer].address;
-        int pos = s.find("/", 0);
-        int pos2 = s.find("/",pos + 1);
-        variants[nomer].category = s.substr(pos + 1,pos2 - pos - 1);  //От первого / до второго
 
-        variants[nomer].visible = false;
+    fillMebelParams(count_variants, variants);
 
-        //Зеркальную картинку ищем в Диванах1 вместо Диванов
-        string category1 = variants[nomer].category;
-        int pos1 = s.find(category1) ;
-        s = s.replace(pos1, category1.size(),category1 + "1");
+    fillMebelCoords(variants, count_variants);
 
-
-        variants[nomer].picture2 = txLoadImage(s.c_str());
-        variants[nomer].picture1 = txLoadImage(variants[nomer].address.c_str());
-        variants[nomer].picture = variants[nomer].picture1;
-
-
-        //Ширина и высота из свойств файла
-        variants[nomer].width = getWidth (variants[nomer].address.c_str());
-        variants[nomer].x = 1100 + ((150 - variants[nomer].width) / 2);
-        variants[nomer].height = getHeight(variants[nomer].address.c_str());
-    }
-
-
-    int y_Bed = 150;        //Координаты кроватей variants
-    int y_Sofa = 150;       //Координаты диванов variants
-    int y_Table = 150;      //Координаты столов variants
-    int y_Kuhna = 150;      //Координаты Kuhna variants
-    for (int i = 0; i < count_variants; i = i + 1)
-    {
-        variants[i].x = 1120;
-        if (variants[i].category == "Кровати")
-        {
-            variants[i].y = y_Bed;
-            y_Bed = y_Bed + PIC_SIZE * 1.1;
-
-        }
-        if (variants[i].category == "Диваны")
-        {
-            variants[i].y = y_Sofa;
-            y_Sofa = y_Sofa + PIC_SIZE * 1.1;
-        }
-
-        if(variants[i].category == "Столы")
-        {
-            variants[i].y = y_Table;
-            //x_Table = 700;
-            y_Table = y_Table + PIC_SIZE * 1.1;
-        }
-        if(variants[i].category == "туалет")
-        {
-            variants[i].y = y_Kuhna;
-            y_Kuhna = y_Kuhna + PIC_SIZE * 1.1;
-        }
-    }
-
+    ///Picture Plans массив планов
     int count_Plans = 3;
     Picture Plans[count_Plans];
     Plans[0] = {"Картинки/Планы/План_1.bmp", false, "Plan"};
@@ -153,21 +110,21 @@ int main()
     HDC Plan_ = Plans[0].picture;
 
 
-    //Центр. картинки
+    /// Picture Bed2 массив центральных картинок
     Picture Bed2[2500];
     int n_pics = 0;
 
-    string strokaX;
-    string strokaY;
-    string address;
-    string category = "";
+    string strokaX;   ///string strokaX строка в которой хранится Bed2.x
+    string strokaY;   ///string strokaY строка в которой хранится Bed2.y
+    string address;   ///string address строка в которой хранится Bed2.address
+    string category = "";   ///string category категория
 
     while(!GetAsyncKeyState(VK_ESCAPE))
     {
         txBegin();
         txClear();
 
-        //Стартовая страница)
+        ///PAGE == "start" Стартовая страница
         if (PAGE == "start")
         {
             txTransparentBlt (txDC(), Menu.x, Menu.y, 1300, 750, Menu.picture, 0,  0, RGB(255, 127, 39));
@@ -208,7 +165,7 @@ int main()
             }
         }
 
-        //Настройки
+        ///PAGE == "settings" Настройки
         else if(PAGE == "settings")
         {
             txSetFillColor(TX_WHITE);
@@ -246,6 +203,7 @@ int main()
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
                         " удалить предмет, зажми его и нажми Delete!\n"
+                         " P - это пауза, но её можно вызвать и другими способами :)\n"
                         "))))))))))))))))))))))))))))))))))))))))))))))))))))))\n"
                         " ПАСХАЛКА: На этой странице нажать ПКМ\n"
                         " ОБРАТНО: 8 ДоЛжНо БыЛо БыТь Но я не умный\n"
@@ -256,7 +214,7 @@ int main()
                 PAGE = "fun";
         }
 
-        //Редактор)
+        ///PAGE == "redactor" Редактор
         else if (PAGE == "redactor")
         {
             //Меню
@@ -349,10 +307,10 @@ int main()
                 }
             }
 
-            //Движение картинки
+            ///   вызов функции движения картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
-                //Переворот/перерисовка картинки
+                ///Переворот/перерисовка картинки
                 if (GetAsyncKeyState('R') && Active_Pic >= 0 &&
                     Bed2[Active_Pic].picture == Bed2[Active_Pic].picture1)
                 {
@@ -398,15 +356,6 @@ int main()
             if(txMouseButtons () == 0)
                 klik = true;
 
-            //Анти попадание на чёрный цвет в плане
-            /*for (int nomer = 0; nomer <  9; nomer = nomer + 1)
-            nomer =
-
-            if(txGetPixel(Bed2[Active_Pic].x, Bed2[Active_Pic].y) == TX_BLACK)
-            {
-                Bed2[Active_Pic].x = Bed2[Active_Pic].x + 200;
-            }*/
-
 
             //Кто ж про это клавишу знает?
             if(GetAsyncKeyState('P'))
@@ -414,30 +363,12 @@ int main()
                 PAGE = "start";
             }
 
-            //А почему не сделать паузу 2 картинками как с настройками и плеем?
-            /*if (txMouseX() >= 1210   && txMouseY() >=10  && txMouseX() <=1290 && txMouseY() <=50)
-            {
-                Pause.x_kadr = 1;
-            }
-            else
-            {
-                Pause.x_kadr = 0;
-            }
-              */
-            /*if (txMouseX() >=1220   && txMouseY() >= 1  && txMouseX() <=1300 && txMouseY() <=77&&
-                txMouseButtons () ==1Plans)
-            {
-                txPlaySound("2.wav", SND_ASYNC);
-                PAGE = "start";Plans
-            } */
 
-            //Категория); планов квартиры
+            /// drawAllPlans вызов рисования планов
             drawAllPlans(category, Plans, count_Plans);
-            //Рисование мебели
+            ///drawAllBED2, drawAllVariants Рисование мебели
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
-
-          //  txTransparentBlt (txDC(), Pause.x + 5, Pause.y , 80, 45, Pause.picture, 80 * Pause.x_kadr,  0, RGB(255, 127, 39));
 
             if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
@@ -497,64 +428,54 @@ int main()
                                   addressFind = true;
                                   Bed2[n_pics].picture =Bed2[i].picture;
                                }
-                           if(!addressFind)
+                            if(!addressFind)
                                 Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
 
-
                             Bed2[n_pics].visible = true;
-                            //Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+
                             //Ширина и высота из свойств файла
                             Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
                             Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
 
                             n_pics = n_pics + 1;
                         }
+                        //readFile(Bed2, strokaX, strokaY, address, n_pics);
                     }
 
                     txMessageBox("Загрузка Завершена");
 
                     file2.close();
                 }
-
             }
         }
 
         else if(PAGE == "fun")
         {
+            int x1 = 0;
+            int y1 = 0;
 
+            txSetColor(RGB(0, 0, 0) ,6);
+            txCircle( x1 + 300,  y1 + 60, 15);
 
+            while (GetAsyncKeyState(VK_UP))
+            {
+                if (txMouseButtons() & 1)
+                    txCircle (txMouseX(), txMouseY(), 1);
+                txSleep (20);
+            }
 
-        int x1 = 0;
-        int y1 = 0;
+            if(txMouseButtons () == 2)
+            {
+                txLine(303 + x1, 60 + y1, txMouseX() ,txMouseY() );
+                txCircle(txMouseX() ,txMouseY(), 15);
+                txRectangle( txMouseX(), txMouseY(), 303 + x1, 60 + y1 );
+                txSetColor(RGB(0, 0, 0), 5);
+                txLine(50, 50, txMouseX(), txMouseY());
+                txSleep (10);
+            }
 
-                txSetColor(RGB(0, 0, 0) ,6);
-                txCircle( x1 + 300,  y1 + 60, 15);
-                int x2 = 0;
-                int y2 = 0;
-
-                while (GetAsyncKeyState(VK_UP))
-                {
-
-
-
-                    if (txMouseButtons() & 1)
-
-                        txCircle (txMouseX(), txMouseY(), 1);
-                        txSleep (20);
-                }
-                    if(txMouseButtons () == 2)
-                    {
-                        txLine(303 + x1, 60 + y1, txMouseX() ,txMouseY() );
-                        txCircle(txMouseX() ,txMouseY(), 15);
-                        txRectangle( txMouseX(), txMouseY(), 303 + x1, 60 + y1 );
-                        txSetColor(RGB(0, 0, 0), 5);
-                        txLine(50, 50, txMouseX(), txMouseY());
-                        txSleep (10);
-
-                }
-                if(GetAsyncKeyState('8'))
-                    PAGE = "settings";
-
+            if(GetAsyncKeyState('8'))
+                PAGE = "settings";
 
             ///это пасхалка будет весел полезно
         }

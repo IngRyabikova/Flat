@@ -1,6 +1,7 @@
 ///\file Files.cpp
 ///Библиотека работы с файлами
 
+#pragma once
 #include "TXLib.h"
 #include <fstream>
 #include <iostream>
@@ -30,40 +31,6 @@ int getHeight(const char* address)
     return width;
 }
 
-///автоматjv считывает адресоа картинок по .bmp
-int Bot_reading(const char* address, Picture*variants, int N)
-{
-    setlocale(LC_ALL, "Russian");
-    WIN32_FIND_DATA FindFileData;
-    HANDLE hf;
-    string str = address;
-    str = str + "*";
-
-    hf=FindFirstFile(str.c_str(), &FindFileData);
-
-
-    if (hf!=INVALID_HANDLE_VALUE){
-        do{
-
-            str = FindFileData.cFileName;
-            str = (string)address + str;
-            ///если в названи .bmp то это нужная картинка
-            if (str.find(".bmp") != -1)
-            {
-                string s = str;
-                variants[N] = {s.c_str()};
-                N = N + 1;
-                txSleep(20);
-            }
-        }
-        while (FindNextFile(hf,&FindFileData)!=0);
-        FindClose(hf);
-    }
-
-    return N;
-}
-
-///запускает диалоговое окно
 string RunDialog(bool isSave)
 {
     ///Выбранный адрес файла
@@ -100,3 +67,50 @@ string RunDialog(bool isSave)
 
     return str;
 }
+
+
+
+     /*
+int readFile(Picture* Bed2, string strokaX, string strokaY, string address, int n_pics,  )
+{
+    ifstream file2(fileName);
+    //Прочитал первую строку
+    while (file2.good())
+    {
+        getline(file2, strokaX);
+        if (strokaX.size() > 0)
+        {
+            Bed2[n_pics].x = atoi(strokaX.c_str());
+
+            //Строка2 (y)
+            getline(file2, strokaY);
+            Bed2[n_pics].y = atoi(strokaY.c_str());
+
+            //Строка3 (адрес)
+            getline(file2, address);
+            Bed2[n_pics].address = address.c_str();
+
+            bool addressFind = false;
+            for(int i = 0; i < n_pics; i++)
+               if(Bed2[i].address == address)
+               {
+                  addressFind = true;
+                  Bed2[n_pics].picture =Bed2[i].picture;
+               }
+           if(!addressFind)
+                Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+
+
+            Bed2[n_pics].visible = true;
+            //Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+            //Ширина и высота из свойств файла
+            Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
+            Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
+
+            n_pics = n_pics + 1;
+
+    }
+
+return n_pics;
+}   */
+
