@@ -195,14 +195,15 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
     if (txMouseButtons() == 0)
     activee = true;
 
+
     ///движение за мышкой активной картинки
     if(Active_Pic >= 0 && txMouseButtons() == 1)
     {
-        Bed2[Active_Pic].x = txMouseX();
-        Bed2[Active_Pic].y = txMouseY();
+        Bed2[Active_Pic].x = txMouseX() - 20;
+        Bed2[Active_Pic].y = txMouseY() - 20;
     }
 
-     bool monolit = true;
+     bool monolit = true; //флаг что столкнулись с черным
      int x1 = 0, y1 = 0;
     ///много проверок столкновения с черным цветом(стенами)
     if(Active_Pic >= 0 && txMouseButtons() == 0)
