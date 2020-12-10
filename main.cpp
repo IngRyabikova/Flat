@@ -70,7 +70,7 @@ int main()
     int Active_Pic = -1;
     //Что это?  это важная фигня НЕ ТРОГАТЬ!
 
-    bool klik = true;
+    bool klik = true;///нужна при проверке чтоб не спавнилось бесконечность предметов на экране при клине на правую штуку(выбор)
 
     ///Заполнение вариантов диванов, другой мебели
     int count_variants = 0;
@@ -81,9 +81,9 @@ int main()
     count_variants = Bot_reading("Картинки/туалет/", variants, count_variants);
 
 
-    fillMebelParams(count_variants, variants);
+    fillMebelParams(count_variants, variants);// параметры мебели
 
-    fillMebelCoords(variants, count_variants);
+    fillMebelCoords(variants, count_variants);//координаты мебели
 
     ///Picture Plans массив планов
     int count_Plans = 3;
@@ -202,12 +202,7 @@ int main()
                         "Ты можешь выбирать любой из данных предметов\n"
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
-                        " удалить предмет, зажми его и нажми Delete!\n"
-                         " P - это пауза, но её можно вызвать и другими способами :)\n"
-                        "))))))))))))))))))))))))))))))))))))))))))))))))))))))\n"
-                        " ПАСХАЛКА: На этой странице нажать ПКМ\n"
-                        " ОБРАТНО: 8 ДоЛжНо БыЛо БыТь Но я не умный\n"
-                        " ЦИКЛ мешает\n");
+                        " удалить предмет, нажми Delete, и потом на предмет.\n");
                         //Так сделай кнопкой или паузу добавь
 
             if (txMouseButtons() == 2)
@@ -334,9 +329,6 @@ int main()
             //Удаление картинки путём смены местами Active_Pic и n_pics
             if(Active_Pic >= 0 && txMouseButtons() == 1 && GetAsyncKeyState(VK_DELETE) && klik == true)
             {
-               /* char str[100];
-                sprintf(str, "%d", Active_Pic);
-                txMessageBox(str);*/
 
                 if (n_pics > 1)
                 {
@@ -370,9 +362,12 @@ int main()
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
 
+
             if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
-                string fileName = RunDialog(true);
+
+            system("imageViewer Картинки\Планы\План_1.bmp");
+                /*string fileName = RunDialog(true);
 
                 // Покажем диалоговое окно Открыть (Open).
                 if (fileName.size() > 0)
@@ -392,7 +387,7 @@ int main()
                     file2.close();
 
                     txMessageBox("Успешно сохранено");
-                }
+                }    */
 
             }
 
@@ -481,8 +476,6 @@ int main()
         }
 
 
-
-        txTextOut(100 ,400, category.c_str());
 
         txSleep(20);
         txEnd();
