@@ -1,0 +1,12 @@
+0
+125
+pictures/Фон/Фон3.bmp
+111
+120
+pictures/Тело/тело.bmp
+111
+379
+pictures/Низ/штаны.bmp
+121
+116
+pictures/причёски/11.bmp

@@ -3,6 +3,7 @@
 #include "TXLib.h"
 #include "Files.cpp"
 
+///Размер иконок мебели
 const int PIC_SIZE = 100;
 
 struct Picture
@@ -139,6 +140,52 @@ void fillMebelCoords(Picture* variants, int count_variants)
 }
 
 
+int readFile(Picture* Bed2, string strokaX, string strokaY, string address, int n_pics, string fileName)
+{
+    ifstream file2(fileName);
+    //Прочитал первую строку
+    while (file2.good())
+    {
+        getline(file2, strokaX);
+        if (strokaX.size() > 0)
+        {
+            Bed2[n_pics].x = atoi(strokaX.c_str());
+
+            //Строка2 (y)
+            getline(file2, strokaY);
+            Bed2[n_pics].y = atoi(strokaY.c_str());
+
+            //Строка3 (адрес)
+            getline(file2, address);
+            Bed2[n_pics].address = address.c_str();
+
+            bool addressFind = false;
+            for(int i = 0; i < n_pics; i++)
+               if(Bed2[i].address == address)
+               {
+                  addressFind = true;
+                  Bed2[n_pics].picture = Bed2[i].picture;
+               }
+           if(!addressFind)
+                Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+
+
+            Bed2[n_pics].visible = true;
+            //Bed2[n_pics].picture = txLoadImage(Bed2[n_pics].address.c_str());
+            //Ширина и высота из свойств файла
+            Bed2[n_pics].width = getWidth (Bed2[n_pics].address.c_str());
+            Bed2[n_pics].height = getHeight(Bed2[n_pics].address.c_str());
+
+            n_pics = n_pics + 1;
+
+        }
+
+    }
+            return n_pics;
+}
+
+
+
 ///Рисование всех вариантов в цикле
 void drawAllVariants(string category, Picture* variants, int count_variants)
 {
@@ -198,8 +245,8 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
     ///движение за мышкой активной картинки
     if(Active_Pic >= 0 && txMouseButtons() == 1)
     {
-        Bed2[Active_Pic].x = txMouseX();
-        Bed2[Active_Pic].y = txMouseY();
+        Bed2[Active_Pic].x = txMouseX() - 20;
+        Bed2[Active_Pic].y  = txMouseY() - 20;
     }
 
      bool monolit = true;
@@ -241,11 +288,19 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 }
 
 ///Удаление всех картинок
-void deletePicBed(Picture* variants, int count_variants, Picture* Plans)
+void deletePicBed(Picture* variants, int count_variants, Picture* Plans, Picture* Bed2, int n_pics)
 {
     for(int i = 0; i < count_variants; i = i +1)
     {
         txDeleteDC(variants[i].picture);
+        txDeleteDC(variants[i].picture1);
+        txDeleteDC(variants[i].picture2);
         txDeleteDC(Plans[i].picture);
+    }
+    for(int i = 0; i < n_pics; i = i +1)
+    {
+        txDeleteDC(Bed2[i].picture);
+        txDeleteDC(Bed2[i].picture1);
+        txDeleteDC(Bed2[i].picture2);
     }
 }
