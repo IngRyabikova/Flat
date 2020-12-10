@@ -201,7 +201,8 @@ int main()
                         "Ты можешь выбирать любой из данных предметов\n"
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
-                        " удалить предмет, нажми Delete, и потом на предмет.\n");
+                        " удалить предмет, нажми Delete, и потом на предмет.\n"
+                        " *л\n");
 
             if (txMouseButtons() == 2)
                 PAGE = "fun";
@@ -286,12 +287,27 @@ int main()
                 {
                      Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, variants[nomer].picture1, variants[nomer].picture2,
                      random(100, 800), random(100, 600), variants[nomer].width, variants[nomer].height};
+                     //if(GetAsyncKeyState('+'))
+                     //{
+                     //Bed2[n_pics] = {variants[nomer].address,  true, variants[nomer].category, variants[nomer].picture, variants[nomer].picture1, variants[nomer].picture2,
+                     //random(100, 800), random(100, 600), variants[nomer].width * 2, variants[nomer].height * 2};
+                     //}
 
 
                      n_pics++;
                      klik = false;
                 }
+
             }
+
+            int width2  = Bed2[Active_Pic].width;
+            int height2 = Bed2[Active_Pic].height;
+            if (GetAsyncKeyState('+'))//&& Activer_Pic > 0)
+            {
+                Bed2[Active_Pic].width  = width2  / 2;
+                Bed2[Active_Pic].height = height2 / 2;
+            }
+
             ///   вызов функции движения картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
@@ -351,6 +367,16 @@ int main()
             ///drawAllBED2, drawAllVariants Рисование мебели
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
+
+
+
+
+
+            //if (GetAsyncKeyState('-'))
+            //{
+                //aPictures[nomer].widthPic = aPictures[nomer].widthPic - 15;
+                //aPictures[nomer].heightPic = aPictures[nomer].heightPic - 5;
+            //}
 
 
             if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
