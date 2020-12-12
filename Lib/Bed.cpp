@@ -23,15 +23,19 @@ struct Picture
     int height;
 
     ///Рисование иконок мебели
-    void draw()
+    void draw(Picture pct)
     {
         if (width > height * 1.2)
-            Win32::TransparentBlt (txDC(), x, y, PIC_SIZE, PIC_SIZE * height / width, picture, 0, 0, width, height, TX_WHITE);
+            Win32::TransparentBlt (txDC(), x, y, PIC_SIZE, PIC_SIZE * height / width, picture, 0, 0, pct.width, height, TX_WHITE);
 
         else if (height > width * 1.2)
             Win32::TransparentBlt (txDC(), x, y, PIC_SIZE * width / height, PIC_SIZE, picture, 0, 0, width, height, TX_WHITE);
         else
             Win32::TransparentBlt (txDC(), x, y, PIC_SIZE * 0.8, PIC_SIZE * 0.8, picture, 0, 0, width, height, TX_WHITE);
+
+        //if(GetAsyncKeyState('+'))
+        //Win32::TransparentBlt (txDC(), x, y, PIC_SIZE * width / height * 1.5, PIC_SIZE * 1.5, picture, 0, 0, width, height, TX_WHITE);
+
     }
 
     ///Рисование иконки плана
@@ -193,7 +197,7 @@ void drawAllVariants(string category, Picture* variants, int count_variants)
     {
         if (category == variants[nomer].category)
         {
-            variants[nomer].draw();
+            variants[nomer].draw(Picture pct);
         }
     }
 }
@@ -252,7 +256,7 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
 
     bool monolit = true; //флаг что столкнулись с черным
     //Что они делают?
-    int x1 = 0, y1 = 0;
+    //int x1 = 0, y1 = 0;
     ///много проверок столкновения с черным цветом(стенами)
     if(Active_Pic >= 0 && txMouseButtons() == 0)
     {
@@ -271,8 +275,8 @@ int movePic(Picture* Bed2, int Active_Pic, int n_pics)
                 if (txGetPixel(x, y) == TX_BLACK)
                 {
                     monolit = false;
-                    x1 = x - 200;
-                    y1 = y - 200;
+                    //x1 = x - 200;
+                   // y1 = y - 200;
                 }
             }
         }
