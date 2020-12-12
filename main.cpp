@@ -7,7 +7,7 @@
 
 using namespace std;
 
-///void drawObl рисование области выбора картинки
+///рисование области выбора картинки
 void drawObl(HDC Krestik)
 {
     txSetColor(TX_ORANGE);
@@ -17,7 +17,7 @@ void drawObl(HDC Krestik)
 }
 
 
-///int main главная функция
+///главная функция
 int main()
 {
     txCreateWindow (1300, 750);
@@ -201,14 +201,13 @@ int main()
                         "Ты можешь выбирать любой из данных предметов\n"
                         " мебели, перетаскивать их в нужное место,\n"
                         " и построить свою квартиру! Если нужно \n"
-                        " удалить предмет, нажми Delete, и потом на предмет.\n"
-                        " *л\n");
-
+                        " удалить предмет, нажмите Delete, и потом на предмет.\n"
+                        " Чтобы сделать скриншот нажмите Print Screen.\n");
             if (txMouseButtons() == 2)
                 PAGE = "fun";
         }
 
-        ///PAGE == "redactor" Редактор
+        //Редактор
         else if (PAGE == "redactor")
         {
             //Меню
@@ -300,18 +299,18 @@ int main()
 
             }
 
-            int width2  = Bed2[Active_Pic].width;
+            /*int width2  = Bed2[Active_Pic].width;
             int height2 = Bed2[Active_Pic].height;
             if (GetAsyncKeyState('+'))//&& Activer_Pic > 0)
             {
                 Bed2[Active_Pic].width  = width2  / 2;
                 Bed2[Active_Pic].height = height2 / 2;
-            }
+            } */
 
-            ///   вызов функции движения картинки
+            //   вызов функции движения картинки
             Active_Pic = movePic(Bed2, Active_Pic, n_pics);
 
-                ///Переворот/перерисовка картинки
+                //Переворот/перерисовка картинки
                 if (GetAsyncKeyState('R') && Active_Pic >= 0 &&
                     Bed2[Active_Pic].picture == Bed2[Active_Pic].picture1)
                 {
@@ -368,6 +367,12 @@ int main()
             drawAllBED2(Bed2, n_pics);
             drawAllVariants(category, variants, count_variants);
 
+            if(GetAsyncKeyState(VK_SNAPSHOT))
+            {
+                ScreenCapture(0, 60, 1300, 680, "screen.bmp");
+                txMessageBox("Скриншот сохранён");
+                txSleep(200);
+            }
 
 
 
@@ -382,8 +387,8 @@ int main()
             if (Button[5].click() && txMouseButtons() == 1 &&  activee == true)
             {
 
-            system("imageViewer Картинки\Планы\План_1.bmp");
-                /*string fileName = RunDialog(true);
+           // system("imageViewer Картинки\Планы\План_1.bmp");
+                string fileName = RunDialog(true);
 
                 // Покажем диалоговое окно Открыть (Open).
                 if (fileName.size() > 0)
@@ -403,7 +408,7 @@ int main()
                     file2.close();
 
                     txMessageBox("Успешно сохранено");
-                }    */
+                }
 
             }
 
